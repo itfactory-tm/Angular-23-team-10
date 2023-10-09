@@ -1,0 +1,14 @@
+C:\Angular\Angular-23-team-10\TripPlanner.DAL\bin\Debug\net6.0\TripPlanner.DAL.deps.json
+C:\Angular\Angular-23-team-10\TripPlanner.DAL\bin\Debug\net6.0\TripPlanner.DAL.runtimeconfig.json
+C:\Angular\Angular-23-team-10\TripPlanner.DAL\bin\Debug\net6.0\TripPlanner.DAL.dll
+C:\Angular\Angular-23-team-10\TripPlanner.DAL\bin\Debug\net6.0\TripPlanner.DAL.pdb
+C:\Angular\Angular-23-team-10\TripPlanner.DAL\obj\Debug\net6.0\TripPlanner.DAL.csproj.AssemblyReference.cache
+C:\Angular\Angular-23-team-10\TripPlanner.DAL\obj\Debug\net6.0\TripPlanner.DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Angular\Angular-23-team-10\TripPlanner.DAL\obj\Debug\net6.0\TripPlanner.DAL.AssemblyInfoInputs.cache
+C:\Angular\Angular-23-team-10\TripPlanner.DAL\obj\Debug\net6.0\TripPlanner.DAL.AssemblyInfo.cs
+C:\Angular\Angular-23-team-10\TripPlanner.DAL\obj\Debug\net6.0\TripPlanner.DAL.csproj.CoreCompileInputs.cache
+C:\Angular\Angular-23-team-10\TripPlanner.DAL\obj\Debug\net6.0\TripPlanner.DAL.dll
+C:\Angular\Angular-23-team-10\TripPlanner.DAL\obj\Debug\net6.0\refint\TripPlanner.DAL.dll
+C:\Angular\Angular-23-team-10\TripPlanner.DAL\obj\Debug\net6.0\TripPlanner.DAL.pdb
+C:\Angular\Angular-23-team-10\TripPlanner.DAL\obj\Debug\net6.0\TripPlanner.DAL.genruntimeconfig.cache
+C:\Angular\Angular-23-team-10\TripPlanner.DAL\obj\Debug\net6.0\ref\TripPlanner.DAL.dll
