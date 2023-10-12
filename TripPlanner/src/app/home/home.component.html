@@ -1,32 +1,92 @@
-<main class="relative">
-  <div class="carousel relative overflow-hidden">
-    <div class="carousel-images flex transition-transform carousel-transition">
-      <div class="w-full h-[550px] object-cover rounded-3xl">
-        <img [src]="imageUrls[currentIndex]" [alt]="'place' + (currentIndex + 1)"
-          class="w-full h-full object-cover rounded-3xl carousel-image" @carouselAnimation>
+<main class="bg-gray-100">
+  <div class="w-full mx-auto relative text-center">
+    <img
+      class="w-full lg:max-h-[550px] object-cover object-top rounded-3xl brightness-75"
+      src="assets/place1.jpg"
+      alt="place1"
+    />
+
+    <div
+      class="h-32 absolute bottom-0 left-1/2 -translate-x-1/2 w-11/12 lg:w-8/12 bg-white shadow-lg mx-auto transform translate-y-1/2 flex flex-col xl:flex-row justify-between xl:justify-evenly items-center rounded-lg p-4"
+    >
+      <!-- Location search -->
+      <div class="w-full h-full xl:w-1/4 p-4">
+        <div class="flex flex-col items-center lg:items-start gap-4">
+          <div class="flex items-start text-left gap-4">
+            <div class="rounded-full px-2 py-1 bg-gray-300">
+              <fa-icon [icon]="faLocation"></fa-icon>
+            </div>
+            <div>
+              <p class="font-bold text-xl mb-3">Location</p>
+              <input
+                type="text"
+                placeholder="Where do you want to go?"
+                class="w-full outline-none bg-transparent border-none text-sm md:text-base"
+              />
+            </div>
+          </div>
+        </div>
       </div>
+
+      <div class="lg:border-r border-gray-400 lg:h-16"></div>
+
+      <!-- Location search -->
+      <div class="w-full h-full xl:w-1/4 p-4">
+        <div class="flex flex-col items-center lg:items-start gap-4">
+          <div class="flex items-start text-left gap-4">
+            <div class="rounded-full px-2 py-1 bg-gray-300">
+              <fa-icon [icon]="faLocation"></fa-icon>
+            </div>
+            <div>
+              <p class="font-bold text-xl mb-3">Date</p>
+              <input
+                type="text"
+                placeholder="Date"
+                class="w-full outline-none bg-transparent border-none text-sm md:text-base"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:border-r border-gray-400 lg:h-16"></div>
+
+      <!-- Location search -->
+      <div class="w-full h-full xl:w-1/4 p-4">
+        <div class="flex flex-col items-center lg:items-start gap-4">
+          <div class="flex items-start text-left gap-4">
+            <div class="rounded-full px-2 py-1 bg-gray-300">
+              <fa-icon [icon]="faLocation"></fa-icon>
+            </div>
+            <div>
+              <p class="font-bold text-xl mb-3">Guests</p>
+              <input
+                type="text"
+                placeholder="How many guests?"
+                class="w-full outline-none bg-transparent border-none text-sm md:text-base"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search button (keep its original width) -->
+      <button
+        class="bg-[#37888A] hover:bg-[#] text-white py-4 px-3 text-sm md:text-base rounded-lg h-full"
+      >
+        <fa-icon [icon]="faGlass"></fa-icon>
+      </button>
     </div>
-    <div class="overlay absolute inset-0 bg-black opacity-50 rounded-3xl"></div>
-  </div>
 
-  <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-center w-full">
-    <h1 class="text-4xl sm:text-5xl md:text-6xl lg-text-7xl font-extrabold mb-4">
-      Plan Your Dream Trip
-    </h1>
-    <p class="text-base sm:text-lg mb-6">
-      Explore and create unforgettable memories in stunning places.
-    </p>
-
-    <!-- Updated Call to Action (CTA) Button Design with White Text -->
-    <a href="#"
-      class="bg-[#37888A] hover:bg-[#3EA393] text-white px-10 py-4 rounded-lg shadow-lg opacity-95 text-xl md:text-xl inline-block">
-      Get started
-    </a>
-  </div>
-
-  <div class="carousel-bullets absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center">
-    <span *ngFor="let imageUrl of imageUrls; let i = index" class="w-4 h-4 mx-1 inline-block rounded-full"
-      [ngClass]="{'bg-[#37888A]': i === currentIndex, 'bg-gray-400': i !== currentIndex}">
-    </span>
+    <div
+      class="absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-white"
+    >
+      <h1 class="text-3xl sm:text-4xl lg:text-7xl font-bold">
+        Explore Beautiful Places
+      </h1>
+      <p class="text-base sm:text-lg">
+        Create unforgettable memories in stunning places
+      </p>
+    </div>
   </div>
 </main>
