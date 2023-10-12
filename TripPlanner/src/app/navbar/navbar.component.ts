@@ -23,7 +23,6 @@ export class NavbarComponent {
 
   // Function to toggle the menu
   onToggleMenu() {
-    const navLinks = document.querySelector('.nav-links') as HTMLElement;
     this.isMenuOpen = !this.isMenuOpen;
   }
 }
