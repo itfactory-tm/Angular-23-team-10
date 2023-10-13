@@ -7,47 +7,47 @@ namespace TripPlannerAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class ActivitiesController : ControllerBase
     {
         private readonly TripContext _context;
 
-        public UsersController(TripContext context)
+        public ActivitiesController(TripContext context)
         {
             _context = context;
         }
 
-        // GET: api/Users
+        // GET: api/Activities
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<Activity>>> GetActivities()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Activities.ToListAsync();
         }
 
-        // GET: api/Users/5
+        // GET: api/Activities/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<Activity>> GetActivity(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var activity = await _context.Activities.FindAsync(id);
 
-            if (user == null)
+            if (activity == null)
             {
                 return NotFound();
             }
 
-            return user;
+            return activity;
         }
 
-        // PUT: api/Users/5
+        // PUT: api/Activities/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutActivity(int id, Activity activity)
         {
-            if (id != user.UserId)
+            if (id != activity.ActivityId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(activity).State = EntityState.Modified;
 
             try
             {
@@ -55,7 +55,7 @@ namespace TripPlannerAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!ActivityExists(id))
                 {
                     return NotFound();
                 }
@@ -68,36 +68,36 @@ namespace TripPlannerAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
+        // POST: api/Activities
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<Activity>> PostActivity(Activity activity)
         {
-            _context.Users.Add(user);
+            _context.Activities.Add(activity);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+            return CreatedAtAction("GetActivity", new { id = activity.ActivityId }, activity);
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/Activities/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteActivity(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var activity = await _context.Activities.FindAsync(id);
+            if (activity == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
+            _context.Activities.Remove(activity);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UserExists(int id)
+        private bool ActivityExists(int id)
         {
-            return _context.Users.Any(e => e.UserId == id);
+            return _context.Activities.Any(e => e.ActivityId == id);
         }
     }
 }
