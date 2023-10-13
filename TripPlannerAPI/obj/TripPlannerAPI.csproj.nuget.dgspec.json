@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Angular\\test\\Angular-23-team-10\\TripPlannerAPI\\TripPlannerAPI.csproj": {}
+    "C:\\Angular\\Angular-23-team-10\\TripPlannerAPI\\TripPlannerAPI.csproj": {}
   },
   "projects": {
-    "C:\\Angular\\test\\Angular-23-team-10\\TripPlanner.DAL\\TripPlanner.DAL.csproj": {
+    "C:\\Angular\\Angular-23-team-10\\TripPlanner.DAL\\TripPlanner.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Angular\\test\\Angular-23-team-10\\TripPlanner.DAL\\TripPlanner.DAL.csproj",
+        "projectUniqueName": "C:\\Angular\\Angular-23-team-10\\TripPlanner.DAL\\TripPlanner.DAL.csproj",
         "projectName": "TripPlanner.DAL",
-        "projectPath": "C:\\Angular\\test\\Angular-23-team-10\\TripPlanner.DAL\\TripPlanner.DAL.csproj",
+        "projectPath": "C:\\Angular\\Angular-23-team-10\\TripPlanner.DAL\\TripPlanner.DAL.csproj",
         "packagesPath": "C:\\Users\\Michiel\\.nuget\\packages\\",
-        "outputPath": "C:\\Angular\\test\\Angular-23-team-10\\TripPlanner.DAL\\obj\\",
+        "outputPath": "C:\\Angular\\Angular-23-team-10\\TripPlanner.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Michiel\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -81,14 +81,14 @@
         }
       }
     },
-    "C:\\Angular\\test\\Angular-23-team-10\\TripPlannerAPI\\TripPlannerAPI.csproj": {
+    "C:\\Angular\\Angular-23-team-10\\TripPlannerAPI\\TripPlannerAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Angular\\test\\Angular-23-team-10\\TripPlannerAPI\\TripPlannerAPI.csproj",
+        "projectUniqueName": "C:\\Angular\\Angular-23-team-10\\TripPlannerAPI\\TripPlannerAPI.csproj",
         "projectName": "TripPlannerAPI",
-        "projectPath": "C:\\Angular\\test\\Angular-23-team-10\\TripPlannerAPI\\TripPlannerAPI.csproj",
+        "projectPath": "C:\\Angular\\Angular-23-team-10\\TripPlannerAPI\\TripPlannerAPI.csproj",
         "packagesPath": "C:\\Users\\Michiel\\.nuget\\packages\\",
-        "outputPath": "C:\\Angular\\test\\Angular-23-team-10\\TripPlannerAPI\\obj\\",
+        "outputPath": "C:\\Angular\\Angular-23-team-10\\TripPlannerAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Michiel\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -105,8 +105,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Angular\\test\\Angular-23-team-10\\TripPlanner.DAL\\TripPlanner.DAL.csproj": {
-                "projectPath": "C:\\Angular\\test\\Angular-23-team-10\\TripPlanner.DAL\\TripPlanner.DAL.csproj"
+              "C:\\Angular\\Angular-23-team-10\\TripPlanner.DAL\\TripPlanner.DAL.csproj": {
+                "projectPath": "C:\\Angular\\Angular-23-team-10\\TripPlanner.DAL\\TripPlanner.DAL.csproj"
               }
             }
           }
