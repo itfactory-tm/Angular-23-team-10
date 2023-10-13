@@ -1,1 +1,32 @@
 node_modules
+
+# User-specific files
+.suo
+*.user
+*.sln.docstates
+
+# Visual Studio .vs directory
+.vs/
+
+# JetBrains Rider-specific files
+.idea/
+
+# Dependencies and build artifacts
+node_modules/
+bin/
+obj/
+Debug/
+Release/
+
+# Application-specific configuration files with sensitive data
+appsettings.json
+appsettings.Development.json
+appsettings.Production.json
+
+# Environment-specific configuration files
+.env
+.env.local
+
+# Logs and temporary files
+logs/
+temp/
