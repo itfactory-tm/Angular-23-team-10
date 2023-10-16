@@ -1,10 +1,10 @@
 ﻿namespace TripPlanner.DAL.Models
 {
-    public class UserTrip
+    public class TripKeyword
     {
         public int TripId { get; set; }
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public int KeywordId { get; set; }
         public Trip Trip { get; set; }
+        public Keyword Keyword { get; set; }
     }
 }

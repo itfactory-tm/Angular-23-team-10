@@ -5,6 +5,6 @@
         public int KeywordId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public ICollection<Trip> Trips { get; set; }
+        public ICollection<TripKeyword> Trips { get; set; }
     }
 }

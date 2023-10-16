@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TripPlanner.DAL.Models;
 using TripPlannerAPI.Data;
+using TripPlannerAPI.Dto;
 
 namespace TripPlannerAPI.Controllers
 {
@@ -10,17 +12,26 @@ namespace TripPlannerAPI.Controllers
     public class UsersController : ControllerBase
     {
         private readonly TripContext _context;
+        private readonly IMapper _mapper;
 
-        public UsersController(TripContext context)
+        public UsersController(TripContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<List<GetUserDto>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            var users = await _context.Users.ToListAsync();
+
+            if (users == null)
+            {
+                return NotFound();
+            }
+
+            return _mapper.Map<List<GetUserDto>>(users);
         }
 
         // GET: api/Users/5
@@ -40,22 +51,27 @@ namespace TripPlannerAPI.Controllers
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<ActionResult<GetUserDto>> PutUser(int id, [FromQuery] PostUserDto postUser)
         {
-            if (id != user.UserId)
+            if (id != postUser.UserId)
             {
                 return BadRequest();
             }
+
+            User updatedUser = _mapper.Map<User>(postUser);
+            var user = _context.Users.Where(u => u.UserId == id).FirstOrDefault();
 
             _context.Entry(user).State = EntityState.Modified;
 
             try
             {
+                user.IsActive = updatedUser.IsActive;
+                user.IsAdmin = updatedUser.IsAdmin;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!UserExists(user.UserId))
                 {
                     return NotFound();
                 }
