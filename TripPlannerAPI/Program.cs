@@ -5,9 +5,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(typeof(Program));
 
 // Add services to the container.
+// var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// builder.Services.AddDbContext<TripContext>(options =>
+// options.UseSqlServer(connectionString));
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<TripContext>(options =>
-    options.UseSqlServer(connectionString));
+builder.Services.AddSqlServer<TripContext>(connectionString, options => options.EnableRetryOnFailure());
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -20,6 +23,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
 }

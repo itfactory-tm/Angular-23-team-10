@@ -10,5 +10,6 @@
     <WebStackScaffolding_LayoutPageFile />
     <WebStackScaffolding_DbContextTypeFullName>TripPlannerAPI.Data.TripContext</WebStackScaffolding_DbContextTypeFullName>
     <WebStackScaffolding_IsAsyncSelected>False</WebStackScaffolding_IsAsyncSelected>
+    <NameOfLastUsedPublishProfile>C:\Users\Elias\Documents\Angular\project\Angular-23-team-10\TripPlannerAPI\Properties\PublishProfiles\TripPlannerAPIs - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>
