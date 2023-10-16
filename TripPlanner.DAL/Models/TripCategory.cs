@@ -1,10 +1,11 @@
 ﻿namespace TripPlanner.DAL.Models
 {
-    public class UserTrip
+    public class TripCategory
     {
         public int TripId { get; set; }
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public int CategoryId { get; set; }
+
         public Trip Trip { get; set; }
+        public Category Category { get; set; }
     }
 }

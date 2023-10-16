@@ -8,9 +8,9 @@
         public string? Picture { get; set; }
         public string? Description { get; set; }
         public Boolean IsShared { get; set; }
-        public ICollection<User> Users { get; }
-        public ICollection<TripActivity> TripActivities { get; }
-        public ICollection<Keyword> Keywords { get; }
-        public ICollection<Category> Categories { get; }
+        public ICollection<UserTrip>? Users { get; }
+        public ICollection<TripActivity>? TripActivities { get; }
+        public ICollection<TripKeyword>? Keywords { get; }
+        public ICollection<TripCategory>? Categories { get; }
     }
 }

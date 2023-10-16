@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TripPlanner.DAL.Models;
 using TripPlannerAPI.Data;
+using TripPlannerAPI.Dto;
 
 namespace TripPlannerAPI.Controllers
 {
@@ -10,17 +12,26 @@ namespace TripPlannerAPI.Controllers
     public class TripsController : ControllerBase
     {
         private readonly TripContext _context;
+        private readonly IMapper _mapper;
 
-        public TripsController(TripContext context)
+        public TripsController(TripContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Trips
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Trip>>> GetTrips()
+        public async Task<ActionResult<List<GetTripDto>>> GetTrips()
         {
-            return await _context.Trips.ToListAsync();
+            var trips = await _context.Trips.ToListAsync();
+
+            if (trips == null)
+            {
+                return NotFound();
+            }
+
+            return _mapper.Map<List<GetTripDto>>(trips);
         }
 
         // GET: api/Trips/5
