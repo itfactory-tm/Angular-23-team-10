@@ -1,11 +1,17 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 import {
+  faArrowLeft,
+  faArrowRight,
   faChevronLeft,
   faChevronRight,
   faLocation,
   faLocationDot,
   faMagnifyingGlass,
+  faPlaneDeparture,
+  faStar,
+  faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
@@ -19,13 +25,15 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
 })
 
 export class HomeComponent {
-
   constructor() {}
 
   faGlass = faMagnifyingGlass;
   faLocation = faLocationDot;
-  faArrowLeft = faChevronLeft;
-  faArrowRight = faChevronRight;
+  faArrowLeft = faArrowLeft;
+  faArrowRight = faArrowRight;
+  faDestination = faPlaneDeparture;
+  faStar = faStar;
+  faUsers = faUsers;
 
   currentIndex = 0;
 
