@@ -1,14 +1,9 @@
 <main>
   <section class="relative">
-    <div class="carousel relative overflow-hidden">
-      <div class="carousel-images flex transition-transform carousel-transition">
-        <div class="w-full h-[350px] lg:h-[450px] xl:h-[550px] object-cover rounded-3xl">
-          <img [src]="imageUrls[currentIndex]" [alt]="'place' + (currentIndex + 1)"
-            class="w-full h-full object-cover rounded-3xl carousel-image">
-        </div>
-      </div>
-      <div class="overlay absolute inset-0 bg-black opacity-50 rounded-3xl"></div>
+    <div class="w-full h-[350px] lg:h-[450px] xl:h-[550px] object-cover rounded-3xl">
+      <img src="assets/place1.jpg" class="w-full h-full object-cover rounded-3xl carousel-image">
     </div>
+    <div class="overlay absolute inset-0 bg-black opacity-50 rounded-3xl"></div>
 
     <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-center w-full">
       <h1 class="text-3xl sm:text-5xl md:text-6xl lg-text-7xl font-extrabold mb-4">
@@ -18,101 +13,110 @@
         Explore and create unforgettable memories in stunning places.
       </p>
 
-      <!-- Updated Call to Action (CTA) Button Design with White Text -->
-      <a href="#"
-        class="bg-[#37888A] hover:bg-[#3EA393] text-white px-10 py-4 rounded-lg shadow-lg opacity-95 text-xl md:text-xl inline-block">
+      <a routerLink="/getstarted" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        class="bg-[#37888A] hover:bg-[#3EA393] text-white px-10 py-4 rounded-lg shadow-lg opacity-95 text-xl md:text-xl inline-block cursor-pointer">
         Get started
       </a>
     </div>
-
-    <div class="carousel-bullets absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center">
-      <span *ngFor="let imageUrl of imageUrls; let i = index" class="w-4 h-4 mx-1 inline-block rounded-full"
-        [ngClass]="{'bg-[#37888A]': i === currentIndex, 'bg-gray-400': i !== currentIndex}">
-      </span>
-    </div>
   </section>
 
-  <!-- Revised "Categories" Section -->
-  <section class="my-10 md:my-20 lg:my-28 bg-gray-100 p-4 md:p-12 full-width-section">
-    <div class="border-l-4 border-[#37888A] pl-4 mb-6">
-      <h2 class="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold mb-4">Categories</h2>
-      <p class="text-lg text-gray-600 mb-4">Discover and choose your next adventure.</p>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      <!-- Category Card - Adventure -->
-      <div class="bg-white rounded-lg overflow-hidden shadow-md relative">
-        <img src="../../assets/adventure.jpg" alt="Adventure Category"
-          class="w-full h-48 object-cover transform hover:scale-105 transition-transform">
-        <div class="p-4 text-center absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 text-white">
-          <p class="text-lg font-semibold">Adventure</p>
-        </div>
+  <section class="my-10 md:my-20 lg:my-28 p-0 lg:p-12 full-width-section">
+    <div class="xl:flex justify-between items-center">
+      <div class="">
+        <h2 class="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 text-[#333333]">Popular Places</h2>
+        <p class="text-[#7f8697] text-2xl">These places are beloved by travelers worldwide</p>
       </div>
-
-      <!-- Category Card - Nature -->
-      <div class="bg-white rounded-lg overflow-hidden shadow-md relative">
-        <img src="../../assets/nature.jpg" alt="Nature Category"
-          class="w-full h-48 object-cover transform hover:scale-105 transition-transform">
-        <div class="p-4 text-center absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 text-white">
-          <p class="text-lg font-semibold">Nature</p>
-        </div>
-      </div>
-
-      <!-- Category Card - City -->
-      <div class="bg-white rounded-lg overflow-hidden shadow-md relative">
-        <img src="../../assets/city.jpeg" alt="City Category"
-          class="w-full h-48 object-cover transform hover:scale-105 transition-transform">
-        <div class="p-4 text-center absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 text-white">
-          <p class="text-lg font-semibold">City</p>
-        </div>
-      </div>
-
-      <!-- Category Card - Culture -->
-      <div class="bg-white rounded-lg overflow-hidden shadow-md relative">
-        <img src="../../assets/culture.jpg" alt="Culture Category"
-          class="w-full h-48 object-cover transform hover:scale-105 transition-transform">
-        <div class="p-4 text-center absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 text-white">
-          <p class="text-lg font-semibold">Culture</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="my-10 md:my-20 lg:my-28">
-    <div class=" mb-4">
-      <h2 class="text-center text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold mb-2">Explore Popular <span
-          class="text-[#37888A]">Destinations</span>
-      </h2>
-      <p class="text-center text-lg text-gray-600">These destinations are beloved by travelers worldwide. </p>
-    </div>
-    <div class="flex justify-between mb-4">
       <div>
+        <p class="text-[#8d8c94] text-lg">
+          Many places are very famous, beautiful, clean, and leave a very <br class="hidden xl:block"> deep impression
+          to visitors and will
+          make them come back.
+        </p>
       </div>
-      <div class="flex gap-2">
-        <fa-icon
-          class="p-2 mr-2 text-xl cursor-pointer bg-white border-2 border-black w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center rounded-full"
-          [icon]="faArrowLeft"></fa-icon>
-        <fa-icon
-          class="p-2 ml-2 text-xl cursor-pointer bg-[#37888A] text-white w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center rounded-full"
-          [icon]="faArrowRight"></fa-icon>
-      </div>
-
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      <div class="max-w-md rounded-lg overflow-hidden shadow-lg">
-        <img src="../../assets/adventure.jpg" alt="The Norwegian Fjords" class="w-full h-48 object-cover object-center">
-        <div class="px-4 py-2">
-          <h3 class="text-lg font-semibold mb-2">The Norwegian Fjords</h3>
-          <div class="flex justify-between items-center">
-            <div>
-              <fa-icon [icon]="faLocation" class="text-blue-500"></fa-icon>
-              <span class="ml-1 text-gray-700">Norwegian</span>
+    <div class="my-10">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div class="cursor-pointer">
+          <img class="w-full h-4/5 rounded-xl my-2" src="assets/mindanou.jpg" alt="SC. Mindanou">
+          <h3 class="text-xl font-bold text-[#333333] ">SC. Mindanou</h3>
+          <p><fa-icon class="fa-lg text-[#37888A]" [icon]="faLocation"></fa-icon>
+            <span class="ml-4 text-[#7f8697]">Mindanou, Philippines</span>
+          </p>
+        </div>
+        <div class="cursor-pointer">
+          <img class="w-full h-4/5 rounded-xl my-2" src="assets/disneyland.jpg" alt="SC. Mindanou">
+          <h3 class="text-xl font-bold text-[#333333]">Disneyland Tokyo</h3>
+          <p><fa-icon class="fa-lg text-[#37888A]" [icon]="faLocation"></fa-icon>
+            <span class="ml-4 text-[#7f8697]">Tokyo, Japan</span>
+          </p>
+        </div>
+        <div class="cursor-pointer">
+          <img class="w-full h-4/5 rounded-xl my-2" src="assets/tousand.jpg" alt="SC. Mindanou">
+          <h3 class="text-xl font-bold text-[#333333]">Tousand Island</h3>
+          <p><fa-icon class="fa-lg text-[#37888A]" [icon]="faLocation"></fa-icon>
+            <span class="ml-4 text-[#7f8697]">Java, Philippines</span>
+          </p>
+        </div>
+        <div class="cursor-pointer">
+          <img class="w-full h-4/5 rounded-xl my-2" src="assets/basilika.jpg" alt="SC. Mindanou">
+          <h3 class="text-xl font-bold text-[#333333]">SC. Mindanou</h3>
+          <p><fa-icon class="fa-lg text-[#37888A]" [icon]="faLocation"></fa-icon>
+            <span class="ml-4 text-[#7f8697]">Mindanou, Philippines</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="my-10 md:my-20 lg:my-28 p-0 lg:px-12 full-width-section">
+    <div class="text-center">
+      <h2 class="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-[#333333]">Travel to make sweet
+        <span class="text-[#37888A]">
+          memories</span>
+      </h2>
+      <p class="text-[#7f8697] text-2xl">Find trips that fit a flexible lifestyle</p>
+    </div>
+
+    <div class="my-10 ">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 ">
+        <div class="flex flex-col gap-10 text-center md:text-left">
+          <div>
+            <div class="bg-[#79bade] px-3 py-1 inline-block rounded-lg">
+              <p class="text-white">01</p>
             </div>
-            <div>
-              <fa-icon [icon]="faStar" class="mr-2"></fa-icon>
-              <span>4.5</span>
-            </div>
+            <h3 class="text-xl lg:text-3xl font-bold text-[#333333] my-5">Find trips that fit your freedom</h3>
+            <p class="text-[#8d8c94]">Traveling offers freedom and flexibility, solitude <br> and spontaneity, and
+              privacy
+              and purpose.</p>
           </div>
+
+          <div>
+            <div class="bg-[#8196e9] px-3 py-1 inline-block rounded-lg">
+              <p class="text-white">02</p>
+            </div>
+            <h3 class="text-xl lg:text-3xl font-bold text-[#333333] my-5">Get back to nature by travel</h3>
+            <p class="text-[#8d8c94]">The world is a playground, and you can finally <br> explore Mother Nature's
+              inimitable
+              canvas.</p>
+          </div>
+
+          <div>
+            <div class="bg-[#50be76] px-3 py-1 inline-block rounded-lg">
+              <p class="text-white">03</p>
+            </div>
+            <h3 class="text-xl lg:text-3xl font-bold text-[#333333] my-5">Reignite those travel tastebuds</h3>
+            <p class="text-[#8d8c94]">There are infinite reasons to love travel, one of <br> them being the food,
+              glorious
+              food.</p>
+          </div>
+
+          <div>
+            <button class="bg-[#37888A] text-white px-8 py-2 rounded-lg hover:bg-[#3EA393]">Start your explore</button>
+          </div>
+        </div>
+        <div class="hidden md:flex md:items-center md:justify-center">
+          <img class="rounded-2xl h-full object-cover w-4/5" src="assets/mountain_test.jpg" alt="">
         </div>
       </div>
     </div>
