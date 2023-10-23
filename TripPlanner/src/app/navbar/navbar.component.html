@@ -1,5 +1,5 @@
 <nav class="flex justify-between items-center h-28 font-sans">
-  <a href="#">
+  <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
     <img class="cursor-pointer" src="assets/logo.png" alt="logo">
   </a>
   <div [class.open]="isMenuOpen" [class.closed]="!isMenuOpen" class="duration-500 px-5">

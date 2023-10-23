@@ -15,11 +15,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule],
+  imports: [CommonModule, RouterModule, FontAwesomeModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
@@ -34,26 +35,4 @@ export class HomeComponent {
   faDestination = faPlaneDeparture;
   faStar = faStar;
   faUsers = faUsers;
-
-  currentIndex = 0;
-
-  imageUrls = [
-    'assets/place1.jpg',
-    'assets/place2.jpg',
-    'assets/place3.jpg',
-  ];
-
-  ngOnInit() {
-    setInterval(() => {
-      this.showNextImage();
-    }, 10000);
-  }
-
-  showNextImage() {
-    this.currentIndex = (this.currentIndex + 1) % this.imageUrls.length;
-  }
-
-  showPreviousImage() {
-    this.currentIndex = (this.currentIndex - 1 + this.imageUrls.length) % this.imageUrls.length;
-  }
 }
