@@ -1,31 +1,31 @@
-<nav class="flex justify-between items-center h-28 font-sans">
+<nav class="flex justify-between items-center h-28 font-sans ">
   <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-    <img class="cursor-pointer" src="assets/logo.png" alt="logo">
+    <img class="cursor-pointer w-[203px] h-[45px]" src="assets/logo.png" alt="logo">
   </a>
   <div [class.open]="isMenuOpen" [class.closed]="!isMenuOpen" class="duration-500 px-5">
     <ul class="md:flex-row flex-col md:items-center md:gap-[4vw] gap-8 hidden md:flex">
       <li>
-        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="">Home</a>
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="text-[#989896] hover:text-white">Home</a>
       </li>
       <li>
-        <a href="#" class="hover:text-gray-500">Categories</a>
+        <a href="#" class="text-[#989896] hover:text-white">Categories</a>
       </li>
       <li>
-        <a href="#" class="hover:text-gray-500">About us</a>
+        <a href="#" class="text-[#989896] hover:text-white">About us</a>
       </li>
       <li>
-        <a routerLink="/users">Test API</a>
+        <a routerLink="/users" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="text-[#989896] hover:text-white" >Test API</a>
       </li>
     </ul>
   </div>
   <div class="flex items-center gap-6">
-    <p class="cursor-pointer hidden md:block">Log in</p>
-    <button class="bg-[#37888A] text-white px-8 py-2 rounded-lg hover:bg-[#3EA393] hidden md:block">
+    <p class="cursor-pointer hidden md:block text-[#989896] hover:text-white">Log in</p>
+    <button class="bg-[#e66462] transition duration-200 text-white px-8 py-2 rounded-lg hover:bg-[#ea7a78] hidden md:block">
       Sign up
     </button>
     <i class="fa-solid fa-bars block md:hidden"></i>
     <fa-icon (click)="onToggleMenu()" id="menu" [icon]="isMenuOpen ? faTimes : faBars"
-      class="z-50 text-3xl cursor-pointer md:hidden"></fa-icon>
+      class="z-50 text-3xl cursor-pointer md:hidden text-white"></fa-icon>
   </div>
 </nav>
 
