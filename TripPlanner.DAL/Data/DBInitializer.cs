@@ -27,6 +27,7 @@ namespace TripPlannerAPI.Data
                 new Trip { StartDate = new DateTime(2023, 10, 15), EndDate = new DateTime(2023, 10, 17), Picture = "https://example.com/trip2.jpg", Description = "This is my first trip!", IsShared = false },
                 new Trip { StartDate = new DateTime(2023, 10, 16), EndDate = new DateTime(2023, 10, 31), Picture = "https://example.com/trip3.jpg", Description = "This is my second trip!", IsShared = true }
                 );
+
             //Add activities
             context.Activities.AddRange(
                 new Activity { Name = "Restaurant" },
@@ -34,13 +35,6 @@ namespace TripPlannerAPI.Data
                 new Activity { Name = "Biking" },
                 new Activity { Name = "Swimming" }
             );
-            //Add tripactivities
-            context.TripActivities.AddRange(
-                new TripActivity { TripId = 1, ActivityId = 1, Price = 21.0, StartDate = new DateTime(2023, 10, 17, 19, 0, 0), EndDate = new DateTime(2023, 10, 17, 22, 0, 0) },
-                new TripActivity { TripId = 3, ActivityId = 2, Price = 10.0, StartDate = new DateTime(2023, 10, 15, 15, 0, 0), EndDate = new DateTime(2023, 10, 17, 18, 0, 0) },
-                new TripActivity { TripId = 1, ActivityId = 2, Price = 20.0, StartDate = new DateTime(2023, 10, 16, 6, 0, 0), EndDate = new DateTime(2023, 10, 17, 12, 0, 0) },
-                new TripActivity { TripId = 2, ActivityId = 3, Price = 30.0, StartDate = new DateTime(2023, 10, 21, 14, 0, 0), EndDate = new DateTime(2023, 10, 22, 16, 0, 0) }
-                );
             //Add keywords
             context.Keywords.AddRange(
                 new Keyword { Name = "Mountains", Description = "Breathtaking landscapes with towering peaks and rugged terrain, often covered in snow." },
@@ -55,6 +49,35 @@ namespace TripPlannerAPI.Data
                 new Category { Name = "City", Description = "Activities that take place in urban areas" },
                 new Category { Name = "Culture", Description = "Activities that are related to history, art, and music" }
             );
+            //Associative tables
+            //Add tripactivities
+            context.TripActivities.AddRange(
+                new TripActivity { TripId = 1, ActivityId = 1, Price = 21.0, StartDate = new DateTime(2023, 10, 17, 19, 0, 0), EndDate = new DateTime(2023, 10, 17, 22, 0, 0) },
+                new TripActivity { TripId = 3, ActivityId = 2, Price = 10.0, StartDate = new DateTime(2023, 10, 15, 15, 0, 0), EndDate = new DateTime(2023, 10, 17, 18, 0, 0) },
+                new TripActivity { TripId = 1, ActivityId = 2, Price = 20.0, StartDate = new DateTime(2023, 10, 16, 6, 0, 0), EndDate = new DateTime(2023, 10, 17, 12, 0, 0) },
+                new TripActivity { TripId = 2, ActivityId = 3, Price = 30.0, StartDate = new DateTime(2023, 10, 21, 14, 0, 0), EndDate = new DateTime(2023, 10, 22, 16, 0, 0) }
+                );
+            //Add usertrips
+            context.UserTrips.AddRange(
+                new UserTrip { UserId = 1, TripId = 1 },
+                new UserTrip { UserId = 2, TripId = 2 },
+                new UserTrip { UserId = 2, TripId = 1 },
+                new UserTrip { UserId = 3, TripId = 3 }
+                );
+            //Add tripkeywords
+            context.TripKeywords.AddRange(
+                new TripKeyword { TripId = 1, KeywordId = 1 },
+                new TripKeyword { TripId = 1, KeywordId = 2 },
+                new TripKeyword { TripId = 2, KeywordId = 3 },
+                new TripKeyword { TripId = 3, KeywordId = 2 }
+                );
+            //Add tripcategories
+            context.TripCategories.AddRange(
+                new TripCategory { TripId = 1, CategoryId = 3 },
+                new TripCategory { TripId = 2, CategoryId = 1 },
+                new TripCategory { TripId = 3, CategoryId = 1 },
+                new TripCategory { TripId = 3, CategoryId = 2 }
+                );
             context.SaveChanges();
         }
     }

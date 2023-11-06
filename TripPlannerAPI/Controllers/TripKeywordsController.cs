@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TripPlanner.DAL.Models;
 using TripPlannerAPI.Data;
+using TripPlannerAPI.Dto.TripKeyword;
 
 namespace TripPlannerAPI.Controllers
 {
@@ -15,22 +12,31 @@ namespace TripPlannerAPI.Controllers
     public class TripKeywordsController : ControllerBase
     {
         private readonly TripContext _context;
+        private readonly IMapper _mapper;
 
-        public TripKeywordsController(TripContext context)
+        public TripKeywordsController(TripContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/TripKeywords
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TripKeyword>>> GetTripKeywords()
+        public async Task<ActionResult<List<TripKeywordRequest>>> GetTripKeywords()
         {
-            return await _context.TripKeywords.ToListAsync();
+            var tripKeywords = await _context.TripKeywords.ToListAsync();
+
+            if (tripKeywords == null)
+            {
+                return NotFound();
+            }
+
+            return _mapper.Map<List<TripKeywordRequest>>(tripKeywords);
         }
 
         // GET: api/TripKeywords/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TripKeyword>> GetTripKeyword(int id)
+        public async Task<ActionResult<TripKeywordRequest>> GetTripKeyword(int id)
         {
             var tripKeyword = await _context.TripKeywords.FindAsync(id);
 
@@ -39,28 +45,32 @@ namespace TripPlannerAPI.Controllers
                 return NotFound();
             }
 
-            return tripKeyword;
+            return _mapper.Map<TripKeywordRequest>(tripKeyword);
         }
 
         // PUT: api/TripKeywords/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTripKeyword(int id, TripKeyword tripKeyword)
+        public async Task<ActionResult<TripKeywordRequest>> PutTripKeyword(int tripId, int keywordId, TripKeywordResponse putTripKeyword)
         {
-            if (id != tripKeyword.TripId)
+            if (tripId != putTripKeyword.TripId || keywordId != putTripKeyword.KeywordId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(tripKeyword).State = EntityState.Modified;
+            TripKeyword updatedTripKeyword = _mapper.Map<TripKeyword>(putTripKeyword);
+            var tripKeyword = _context.TripKeywords.Where(u => u.TripId == tripId && u.KeywordId == keywordId).FirstOrDefault();
+            _context.Entry(putTripKeyword).State = EntityState.Modified;
 
             try
             {
+                tripKeyword.TripId = updatedTripKeyword.TripId;
+                tripKeyword.KeywordId = updatedTripKeyword.KeywordId;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TripKeywordExists(id))
+                if (!_context.TripKeywords.Any(tc => tc.TripId == tripId && tc.KeywordId == keywordId))
                 {
                     return NotFound();
                 }
@@ -76,9 +86,11 @@ namespace TripPlannerAPI.Controllers
         // POST: api/TripKeywords
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TripKeyword>> PostTripKeyword(TripKeyword tripKeyword)
+        public async Task<ActionResult<TripKeywordRequest>> PostTripKeyword(TripKeywordResponse tripKeyword)
         {
-            _context.TripKeywords.Add(tripKeyword);
+            TripKeyword newTripKeyword = _mapper.Map<TripKeyword>(tripKeyword);
+            _context.TripKeywords.Add(newTripKeyword);
+            TripKeywordRequest tripKeywordToReturn = _mapper.Map<TripKeywordRequest>(newTripKeyword);
             try
             {
                 await _context.SaveChangesAsync();
@@ -95,7 +107,7 @@ namespace TripPlannerAPI.Controllers
                 }
             }
 
-            return CreatedAtAction("GetTripKeyword", new { id = tripKeyword.TripId }, tripKeyword);
+            return CreatedAtAction("GetTripKeyword", new { tripId = tripKeywordToReturn.TripId, tripKeywordToReturn = tripKeywordToReturn.KeywordId }, tripKeywordToReturn);
         }
 
         // DELETE: api/TripKeywords/5

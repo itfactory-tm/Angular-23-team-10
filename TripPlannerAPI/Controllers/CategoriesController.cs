@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TripPlanner.DAL.Models;
 using TripPlannerAPI.Data;
+using TripPlannerAPI.Dto.Category;
 
 namespace TripPlannerAPI.Controllers
 {
@@ -10,22 +12,32 @@ namespace TripPlannerAPI.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly TripContext _context;
+        private readonly IMapper _mapper;
 
-        public CategoriesController(TripContext context)
+        public CategoriesController(TripContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
+
         }
 
         // GET: api/Categories
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+        public async Task<ActionResult<List<CategoryRequest>>> GetCategories()
         {
-            return await _context.Categories.ToListAsync();
+            var categories = await _context.Categories.ToListAsync();
+
+            if (categories == null)
+            {
+                return NotFound();
+            }
+
+            return _mapper.Map<List<CategoryRequest>>(categories);
         }
 
         // GET: api/Categories/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Category>> GetCategory(int id)
+        public async Task<ActionResult<CategoryRequest>> GetCategory(int id)
         {
             var category = await _context.Categories.FindAsync(id);
 
@@ -34,23 +46,27 @@ namespace TripPlannerAPI.Controllers
                 return NotFound();
             }
 
-            return category;
+            return _mapper.Map<CategoryRequest>(category);
         }
 
         // PUT: api/Categories/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategory(int id, Category category)
+        public async Task<ActionResult<CategoryRequest>> PutCategory(int id, CategoryResponse putCategory)
         {
-            if (id != category.CategoryId)
+            if (id != putCategory.CategoryId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(category).State = EntityState.Modified;
+            Category updatedCategory = _mapper.Map<Category>(putCategory);
+            var category = _context.Categories.Where(u => u.CategoryId == id).FirstOrDefault();
+            _context.Entry(putCategory).State = EntityState.Modified;
 
             try
             {
+                putCategory.Name = putCategory.Name;
+                putCategory.Description = putCategory.Description;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -71,12 +87,14 @@ namespace TripPlannerAPI.Controllers
         // POST: api/Categories
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Category>> PostCategory(Category category)
+        public async Task<ActionResult<CategoryRequest>> PostCategory(CategoryResponse category)
         {
-            _context.Categories.Add(category);
+            Category newCategory = _mapper.Map<Category>(category);
+            _context.Categories.Add(newCategory);
             await _context.SaveChangesAsync();
+            CategoryRequest categoryToReturn = _mapper.Map<CategoryRequest>(newCategory);
 
-            return CreatedAtAction("GetCategory", new { id = category.CategoryId }, category);
+            return CreatedAtAction("GetCategory", new { id = categoryToReturn.CategoryId }, categoryToReturn);
         }
 
         // DELETE: api/Categories/5
