@@ -5,9 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ActivitiesFormComponent } from './activities-form/activities-form.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ActivitiesFormComponent],
   imports: [BrowserModule, AppRoutingModule, NavbarComponent, BrowserAnimationsModule],
   providers: [],
   bootstrap: [AppComponent],
