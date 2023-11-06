@@ -1,11 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {NavigationEnd, Router, RouterModule} from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faBars,
-  faCoffee,
-  faMagnifyingGlass,
   faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -20,18 +18,10 @@ export class NavbarComponent {
   faBars = faBars;
   faTimes = faTimes;
   isMenuOpen = false; // Flag to track menu state
-  // showNavbar: boolean | undefined;
 
-  // constructor(private router: Router) {
-  //   // Subscribe to router events to determine when to show/hide the navbar
-  //   router.events.subscribe((event) => {
-  //     if (event instanceof NavigationEnd) {
-  //       this.showNavbar = !event.url.includes('/getstarted');
-  //     }
-  //   });
-  // }
+  constructor(private renderer: Renderer2, private el: ElementRef) {}
 
-  // Function to toggle the menu
+  // Function to toggle the menu and apply the lock-screen class
   onToggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
