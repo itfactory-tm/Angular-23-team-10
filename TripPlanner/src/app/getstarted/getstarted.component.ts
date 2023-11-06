@@ -9,5 +9,9 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./getstarted.component.css']
 })
 export class GetstartedComponent {
+  selectedChoice: string = 'choose1';
 
+  selectChoose(choice: string) {
+    this.selectedChoice = choice
+  }
 }

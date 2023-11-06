@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import {NavigationEnd, Router, RouterModule} from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faBars,
@@ -20,6 +20,16 @@ export class NavbarComponent {
   faBars = faBars;
   faTimes = faTimes;
   isMenuOpen = false; // Flag to track menu state
+  // showNavbar: boolean | undefined;
+
+  // constructor(private router: Router) {
+  //   // Subscribe to router events to determine when to show/hide the navbar
+  //   router.events.subscribe((event) => {
+  //     if (event instanceof NavigationEnd) {
+  //       this.showNavbar = !event.url.includes('/getstarted');
+  //     }
+  //   });
+  // }
 
   // Function to toggle the menu
   onToggleMenu() {
