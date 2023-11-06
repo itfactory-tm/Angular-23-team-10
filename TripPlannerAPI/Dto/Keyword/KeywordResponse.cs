@@ -1,10 +1,9 @@
-﻿namespace TripPlanner.DAL.Models
+﻿namespace TripPlannerAPI.Dto.Keyword
 {
-    public class Keyword
+    public class KeywordResponse
     {
         public int KeywordId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public ICollection<TripKeyword>? Trips { get; }
     }
 }

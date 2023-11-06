@@ -4,7 +4,7 @@
     {
         public int TripId { get; set; }
         public int KeywordId { get; set; }
-        public Trip Trip { get; set; }
-        public Keyword Keyword { get; set; }
+        public Trip? Trip { get; }
+        public Keyword? Keyword { get; }
     }
 }

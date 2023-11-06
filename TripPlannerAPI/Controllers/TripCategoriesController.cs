@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TripPlanner.DAL.Models;
 using TripPlannerAPI.Data;
+using TripPlannerAPI.Dto.TripCategory;
 
 namespace TripPlannerAPI.Controllers
 {
@@ -15,22 +12,31 @@ namespace TripPlannerAPI.Controllers
     public class TripCategoriesController : ControllerBase
     {
         private readonly TripContext _context;
+        private readonly IMapper _mapper;
 
-        public TripCategoriesController(TripContext context)
+        public TripCategoriesController(TripContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/TripCategories
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TripCategory>>> GetTripCategories()
+        public async Task<ActionResult<List<TripCategoryRequest>>> GetTripCategories()
         {
-            return await _context.TripCategories.ToListAsync();
+            var tripCategories = await _context.TripCategories.ToListAsync();
+
+            if (tripCategories == null)
+            {
+                return NotFound();
+            }
+
+            return _mapper.Map<List<TripCategoryRequest>>(tripCategories);
         }
 
         // GET: api/TripCategories/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TripCategory>> GetTripCategory(int id)
+        public async Task<ActionResult<TripCategoryRequest>> GetTripCategory(int id)
         {
             var tripCategory = await _context.TripCategories.FindAsync(id);
 
@@ -39,28 +45,32 @@ namespace TripPlannerAPI.Controllers
                 return NotFound();
             }
 
-            return tripCategory;
+            return _mapper.Map<TripCategoryRequest>(tripCategory);
         }
 
         // PUT: api/TripCategories/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTripCategory(int id, TripCategory tripCategory)
+        public async Task<ActionResult<TripCategoryRequest>> PutTripCategory(int tripId, int categoryId, TripCategoryResponse putTripCategory)
         {
-            if (id != tripCategory.TripId)
+            if (tripId != putTripCategory.TripId || categoryId != putTripCategory.CategoryId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(tripCategory).State = EntityState.Modified;
+            TripCategory updatedTripCategory = _mapper.Map<TripCategory>(putTripCategory);
+            var tripCategory = _context.TripCategories.Where(u => u.TripId == tripId && u.CategoryId == categoryId).FirstOrDefault();
+            _context.Entry(putTripCategory).State = EntityState.Modified;
 
             try
             {
+                tripCategory.TripId = putTripCategory.TripId;
+                tripCategory.CategoryId = putTripCategory.CategoryId;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TripCategoryExists(id))
+                if (!_context.TripCategories.Any(tc => tc.TripId == tripId && tc.CategoryId == categoryId))
                 {
                     return NotFound();
                 }
@@ -76,9 +86,11 @@ namespace TripPlannerAPI.Controllers
         // POST: api/TripCategories
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TripCategory>> PostTripCategory(TripCategory tripCategory)
+        public async Task<ActionResult<TripCategoryRequest>> PostTripCategory(TripCategoryResponse tripCategory)
         {
-            _context.TripCategories.Add(tripCategory);
+            TripCategory newTripCategory = _mapper.Map<TripCategory>(tripCategory);
+            _context.TripCategories.Add(newTripCategory);
+            TripCategoryRequest tripCategoryToReturn = _mapper.Map<TripCategoryRequest>(newTripCategory);
             try
             {
                 await _context.SaveChangesAsync();
@@ -95,7 +107,7 @@ namespace TripPlannerAPI.Controllers
                 }
             }
 
-            return CreatedAtAction("GetTripCategory", new { id = tripCategory.TripId }, tripCategory);
+            return CreatedAtAction("GetTripCategory", new { tripId = tripCategoryToReturn.TripId, categoryId = tripCategoryToReturn.CategoryId }, tripCategoryToReturn);
         }
 
         // DELETE: api/TripCategories/5

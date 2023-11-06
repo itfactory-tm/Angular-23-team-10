@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TripPlanner.DAL.Models;
 using TripPlannerAPI.Data;
-using TripPlannerAPI.Dto;
+using TripPlannerAPI.Dto.Trip;
 
 namespace TripPlannerAPI.Controllers
 {
@@ -22,7 +22,7 @@ namespace TripPlannerAPI.Controllers
 
         // GET: api/Trips
         [HttpGet]
-        public async Task<ActionResult<List<GetTripDto>>> GetTrips()
+        public async Task<ActionResult<List<TripRequest>>> GetTrips()
         {
             var trips = await _context.Trips.ToListAsync();
 
@@ -31,12 +31,12 @@ namespace TripPlannerAPI.Controllers
                 return NotFound();
             }
 
-            return _mapper.Map<List<GetTripDto>>(trips);
+            return _mapper.Map<List<TripRequest>>(trips);
         }
 
         // GET: api/Trips/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Trip>> GetTrip(int id)
+        public async Task<ActionResult<TripRequest>> GetTrip(int id)
         {
             var trip = await _context.Trips.FindAsync(id);
 
@@ -45,23 +45,30 @@ namespace TripPlannerAPI.Controllers
                 return NotFound();
             }
 
-            return trip;
+            return _mapper.Map<TripRequest>(trip);
         }
 
         // PUT: api/Trips/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTrip(int id, Trip trip)
+        public async Task<ActionResult<TripRequest>> PutTrip(int id, TripResponse putTrip)
         {
-            if (id != trip.TripId)
+            if (id != putTrip.TripId)
             {
                 return BadRequest();
             }
 
+            Trip updatedTrip = _mapper.Map<Trip>(putTrip);
+            var trip = _context.Trips.Where(u => u.TripId == id).FirstOrDefault();
             _context.Entry(trip).State = EntityState.Modified;
 
             try
             {
+                trip.StartDate = updatedTrip.StartDate;
+                trip.EndDate = updatedTrip.EndDate;
+                trip.Description = updatedTrip.Description;
+                trip.Picture = updatedTrip.Picture;
+                trip.IsShared = updatedTrip.IsShared;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -82,12 +89,14 @@ namespace TripPlannerAPI.Controllers
         // POST: api/Trips
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Trip>> PostTrip(Trip trip)
+        public async Task<ActionResult<TripRequest>> PostTrip(TripResponse trip)
         {
-            _context.Trips.Add(trip);
+            Trip newTrip = _mapper.Map<Trip>(trip);
+            _context.Trips.Add(newTrip);
             await _context.SaveChangesAsync();
+            TripRequest tripToReturn = _mapper.Map<TripRequest>(newTrip);
 
-            return CreatedAtAction("GetTrip", new { id = trip.TripId }, trip);
+            return CreatedAtAction("GetTrip", new { id = tripToReturn.TripId }, tripToReturn);
         }
 
         // DELETE: api/Trips/5

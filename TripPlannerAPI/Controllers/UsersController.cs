@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TripPlanner.DAL.Models;
 using TripPlannerAPI.Data;
-using TripPlannerAPI.Dto;
+using TripPlannerAPI.Dto.User;
 
 namespace TripPlannerAPI.Controllers
 {
@@ -22,7 +22,7 @@ namespace TripPlannerAPI.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<List<GetUserDto>>> GetUsers()
+        public async Task<ActionResult<List<UserRequest>>> GetUsers()
         {
             var users = await _context.Users.ToListAsync();
 
@@ -31,12 +31,12 @@ namespace TripPlannerAPI.Controllers
                 return NotFound();
             }
 
-            return _mapper.Map<List<GetUserDto>>(users);
+            return _mapper.Map<List<UserRequest>>(users);
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<UserRequest>> GetUser(int id)
         {
             var user = await _context.Users.FindAsync(id);
 
@@ -45,20 +45,20 @@ namespace TripPlannerAPI.Controllers
                 return NotFound();
             }
 
-            return user;
+            return _mapper.Map<UserRequest>(user);
         }
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<ActionResult<GetUserDto>> PutUser(int id, [FromQuery] PostUserDto postUser)
+        public async Task<ActionResult<UserRequest>> PutUser(int id, [FromQuery] UserUpdate putUser)
         {
-            if (id != postUser.UserId)
+            if (id != putUser.UserId)
             {
                 return BadRequest();
             }
 
-            User updatedUser = _mapper.Map<User>(postUser);
+            User updatedUser = _mapper.Map<User>(putUser);
             var user = _context.Users.Where(u => u.UserId == id).FirstOrDefault();
 
             _context.Entry(user).State = EntityState.Modified;
@@ -87,12 +87,14 @@ namespace TripPlannerAPI.Controllers
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<UserRequest>> PostUser(UserCreate user)
         {
-            _context.Users.Add(user);
+            User newUser = _mapper.Map<User>(user);
+            _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
+            UserRequest userToReturn = _mapper.Map<UserRequest>(newUser);
 
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+            return CreatedAtAction("GetUser", new { id = userToReturn.UserId }, userToReturn);
         }
 
         // DELETE: api/Users/5

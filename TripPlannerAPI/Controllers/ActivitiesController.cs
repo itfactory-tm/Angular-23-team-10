@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TripPlanner.DAL.Models;
 using TripPlannerAPI.Data;
+using TripPlannerAPI.Dto.Activity;
 
 namespace TripPlannerAPI.Controllers
 {
@@ -10,22 +12,32 @@ namespace TripPlannerAPI.Controllers
     public class ActivitiesController : ControllerBase
     {
         private readonly TripContext _context;
+        private readonly IMapper _mapper;
 
-        public ActivitiesController(TripContext context)
+        public ActivitiesController(TripContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Activities
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Activity>>> GetActivities()
+        public async Task<ActionResult<List<ActivityRequest>>> GetActivities()
         {
-            return await _context.Activities.ToListAsync();
+
+            var activities = await _context.Activities.ToListAsync();
+
+            if (activities == null)
+            {
+                return NotFound();
+            }
+
+            return _mapper.Map<List<ActivityRequest>>(activities);
         }
 
         // GET: api/Activities/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Activity>> GetActivity(int id)
+        public async Task<ActionResult<ActivityRequest>> GetActivity(int id)
         {
             var activity = await _context.Activities.FindAsync(id);
 
@@ -34,23 +46,26 @@ namespace TripPlannerAPI.Controllers
                 return NotFound();
             }
 
-            return activity;
+            return _mapper.Map<ActivityRequest>(activity);
         }
 
         // PUT: api/Activities/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutActivity(int id, Activity activity)
+        public async Task<ActionResult<ActivityRequest>> PutActivity(int id, ActivityResponse putActivity)
         {
-            if (id != activity.ActivityId)
+            if (id != putActivity.ActivityId)
             {
                 return BadRequest();
             }
 
+            Activity updatedActivity = _mapper.Map<Activity>(putActivity);
+            var activity = _context.Activities.Where(u => u.ActivityId == id).FirstOrDefault();
             _context.Entry(activity).State = EntityState.Modified;
 
             try
             {
+                activity.Name = putActivity.Name;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -71,12 +86,14 @@ namespace TripPlannerAPI.Controllers
         // POST: api/Activities
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Activity>> PostActivity(Activity activity)
+        public async Task<ActionResult<ActivityRequest>> PostActivity(ActivityResponse activity)
         {
-            _context.Activities.Add(activity);
+            Activity newActivity = _mapper.Map<Activity>(activity);
+            _context.Activities.Add(newActivity);
             await _context.SaveChangesAsync();
+            ActivityRequest activitytoReturn = _mapper.Map<ActivityRequest>(newActivity);
 
-            return CreatedAtAction("GetActivity", new { id = activity.ActivityId }, activity);
+            return CreatedAtAction("GetActivity", new { id = activitytoReturn.ActivityId }, activitytoReturn);
         }
 
         // DELETE: api/Activities/5

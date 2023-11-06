@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TripPlanner.DAL.Models;
 using TripPlannerAPI.Data;
+using TripPlannerAPI.Dto.TripActivity;
 
 namespace TripPlannerAPI.Controllers
 {
@@ -10,22 +12,31 @@ namespace TripPlannerAPI.Controllers
     public class TripActivitiesController : ControllerBase
     {
         private readonly TripContext _context;
+        private readonly IMapper _mapper;
 
-        public TripActivitiesController(TripContext context)
+        public TripActivitiesController(TripContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/TripActivities
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TripActivity>>> GetTripActivities()
+        public async Task<ActionResult<List<TripActivityRequest>>> GetTripActivities()
         {
-            return await _context.TripActivities.ToListAsync();
+            var tripActivities = await _context.TripActivities.ToListAsync();
+
+            if (tripActivities == null)
+            {
+                return NotFound();
+            }
+
+            return _mapper.Map<List<TripActivityRequest>>(tripActivities);
         }
 
         // GET: api/TripActivities/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TripActivity>> GetTripActivity(int id)
+        public async Task<ActionResult<TripActivityRequest>> GetTripActivity(int id)
         {
             var tripActivity = await _context.TripActivities.FindAsync(id);
 
@@ -34,23 +45,29 @@ namespace TripPlannerAPI.Controllers
                 return NotFound();
             }
 
-            return tripActivity;
+            return _mapper.Map<TripActivityRequest>(tripActivity);
         }
 
         // PUT: api/TripActivities/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTripActivity(int id, TripActivity tripActivity)
+        public async Task<ActionResult<TripActivityRequest>> PutTripActivity(int id, TripActivityResponse putTripActivity)
         {
-            if (id != tripActivity.TripActivityId)
+            if (id != putTripActivity.TripActivityId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(tripActivity).State = EntityState.Modified;
+            TripActivity updatedTripActivity = _mapper.Map<TripActivity>(putTripActivity);
+            var tripActivity = _context.TripActivities.Where(u => u.TripActivityId == id).FirstOrDefault();
+            _context.Entry(putTripActivity).State = EntityState.Modified;
 
             try
             {
+                tripActivity.ActivityId = putTripActivity.ActivityId;
+                tripActivity.TripId = putTripActivity.TripId;
+                tripActivity.StartDate = putTripActivity.StartDate;
+                tripActivity.EndDate = putTripActivity.EndDate;
+                tripActivity.Price = putTripActivity.Price;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -71,12 +88,14 @@ namespace TripPlannerAPI.Controllers
         // POST: api/TripActivities
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TripActivity>> PostTripActivity(TripActivity tripActivity)
+        public async Task<ActionResult<TripActivityRequest>> PostTripActivity(TripActivityResponse tripActivity)
         {
-            _context.TripActivities.Add(tripActivity);
+            TripActivity newTripActivity = _mapper.Map<TripActivity>(tripActivity);
+            _context.TripActivities.Add(newTripActivity);
             await _context.SaveChangesAsync();
+            TripActivityRequest tripActivityToReturn = _mapper.Map<TripActivityRequest>(newTripActivity);
 
-            return CreatedAtAction("GetTripActivity", new { id = tripActivity.TripActivityId }, tripActivity);
+            return CreatedAtAction("GetTripActivity", new { id = tripActivityToReturn.TripActivityId }, tripActivityToReturn);
         }
 
         // DELETE: api/TripActivities/5

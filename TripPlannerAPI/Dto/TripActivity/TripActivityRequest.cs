@@ -1,6 +1,6 @@
-﻿namespace TripPlanner.DAL.Models
+﻿namespace TripPlannerAPI.Dto.TripActivity
 {
-    public class TripActivity
+    public class TripActivityRequest
     {
         public int TripActivityId { get; set; }
         public int ActivityId { get; set; }
@@ -8,8 +8,5 @@
         public double? Price { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-
-        public Activity? Activity { get; }
-        public Trip? Trip { get; }
     }
 }

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TripPlanner.DAL.Models;
 using TripPlannerAPI.Data;
+using TripPlannerAPI.Dto.UserTrip;
 
 namespace TripPlannerAPI.Controllers
 {
@@ -15,22 +12,31 @@ namespace TripPlannerAPI.Controllers
     public class UserTripsController : ControllerBase
     {
         private readonly TripContext _context;
+        private readonly IMapper _mapper;
 
-        public UserTripsController(TripContext context)
+        public UserTripsController(TripContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/UserTrips
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserTrip>>> GetUserTrips()
+        public async Task<ActionResult<List<UserTripRequest>>> GetUserTrips()
         {
-            return await _context.UserTrips.ToListAsync();
+            var userTrips = await _context.UserTrips.ToListAsync();
+
+            if (userTrips == null)
+            {
+                return NotFound();
+            }
+
+            return _mapper.Map<List<UserTripRequest>>(userTrips);
         }
 
         // GET: api/UserTrips/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserTrip>> GetUserTrip(int id)
+        public async Task<ActionResult<UserTripRequest>> GetUserTrip(int id)
         {
             var userTrip = await _context.UserTrips.FindAsync(id);
 
@@ -39,28 +45,32 @@ namespace TripPlannerAPI.Controllers
                 return NotFound();
             }
 
-            return userTrip;
+            return _mapper.Map<UserTripRequest>(userTrip);
         }
 
         // PUT: api/UserTrips/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserTrip(int id, UserTrip userTrip)
+        public async Task<ActionResult<UserTripRequest>> PutUserTrip(int userId, int tripId, UserTripResponse putUserTrip)
         {
-            if (id != userTrip.UserId)
+            if (userId != putUserTrip.UserId || tripId != putUserTrip.TripId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(userTrip).State = EntityState.Modified;
+            UserTrip updatedUserTrip = _mapper.Map<UserTrip>(putUserTrip);
+            var userTrip = _context.UserTrips.Where(u => u.UserId == userId && u.TripId == tripId).FirstOrDefault();
+            _context.Entry(putUserTrip).State = EntityState.Modified;
 
             try
             {
+                userTrip.UserId = putUserTrip.UserId;
+                userTrip.TripId = putUserTrip.TripId;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserTripExists(id))
+                if (!_context.UserTrips.Any(tc => tc.TripId == tripId && tc.UserId == userId))
                 {
                     return NotFound();
                 }
@@ -76,9 +86,11 @@ namespace TripPlannerAPI.Controllers
         // POST: api/UserTrips
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserTrip>> PostUserTrip(UserTrip userTrip)
+        public async Task<ActionResult<UserTripRequest>> PostUserTrip(UserTripRequest userTrip)
         {
-            _context.UserTrips.Add(userTrip);
+            UserTrip newUserTrip = _mapper.Map<UserTrip>(userTrip);
+            _context.UserTrips.Add(newUserTrip);
+            UserTripRequest userTripToReturn = _mapper.Map<UserTripRequest>(newUserTrip);
             try
             {
                 await _context.SaveChangesAsync();
@@ -95,7 +107,7 @@ namespace TripPlannerAPI.Controllers
                 }
             }
 
-            return CreatedAtAction("GetUserTrip", new { id = userTrip.UserId }, userTrip);
+            return CreatedAtAction("GetUserTrip", new { userId = userTripToReturn.UserId, tripId = userTripToReturn.TripId }, userTripToReturn);
         }
 
         // DELETE: api/UserTrips/5
