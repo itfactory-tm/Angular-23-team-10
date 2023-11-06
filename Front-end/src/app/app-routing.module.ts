@@ -5,12 +5,14 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { TestAPIComponent } from './test-api/test-api.component';
 import { GetstartedComponent } from './getstarted/getstarted.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { CategoryComponent } from './category/category.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent }, 
   {path: 'users', component: TestAPIComponent},
   {path: 'getstarted', component: GetstartedComponent},
-  {path: 'calendar', component: CalendarComponent}
+  {path: 'calendar', component: CalendarComponent},
+  {path: 'category', component: CategoryComponent}
 ];
 
 @NgModule({
