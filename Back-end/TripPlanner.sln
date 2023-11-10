@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TripPlanner.API", "TripPlan
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TripPlanner.DAL", "TripPlanner.DAL\TripPlanner.DAL.csproj", "{1C659D21-1490-4E04-B64A-80ED248E67C9}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{51085EE2-2322-4936-9746-8AD9F2808F92}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{1C659D21-1490-4E04-B64A-80ED248E67C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C659D21-1490-4E04-B64A-80ED248E67C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C659D21-1490-4E04-B64A-80ED248E67C9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{51085EE2-2322-4936-9746-8AD9F2808F92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{51085EE2-2322-4936-9746-8AD9F2808F92}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{51085EE2-2322-4936-9746-8AD9F2808F92}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{51085EE2-2322-4936-9746-8AD9F2808F92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
