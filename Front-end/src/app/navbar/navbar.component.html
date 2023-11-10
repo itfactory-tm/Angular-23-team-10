@@ -5,24 +5,71 @@
   <div [class.open]="isMenuOpen" [class.closed]="!isMenuOpen" class="duration-500 px-5">
     <ul class="md:flex-row flex-col md:items-center md:gap-[4vw] gap-8 hidden md:flex">
       <li>
-        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="text-[#989896] hover:text-white">Home</a>
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+          class="text-[#989896] hover:text-white">Home</a>
       </li>
       <li>
-        <a routerLink="/category" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="text-[#989896] hover:text-white">Categories</a>
+        <a routerLink="/category" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+          class="text-[#989896] hover:text-white">Categories</a>
       </li>
       <li>
         <a href="#" class="text-[#989896] hover:text-white">About us</a>
       </li>
       <li>
-        <a routerLink="/users" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="text-[#989896] hover:text-white" >Test API</a>
+        <a routerLink="/users" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+          class="text-[#989896] hover:text-white">Test API</a>
       </li>
     </ul>
   </div>
   <div class="flex items-center gap-6">
-    <p class="cursor-pointer hidden md:block text-[#989896] hover:text-white">Log in</p>
-    <button class="bg-[#e66462] transition duration-200 text-white px-8 py-2 rounded-lg hover:bg-[#ea7a78] hidden md:block">
-      Sign up
-    </button>
+    <div *ngIf="!(_auth.isAuthenticated$ | async); else logoutButton" class="flex items-center gap-6">
+      <p class="cursor-pointer hidden md:block text-[#989896] hover:text-white" (click)="_auth.loginWithRedirect()">
+        Log in
+      </p>
+      <button
+        class="bg-[#e66462] transition duration-200 text-white px-8 py-2 rounded-lg hover:bg-[#ea7a78] hidden md:block"
+        (click)="_auth.loginWithRedirect()">
+        Sign up
+      </button>
+    </div>
+
+    <ng-template #logoutButton>
+      <div class="relative action" (click)="toggleDropdown()">
+        <img src="{{loggedInUser.picture}}" class="w-10 h-10 rounded-full cursor-pointer" alt="avatar">
+
+        <!-- Dropdown menu -->
+        <div *ngIf="showDropdown"
+          class="absolute top-12 right-0 bg-white border border-gray-200 rounded-md shadow-md p-2 z-50 w-64 menu">
+          <!-- Additional dropdown items with icons -->
+          <h3>{{loggedInUser.name}}<br /><span>{{loggedInUser.email}}</span></h3>
+          <ul>
+            <li class="cursor-pointer">
+              <fa-icon [icon]="faUser" class="mr-2 text-lg"></fa-icon>
+              <a href="#">My profile</a>
+            </li>
+            <li class="cursor-pointer">
+              <fa-icon [icon]="faCog" class="mr-2 text-lg"></fa-icon>
+              <a href="#">Setting</a>
+            </li>
+            <li class="cursor-pointer">
+              <fa-icon [icon]="faQuestion" class="mr-2 text-lg"></fa-icon>
+              <a href="#">Help</a>
+            </li>
+            <li class="cursor-pointer">
+              <fa-icon [icon]="faSignOutAlt" class="mr-2 text-lg"></fa-icon>
+              <a href="#">Log out</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <button *ngIf="(_auth.isAuthenticated$ | async)" (click)="_auth.logout()"
+        class="bg-[#e66462] transition duration-200 text-white px-8 py-2 rounded-lg hover:bg-[#ea7a78] hidden md:block">
+        Log out
+      </button>
+    </ng-template>
+
+
     <i class="fa-solid fa-bars block md:hidden"></i>
     <fa-icon (click)="onToggleMenu()" id="menu" [icon]="isMenuOpen ? faTimes : faBars"
       class="z-50 text-3xl cursor-pointer md:hidden text-white"></fa-icon>
@@ -42,13 +89,14 @@
       <nav>
         <ul>
           <li>
-            <a (click)="onToggleMenu()" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-              class="block py-2 px-4 text-[#989896] hover:text-white">
+            <a (click)="onToggleMenu()" routerLink="/" routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }" class="block py-2 px-4 text-[#989896] hover:text-white">
               <i class="fas fa-home mr-2"></i>Home
             </a>
           </li>
           <li>
-            <a (click)="onToggleMenu()" routerLink="/category" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="block py-2 px-4 text-[#989896] hover:text-white">
+            <a (click)="onToggleMenu()" routerLink="/category" routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }" class="block py-2 px-4 text-[#989896] hover:text-white">
               <i class="fas fa-list mr-2"></i>Categories
             </a>
           </li>

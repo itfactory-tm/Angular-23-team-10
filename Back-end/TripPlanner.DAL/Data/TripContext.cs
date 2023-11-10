@@ -13,7 +13,7 @@ namespace TripPlannerAPI.Data
 
         public TripContext(DbContextOptions<TripContext> options) : base(options)
         { }
-        public DbSet<User> Users { get; set; }
+        // public DbSet<User> Users { get; set; }
         public DbSet<Trip> Trips { get; set; }
         public DbSet<TripActivity> TripActivities { get; set; }
         public DbSet<Activity> Activities { get; set; }
@@ -27,7 +27,7 @@ namespace TripPlannerAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().ToTable("User");
+            // modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<Trip>().ToTable("Trip");
             modelBuilder.Entity<TripActivity>().ToTable("TripActivity");
             modelBuilder.Entity<Activity>().ToTable("Activity");
@@ -53,10 +53,10 @@ namespace TripPlannerAPI.Data
 
             modelBuilder.Entity<UserTrip>()// Define the Entity configuration for the UserTrip entity.                           
                 .HasKey(ut => new { ut.UserId, ut.TripId });// Set a composite primary key for UserTrip entity using UserId and TripId.
-            modelBuilder.Entity<UserTrip>()// Configure the relationship between UserTrip and User entities.                                     
-                .HasOne(ut => ut.User)// UserTrip has a reference to a User entity.                                   
-                .WithMany(t => t.Trips)// Each User can be associated with multiple trips. 
-                .HasForeignKey(ut => ut.UserId);// Set the foreign key relationship with the UserId property in UserTrip.
+            //modelBuilder.Entity<UserTrip>()// Configure the relationship between UserTrip and User entities.                                     
+            //     .HasOne(ut => ut.UserId)// UserTrip has a reference to a User entity.                                   
+            //     .WithMany(t => t.Trips)// Each User can be associated with multiple trips. 
+            //     .HasForeignKey(ut => ut.UserId);// Set the foreign key relationship with the UserId property in UserTrip.
             modelBuilder.Entity<UserTrip>()// Configure the relationship between UserTrip and Trip entities.                     
                 .HasOne(ut => ut.Trip)// UserTrip has a reference to a Trip entity.                     
                 .WithMany(u => u.Users)// Each Trip can have multiple users associated with it.
