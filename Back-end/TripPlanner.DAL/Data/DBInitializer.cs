@@ -8,19 +8,20 @@ namespace TripPlannerAPI.Data
     {
         public static void Initialize(TripContext context)
         {
+            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
             // Look for any users.
-            if (context.Users.Any())
-            {
-                return;   // DB has been seeded
-            }
+            //if (context.Users.Any())
+            //{
+            //    return;   // DB has been seeded
+            //}
 
             //Add users
-            context.Users.AddRange(
-                new User { Firstname = "Jan", Surname = "Peeters", Email = "jan.peeters@gmail.com", Password = "Password", IsAdmin = true, IsActive = true },
-                new User { Firstname = "John", Surname = "Doe", Email = "john.doe@gmail.com", Password = "Password123", IsAdmin = false, IsActive = true },
-                new User { Firstname = "Jane", Surname = "Smith", Email = "jane.smith@gmail.com", Password = "Password456", IsAdmin = false, IsActive = false }
-                );
+            //context.Users.AddRange(
+            //    new User { Firstname = "Jan", Surname = "Peeters", Email = "jan.peeters@gmail.com", Password = "Password", IsAdmin = true, IsActive = true },
+            //    new User { Firstname = "John", Surname = "Doe", Email = "john.doe@gmail.com", Password = "Password123", IsAdmin = false, IsActive = true },
+            //    new User { Firstname = "Jane", Surname = "Smith", Email = "jane.smith@gmail.com", Password = "Password456", IsAdmin = false, IsActive = false }
+            //    );
             //Add trips
             context.Trips.AddRange(
                 new Trip { StartDate = new DateTime(2023, 10, 16), EndDate = new DateTime(2023, 10, 31), Picture = "https://example.com/trip1.jpg", Description = "This is a test trip", IsShared = true },
@@ -59,10 +60,10 @@ namespace TripPlannerAPI.Data
                 );
             //Add usertrips
             context.UserTrips.AddRange(
-                new UserTrip { UserId = 1, TripId = 1 },
-                new UserTrip { UserId = 2, TripId = 2 },
-                new UserTrip { UserId = 2, TripId = 1 },
-                new UserTrip { UserId = 3, TripId = 3 }
+                new UserTrip { UserId = "1", TripId = 1 },
+                new UserTrip { UserId = "2", TripId = 2 },
+                new UserTrip { UserId = "3", TripId = 1 },
+                new UserTrip { UserId = "4", TripId = 3 }
                 );
             //Add tripkeywords
             context.TripKeywords.AddRange(
