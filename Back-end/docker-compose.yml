@@ -1,21 +1,24 @@
 version: "3.4"
 
+networks:
+  myAppNetwork:
+
 services:
-  tripplanner-api:
-    depends_on:
-      - sql
+  SqlServerDb:
+    container_name: SqlServerContainer
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    ports:
+      - 8002:1433
+    environment:
+      - ACCEPT_EULA=y
+      - MSSQL_SA_PASSWORD=myStong_Password123#
+  WebApi:
+    container_name: WebApiContainer
     image: ${DOCKER_REGISTRY-}tripplannerapi
+    ports:
+      - 8001:80
     build:
       context: .
       dockerfile: ./TripPlanner.API/Dockerfile
-    ports:
-      - "5000:80"
-
-  sql:
-    image: "mcr.microsoft.com/mssql/server:2022-latest"
-    container_name: sql_server2022
-    ports:
-      - "1433:1433"
-    environment:
-      - ACCEPT_EULA=y
-      - SA_PASSWORD=A&VeryComplex123Password
+    depends_on:
+      - SqlServerDb
