@@ -4,7 +4,7 @@ networks:
   myAppNetwork:
 
 services:
-  SqlServerDb:
+  sqlserverdb:
     container_name: SqlServerContainer
     image: mcr.microsoft.com/mssql/server:2017-latest
     ports:
@@ -12,7 +12,7 @@ services:
     environment:
       - ACCEPT_EULA=y
       - MSSQL_SA_PASSWORD=myStong_Password123#
-  WebApi:
+  webapi:
     container_name: WebApiContainer
     image: ${DOCKER_REGISTRY-}tripplannerapi
     ports:
@@ -21,4 +21,4 @@ services:
       context: .
       dockerfile: ./TripPlanner.API/Dockerfile
     depends_on:
-      - SqlServerDb
+      - sqlserverdb
