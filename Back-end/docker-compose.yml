@@ -7,7 +7,7 @@ services:
     image: ${DOCKER_REGISTRY-}tripplannerapi
     build:
       context: .
-      dockerfile: TripPlanner.API\Dockerfile
+      dockerfile: ./TripPlanner.API/Dockerfile
     ports:
       - "5000:80"
   sql:
