@@ -1,8 +1,5 @@
 version: "3.4"
 
-networks:
-  myAppNetwork:
-
 services:
   sqlserverdb:
     container_name: SqlServerContainer
@@ -12,7 +9,7 @@ services:
     environment:
       - ACCEPT_EULA=y
       - MSSQL_SA_PASSWORD=myStong_Password123#
-  webapi:
+  web-api:
     container_name: WebApiContainer
     image: ${DOCKER_REGISTRY-}tripplannerapi
     ports:
