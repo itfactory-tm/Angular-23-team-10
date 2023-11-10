@@ -10,6 +10,7 @@ services:
       dockerfile: ./TripPlanner.API/Dockerfile
     ports:
       - "5000:80"
+
   sql:
     image: "mcr.microsoft.com/mssql/server:2022-latest"
     container_name: sql_server2022
