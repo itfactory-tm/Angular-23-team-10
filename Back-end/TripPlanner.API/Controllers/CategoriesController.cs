@@ -59,14 +59,23 @@ namespace TripPlannerAPI.Controllers
                 return BadRequest();
             }
 
-            Category updatedCategory = _mapper.Map<Category>(putCategory);
-            var category = _context.Categories.Where(u => u.CategoryId == id).FirstOrDefault();
-            _context.Entry(putCategory).State = EntityState.Modified;
+            //Category updatedCategory = _mapper.Map<Category>(putCategory);
+            //var category = _context.Categories.Where(u => u.CategoryId == id).FirstOrDefault();
+            //_context.Entry(category).State = EntityState.Modified;
+            var category = await _context.Categories.FindAsync(id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            // Map the updated fields from the DTO to the Category entity
+            _mapper.Map(putCategory, category);
 
             try
             {
-                putCategory.Name = putCategory.Name;
-                putCategory.Description = putCategory.Description;
+                //category.Name = updatedCategory.Name;
+                //category.Description = updatedCategory.Description;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)

@@ -1,1 +1,100 @@
-<p class="text-white">category works!</p>
+<div class="container mx-auto mt-8">
+    <div class="rounded p-4 mb-4 text-lg bg-red-200 text-red-800 border-2 border-red-300" *ngIf="errorMessage">
+      {{errorMessage}}
+    </div>
+
+    <section class="mb-4">
+      <div class="flex justify-between">
+        <div>
+          <h1 class="text-3xl text-white text-bold">Categories</h1>
+          <hr class="mt-3 w-14 border-custom-orange border">
+        </div>
+        <button class="px-4 py-2 rounded-md bg-custom-orange hover:bg-custom-orange-hover text-white" (click)="add()">Create
+          category</button>
+      </div>  
+    </section>
+
+    <div *ngIf="isLoading">
+      <app-page-loader></app-page-loader>
+    </div>
+    <div *ngIf="!isLoading">
+<!-- Table for larger screens -->
+<section class="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 hidden md:block">
+  <div class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200">
+    <table class="min-w-full">
+      <thead class="bg-custom-lighter-background">
+      <tr>
+        <th
+                class="px-6 py-3 text-lg font-medium text-left text-white border-b border-gray-200">
+          #</th>
+        <th
+                class="px-6 py-3 text-lg font-medium text-left text-white border-b border-gray-200">
+          Name</th>
+        <th
+                class="px-6 py-3 text-lg font-medium text-left text-white border-b border-gray-200">
+          Description</th>
+        <th class="px-6 py-3 text-lg text-center text-white text-bold border-b border-gray-200">
+          &nbsp;</th>
+      </tr>
+      </thead>
+
+      <tbody class="bg-custom-table-data">
+      <tr *ngFor="let cat of categories">
+        <td class="px-6 py-4 border-b border-gray-200">
+          <div class="flex items-center text-white">
+            {{cat.categoryId}}
+          </div>
+        </td>
+
+        <td class="px-6 py-4 border-b border-gray-200">
+          <div class="text-sm text-white">{{cat.name}}
+          </div>
+        </td>
+        <td class="px-6 py-4 border-b border-gray-200">
+            <div class="text-sm text-white">{{cat.description}}
+            </div>
+          </td>
+
+        <td class="text-sm font-medium border-b border-gray-200">
+          <div class="flex justify-end gap-4">
+            <a (click)="edit(cat.categoryId)" class="text-white hover:text-blue-400 cursor-pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
+                   viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              </svg>
+            </a>
+            <a (click)="delete(cat.categoryId)" class="mr-0 md:mr-4  cursor-pointer"><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-6 h-6 text-red-600 hover:text-red-800" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg></a>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Cards for smaller screens -->
+<section class="md:hidden flex flex-wrap">
+<div *ngFor="let cat of categories" class="w-full">
+<div class="m-2 p-4 border rounded shadow">
+  <h2 class="text-xl font-bold mb-2 text-white">{{cat.name}}</h2>
+  <p class="text-custom-grey-text text-base">{{cat.description}}</p>
+  <div class="mt-4">
+    <button (click)="edit(cat.categoryId)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+      Edit
+    </button>
+    <button (click)="delete(cat.categoryId)" class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded">
+      Delete
+    </button>
+  </div>
+</div>
+</div>
+</section>
+    </div>
+  </div>
