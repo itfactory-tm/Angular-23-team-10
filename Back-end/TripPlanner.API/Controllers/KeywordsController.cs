@@ -61,7 +61,7 @@ namespace TripPlannerAPI.Controllers
 
             Keyword updatedKeyword = _mapper.Map<Keyword>(putKeyword);
             var keyword = _context.Keywords.Where(u => u.KeywordId == id).FirstOrDefault();
-            _context.Entry(putKeyword).State = EntityState.Modified;
+            _context.Entry(keyword).State = EntityState.Modified;
 
             try
             {

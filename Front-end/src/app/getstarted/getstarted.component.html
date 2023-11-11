@@ -1,30 +1,30 @@
 <main class="text-white p-8">
   <section class="mx-auto">
     <h1 class="text-4xl font-bold text-white mb-4 text-center">Start Your Journey</h1>
-    <p class="text-lg text-[#a0a0a5] mb-6 text-center">Planning a trip is easy. Just follow these simple steps:</p>
+    <p class="text-lg text-custom-grey-text mb-6 text-center">Planning a trip is easy. Just follow these simple steps:</p>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      <div class="rounded-lg shadow-xl p-6 bg-[#242433] cursor-pointer"
+      <div class="rounded-lg shadow-xl p-6 bg-custom-lighter-background cursor-pointer"
            (click)="selectChoose('choose1')"
-           [ngClass]="{'outline outline-[#e66462]': selectedChoice === 'choose1'}"
+           [ngClass]="{'outline outline-custom-orange': selectedChoice === 'choose1'}"
       >
         <img src="https://i.imgur.com/5Q9f87b.jpg" alt="Guest 1" class="w-20 h-20 rounded-full mx-auto object-cover">
         <h3 class="text-3xl font-bold text-white text-center mt-4">Create Your Own Adventure</h3>
-        <p class="text-[#a0a0a5] text-center mt-4">Start by choosing your dream destination and the perfect accommodations. Personalize your trip, your way.</p>
+        <p class="text-custom-grey-text text-center mt-4">Start by choosing your dream destination and the perfect accommodations. Personalize your trip, your way.</p>
       </div>
 
-      <div class="rounded-lg shadow-xl p-6 bg-[#242433] cursor-pointer"
+      <div class="rounded-lg shadow-xl p-6 bg-custom-lighter-background cursor-pointer"
            (click)="selectChoose('choose2')"
-           [ngClass]="{'outline outline-[#e66462]': selectedChoice === 'choose2'}"
+           [ngClass]="{'outline outline-custom-orange': selectedChoice === 'choose2'}"
       >
         <img src="https://i.imgur.com/v75b26e.jpg" alt="Guest 2" class="w-20 h-20 rounded-full mx-auto object-cover">
         <h3 class="text-3xl font-bold text-white text-center mt-4">Discover Unique Trips</h3>
-        <p class="text-[#a0a0a5] text-center mt-4">Explore trips created by others. Tell us your interests, and we'll suggest exciting adventures you'll love.</p>
+        <p class="text-custom-grey-text text-center mt-4">Explore trips created by others. Tell us your interests, and we'll suggest exciting adventures you'll love.</p>
       </div>
     </div>
 
     <div class="text-center mt-10">
-      <button class="bg-[#e66462] transition duration-200 hover:bg-[#ea7a78] text-white px-10 py-3 rounded-lg shadow-lg opacity-95 text-xl md:text-xl inline-block cursor-pointer">Let's Get Started</button>
+      <button class="bg-custom-orange transition duration-200 hover:bg-custom-orange-hover text-white px-10 py-3 rounded-lg shadow-lg opacity-95 text-xl md:text-xl inline-block cursor-pointer">Let's Get Started</button>
     </div>
   </section>
 </main>
