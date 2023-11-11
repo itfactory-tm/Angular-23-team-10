@@ -85,8 +85,8 @@
 <div class="m-2 p-4 border rounded shadow">
   <h2 class="text-xl font-bold mb-2 text-white">{{cat.name}}</h2>
   <p class="text-custom-grey-text text-base">{{cat.description}}</p>
-  <div class="mt-4">
-    <button (click)="edit(cat.categoryId)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+  <div class="mt-4 flex justify-between">
+    <button (click)="edit(cat.categoryId)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-2">
       Edit
     </button>
     <button (click)="delete(cat.categoryId)" class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded">
