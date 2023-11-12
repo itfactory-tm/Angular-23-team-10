@@ -10,7 +10,7 @@ services:
       - ACCEPT_EULA=y
       - SA_PASSWORD=myStong_Password123#
     volumes:
-      - mysql-pvc:/var/lib/mysql
+      - sql_data:/var/opt/mssql
   tripplanner-api:
     depends_on:
       - sql
@@ -22,10 +22,4 @@ services:
       - "5000:80"
 
 volumes:
-  mysql-pvc:
-    driver_opts:
-      class: csi-okteto
-  data:
-    labels:
-      dev.okteto.com/from-snapshot-name: mysql-snapshot
-      dev.okteto.com/from-snapshot-namespace: staging
+  sql_data:
