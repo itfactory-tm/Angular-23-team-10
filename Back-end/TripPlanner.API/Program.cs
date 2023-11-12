@@ -39,10 +39,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-using (var scope = app.Services.CreateScope())
-{
-    var myContext = scope.ServiceProvider.GetRequiredService<TripContext>();
-    DBInitializer.Initialize(myContext);
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var myContext = scope.ServiceProvider.GetRequiredService<TripContext>();
+//    DBInitializer.Initialize(myContext);
+//}
 
 app.Run();
