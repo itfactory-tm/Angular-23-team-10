@@ -3,6 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "flatpickr/dist/flatpickr.min.css";
+
 body::-webkit-scrollbar {
   width: 10px;
 }
