@@ -11,10 +11,6 @@ services:
       - SA_PASSWORD=myStong_Password123#
     volumes:
       - mysql-pvc:/var/lib/mysql
-  mongodb:
-    image: mysql
-    volumes:
-      - data:/var/lib/mysql
   tripplanner-api:
     depends_on:
       - sql
