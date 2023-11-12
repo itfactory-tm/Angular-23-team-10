@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule } from '@angular/router';
-import { ToastComponent } from "../toast/toast.component";
+import { ToastComponent } from '../toast/toast.component';
 
 @Component({
   selector: 'app-home',
@@ -13,10 +13,8 @@ import { ToastComponent } from "../toast/toast.component";
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
-
 export class HomeComponent {
   faLocation = faLocationDot;
-
 
   isSuccess: boolean = false;
   isError: boolean = false;
