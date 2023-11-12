@@ -65,7 +65,7 @@ namespace TripPlannerAPI.Controllers
 
             try
             {
-                activity.Name = putActivity.Name;
+                activity.Name = updatedActivity.Name;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
