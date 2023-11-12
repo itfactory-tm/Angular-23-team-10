@@ -1,15 +1,6 @@
 version: "3.4"
 
 services:
-  tripplanner-api:
-    depends_on:
-      - sql
-    image: ${DOCKER_REGISTRY-}tripplannerapi
-    build:
-      context: .
-      dockerfile: ./TripPlanner.API/Dockerfile
-    ports:
-      - "5000:80"
   sql:
     image: "mcr.microsoft.com/mssql/server:2022-latest"
     container_name: sql_server2022
@@ -20,6 +11,15 @@ services:
       - SA_PASSWORD=myStong_Password123#
     volumes:
       - sql_data:/var/opt/mssql
-
+  tripplanner-api:
+    depends_on:
+      - sql
+    image: ${DOCKER_REGISTRY-}tripplannerapi
+    build:
+      context: .
+      dockerfile: ./TripPlanner.API/Dockerfile
+    ports:
+      - "5000:80"
+  
 volumes:
   sql_data:
