@@ -1,48 +1,38 @@
-<h1 class="mt-5 text-center text-4xl text-[#37888A] font-bold">Tom's Trip</h1>
-<h2 class="my-5 text-center text-2xl">15/08/2024 - 25/08/2024</h2>
-<div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3">
-    <div class="flex p-3 justify-around border-2 border-[#DDDDDD] rounded-md">
-        <p class="font-bold text-[#37888A] self-center">15/08/2024</p>
-        <div class="self-center">
-            <p class="text-[#37888A]">Swimming - 9:00</p>
-            <p class="text-[#37888A]">Rock climbing - 15:00</p>
-        </div>
-    </div>
-    <div class="flex p-3 gap-10 justify-around border-2 border-[#DDDDDD] rounded-md cursor-pointer" (click)="show_detail()">
-        <p class="font-bold text-[#37888A] self-center">15/08/2024</p>
-        <ul class="self-center list-disc">
-            <li class="text-[#37888A]">Soccer - 9:00</li>
-            <li class="text-[#37888A]">Lunch - 12:00</li>
-            <li class="text-[#37888A]">Kayak - 14:00</li>
-            <li class="text-[#37888A]">Evening hike - 20:00</li>
-        </ul>
-    </div>
-    <div class="flex p-3 justify-around border-2 border-[#DDDDDD] rounded-md">
-        <p class="font-bold text-[#37888A] self-center">15/08/2024</p>
-        <div class="self-center">
-            <p class="text-[#37888A]">Swimming - 9:00</p>
-            <p class="text-[#37888A]">Rock climbing - 15:00</p>
-        </div>
-    </div>
-    <div class="flex p-3 justify-around border-2 border-[#DDDDDD] rounded-md">
-        <p class="font-bold text-[#37888A] self-center">15/08/2024</p>
-        <div class="self-center">
-            <p class="text-[#37888A]">Swimming - 9:00</p>
-            <p class="text-[#37888A]">Rock climbing - 15:00</p>
-        </div>
-    </div>
-    <div class="flex p-5 justify-around border-2 border-[#DDDDDD] rounded-md">
-        <p class="font-bold text-[#37888A] self-center">15/08/2024</p>
-        <div class="self-center">
-            <p class="text-[#37888A]">Swimming - 9:00</p>
-            <p class="text-[#37888A]">Rock climbing - 15:00</p>
-        </div>
-    </div>
-    <div class="flex p-5 justify-around border-2 border-[#DDDDDD] rounded-md h-[123px]">
-        <p class="font-bold text-[#37888A] self-center">15/08/2024</p>
-        <div class="self-center">
-            <p class="text-[#37888A]">Swimming - 9:00</p>
-            <p class="text-[#37888A]">Rock climbing - 15:00</p>
-        </div>
-    </div>
+<div class="mx-6">
+  <h1 class="mt-5 hidden md:block text-center text-4xl text-custom-orange font-bold">
+    Tom's Trip (15/08/2024 - 25/08/2024)
+  </h1>
+  <h1 class="mt-5 md:hidden text-center text-4xl text-custom-orange font-bold">
+    Tom's Trip
+  </h1>
+  <h2 class="mt-5 md:hidden text-center text-2xl text-custom-orange font-bold">
+    (15/08/2024 - 25/08/2024)
+  </h2>
+  <div class="mt-10 w-96 m-auto">
+    <ol class="relative border-s border-gray-200 dark:border-gray-700">
+      <li class="mb-10 ms-10">
+        <span
+          class="absolute flex items-center justify-center w-8 h-8 rounded-full -start-4 ring-8 bg-custom-orange ring-custom-orange"
+        >
+          <fa-icon class="fa-solid text-white" [icon]="faCalendarDay"></fa-icon>
+        </span>
+        <h3
+          class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white"
+        >
+          25th of August 2024
+          <span
+            class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 ms-3"
+            >Today</span
+          >
+        </h3>
+        <ol class="list-disc ml-5 mt-4">
+          <li
+            class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400"
+          >
+            9:00 - Activiteit 1
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </div>
 </div>
