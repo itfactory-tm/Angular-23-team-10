@@ -13,7 +13,12 @@ options.UseSqlServer(connectionString));
 //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 //builder.Services.AddSqlServer<TripContext>(connectionString, options => options.EnableRetryOnFailure());
 
+builder.Services.AddAuthentication().AddJwtBearer();
+builder.Services.AddAuthorization();
+
 builder.Services.AddControllers();
+
+builder.Services.AddSwaggerService();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -29,7 +34,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors(x => x
-            .AllowAnyOrigin()
+            .WithOrigins("http://localhost:4200", "https://localhost:4200")
             .AllowAnyMethod()
             .AllowAnyHeader()); //Temporary (security risk)
 
@@ -39,10 +44,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//using (var scope = app.Services.CreateScope())
-//{
-//    var myContext = scope.ServiceProvider.GetRequiredService<TripContext>();
-//    DBInitializer.Initialize(myContext);
-//}
+using (var scope = app.Services.CreateScope())
+{
+    var myContext = scope.ServiceProvider.GetRequiredService<TripContext>();
+    DBInitializer.Initialize(myContext);
+}
 
 app.Run();
