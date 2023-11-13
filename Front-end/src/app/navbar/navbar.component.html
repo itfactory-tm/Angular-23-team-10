@@ -26,16 +26,11 @@
     </ul>
   </div>
   <div class="flex items-center gap-6">
-    <div *ngIf="!(_auth.isAuthenticated$ | async); else logoutButton" class="flex items-center gap-6">
-      <p class="cursor-pointer hidden md:block text-custom-nav-text hover:text-white" (click)="_auth.loginWithRedirect()">
-        Log in
-      </p>
-      <button
-        class="bg-custom-orange transition duration-200 text-white px-8 py-2 rounded-lg hover:bg-custom-orange-hover hidden md:block"
-        (click)="_auth.loginWithRedirect()">
-        Sign up
-      </button>
-    </div>
+    <app-user-profile class="text-[#989896]"></app-user-profile>
+    <app-login-button class="bg-[#e66462] transition duration-200 text-white px-8 py-2 rounded-lg hover:bg-[#ea7a78] hidden md:block"></app-login-button>
+    <app-logout-button class="bg-[#e66462] transition duration-200 text-white px-8 py-2 rounded-lg hover:bg-[#ea7a78] hidden md:block"></app-logout-button>
+    <app-signup-button class="bg-[#e66462] transition duration-200 text-white px-8 py-2 rounded-lg hover:bg-[#ea7a78] hidden md:block"></app-signup-button>
+    
 
     <ng-template #logoutButton>
       <div class="relative action" (click)="toggleDropdown()">
