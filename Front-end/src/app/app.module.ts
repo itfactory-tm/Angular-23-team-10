@@ -5,23 +5,31 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import { ToastComponent } from './toast/toast.component';
 import { AuthModule } from '@auth0/auth0-angular';
 import { FooterComponent } from './footer/footer.component';
+import { environment } from 'src/environments/environment';
+import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, 
     AuthModule.forRoot({
-      domain: 'dev-2ki8nim0a3vrbww1.us.auth0.com',
-      clientId: 'jGOPQttdT71dyPnd7zJUepi46zGNoihE',
+      //domain: 'dev-2ki8nim0a3vrbww1.us.auth0.com',
+      domain: environment.AUTH0_DOMAIN,
+      //clientId: 'jGOPQttdT71dyPnd7zJUepi46zGNoihE',
+      clientId: environment.AUTH0_CLIENT_ID,
       authorizationParams: {
         redirect_uri: window.location.origin
+      },
+      // The AuthHttpInterceptor configuration
+      httpInterceptor: {
+        allowedList: [`${environment.api_url}/trip`,`${environment.api_url}/trip/*`]
       }
-    }), AppRoutingModule, NavbarComponent, FooterComponent, ToastComponent, BrowserAnimationsModule, HttpClientModule, FontAwesomeModule],
-  providers: [],
+    }), AppRoutingModule, HttpClientModule, NavbarComponent, FooterComponent, ToastComponent, BrowserAnimationsModule, HttpClientModule, FontAwesomeModule],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

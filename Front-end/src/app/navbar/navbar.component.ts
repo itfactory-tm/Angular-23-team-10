@@ -11,11 +11,12 @@ import {
 import { LoginButtonComponent } from '../login-button/login-button.component';
 import { LogoutButtonComponent } from '../logout-button/logout-button.component';
 import { UserProfileComponent } from '../user-profile/user-profile.component';
+import { SignupButtonComponent } from '../signup-button/signup-button.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule, FontAwesomeModule, LoginButtonComponent, LogoutButtonComponent, UserProfileComponent],
+  imports: [CommonModule, RouterModule, FontAwesomeModule, LoginButtonComponent, LogoutButtonComponent, SignupButtonComponent, UserProfileComponent],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
 })
