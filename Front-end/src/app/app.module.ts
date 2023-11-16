@@ -10,13 +10,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastComponent } from './toast/toast.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from '@auth0/auth0-angular';
-import { AdminComponent } from './admin/admin.component';
 import { environment } from 'src/environments/environment';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
-  declarations: [AppComponent, AdminComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
