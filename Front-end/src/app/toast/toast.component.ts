@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-toast',
@@ -22,10 +23,10 @@ export class ToastComponent {
 
   ngOnInit() {
     if (this.showSuccessToast || this.showErrorToast) {
-      setTimeout(() => { //mag blijkbaar niet (zie uploadzone)
+      timer(5000).subscribe(() => {
         this.closeSuccessToast();
         this.closeErrorToast();
-      }, 5000);
+      });
     }
   }
 
