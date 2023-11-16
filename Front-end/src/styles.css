@@ -4,8 +4,6 @@
 @tailwind utilities;
 
 @import "flatpickr/dist/flatpickr.min.css";
-@import "primeng/resources/themes/lara-light-blue/theme.css";
-@import "primeng/resources/primeng.css";
 
 body::-webkit-scrollbar {
   width: 10px;
