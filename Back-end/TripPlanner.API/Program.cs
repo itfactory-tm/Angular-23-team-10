@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using TripPlannerAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,10 +38,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//using (var scope = app.Services.CreateScope())
-//{
-//    var myContext = scope.ServiceProvider.GetRequiredService<TripContext>();
-//    DBInitializer.Initialize(myContext);
-//}
+using (var scope = app.Services.CreateScope())
+{
+    var myContext = scope.ServiceProvider.GetRequiredService<TripContext>();
+    DBInitializer.Initialize(myContext);
+}
 
 app.Run();

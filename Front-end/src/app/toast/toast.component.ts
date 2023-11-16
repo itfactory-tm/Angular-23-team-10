@@ -22,7 +22,7 @@ export class ToastComponent {
 
   ngOnInit() {
     if (this.showSuccessToast || this.showErrorToast) {
-      setTimeout(() => {
+      setTimeout(() => { //mag blijkbaar niet (zie uploadzone)
         this.closeSuccessToast();
         this.closeErrorToast();
       }, 5000);
