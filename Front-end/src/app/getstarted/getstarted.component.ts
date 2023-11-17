@@ -108,12 +108,13 @@ export class GetstartedComponent implements OnInit {
   submit(): void {
     this.tripService
       .postTrip({
-        // name: this.tripName,
+        name: this.tripName,
         startDate: this.startDate!,
         endDate: this.endDate!,
         picture: this.selectedFileName!,
         description: this.tripDescription,
         isShared: this.isShared!,
+        activities: []
       })
       .subscribe(
         (response) => {

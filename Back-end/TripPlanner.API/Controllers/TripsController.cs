@@ -38,7 +38,7 @@ namespace TripPlannerAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<TripRequest>> GetTrip(int id)
         {
-            var trip = await _context.Trips.FindAsync(id);
+            var trip = await _context.Trips.Include(t => t.TripActivities).ThenInclude(t => t.Activity).FirstOrDefaultAsync(t => t.TripId == id);
 
             if (trip == null)
             {
