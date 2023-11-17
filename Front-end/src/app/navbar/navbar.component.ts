@@ -7,6 +7,7 @@ import {
   faCog,
   faEdit,
   faEnvelope,
+  faPlane,
   faQuestion,
   faSignOutAlt,
   faTimes,
@@ -21,7 +22,15 @@ import { SignupButtonComponent } from '../signup-button/signup-button.component'
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule, FontAwesomeModule, LoginButtonComponent, LogoutButtonComponent, UserProfileComponent, SignupButtonComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FontAwesomeModule,
+    LoginButtonComponent,
+    LogoutButtonComponent,
+    UserProfileComponent,
+    SignupButtonComponent,
+  ],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
 })
@@ -36,6 +45,7 @@ export class NavbarComponent implements OnInit {
   faCog = faCog;
   faQuestion = faQuestion;
   faSignOutAlt = faSignOutAlt;
+  faPlane = faPlane;
 
   public loggedInUser: any;
 
