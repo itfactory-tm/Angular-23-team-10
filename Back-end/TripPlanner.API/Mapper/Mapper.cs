@@ -14,7 +14,8 @@ namespace TripPlannerAPI.Mapper
     {
         public AutoMapper()
         {
-            CreateMap<Trip, TripRequest>();
+            CreateMap<Trip, TripRequest>()
+                .ForMember(dest => dest.Activities, opt => opt.MapFrom(src => src.TripActivities));
             CreateMap<TripResponse, Trip>();
             //CreateMap<User, UserRequest>();
             //CreateMap<UserCreate, User>();
@@ -26,7 +27,8 @@ namespace TripPlannerAPI.Mapper
             CreateMap<Category, CategoryRequest>();
             CreateMap<CategoryResponse, Category>();
             CreateMap<TripActivityResponse, TripActivity>();
-            CreateMap<TripActivity, TripActivityRequest>();
+            CreateMap<TripActivity, TripActivityRequest>()
+                .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => src.Activity));
             CreateMap<UserTripResponse, UserTrip>();
             CreateMap<UserTrip, UserTripRequest>();
         }
