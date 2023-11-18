@@ -48,9 +48,10 @@
                 <fa-icon [icon]="faUser" class="mr-2 text-lg"></fa-icon>
                 <a href="#">My profile</a>
               </li>
-              <li class="cursor-pointer mb-2 hover:bg-gray-600 px-2 py-1 rounded-md">
+              <li routerLink="/trips" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                class="cursor-pointer mb-2 hover:bg-gray-600 px-2 py-1 rounded-md">
                 <fa-icon [icon]="faPlane" class="mr-2 text-lg"></fa-icon>
-                <a href="#">Trips</a>
+                <a>Trips</a>
               </li>
               <li class="cursor-pointer mb-2 hover:bg-gray-600 px-2 py-1 rounded-md">
                 <fa-icon [icon]="faCog" class="mr-2 text-lg"></fa-icon>
