@@ -59,12 +59,18 @@ namespace TripPlannerAPI.Controllers
             }
             TripActivity updatedTripActivity = _mapper.Map<TripActivity>(putTripActivity);
             var tripActivity = _context.TripActivities.Where(u => u.TripActivityId == id).FirstOrDefault();
-            _context.Entry(putTripActivity).State = EntityState.Modified;
+            //_context.Entry(updatedTripActivity).State = EntityState.Modified;
+
+            if (tripActivity == null)
+            {
+                return NotFound();
+            }
 
             try
             {
                 tripActivity.ActivityId = putTripActivity.ActivityId;
                 tripActivity.TripId = putTripActivity.TripId;
+                tripActivity.Name = putTripActivity.Name;
                 tripActivity.StartDate = putTripActivity.StartDate;
                 tripActivity.EndDate = putTripActivity.EndDate;
                 tripActivity.Price = putTripActivity.Price;

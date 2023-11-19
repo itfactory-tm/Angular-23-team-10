@@ -108,6 +108,7 @@ export class GetstartedComponent implements OnInit {
   submit(): void {
     this.tripService
       .postTrip({
+        tripId: 0,
         name: this.tripName,
         startDate: this.startDate!,
         endDate: this.endDate!,
