@@ -11,6 +11,6 @@ namespace TripPlannerAPI.Dto.TripActivity
         public double? Price { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public ActivityRequest ActivityType { get; set; }
+        public ActivityRequest Activity { get; set; }
     }
 }

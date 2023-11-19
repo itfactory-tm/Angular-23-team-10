@@ -1,6 +1,7 @@
 import { Activity } from "./Activity";
 
 export interface Trip {
+  tripId: number;
   name: string;
   startDate: Date;
   endDate: Date;

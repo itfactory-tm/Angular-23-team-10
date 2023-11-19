@@ -1,32 +1,52 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import { Category } from 'src/app/models/api/category';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { Activity } from 'src/app/models/api/Activity';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ActivityService {
+  constructor(private httpClient: HttpClient) {}
 
-  constructor(private httpClient: HttpClient) { }
-
-  getCategories(): Observable<Category[]> {
-    return this.httpClient.get<Category[]>("https://localhost:7113/api/Activities");
+  getActivities(): Observable<Activity[]> {
+    return this.httpClient.get<Activity[]>(
+      environment.api_url + '/tripactivities/'
+    );
   }
 
-  deleteCategory(id: number): Observable<Category> {
-    return this.httpClient.delete<Category>("https://localhost:7113/api/Activities/" + id);
+  deleteActivity(id: number): Observable<Activity> {
+    return this.httpClient.delete<Activity>(
+      environment.api_url + '/tripactivities/' + id
+    );
   }
 
-  getCategoryById(id: number): Observable<Category> {
-    return this.httpClient.get<Category>("https://localhost:7113/api/Activities/" + id);
+  getActivityById(id: number): Observable<Activity> {
+    return this.httpClient.get<Activity>(
+      environment.api_url + '/tripactivities/' + id
+    );
   }
 
-  postCategory(category: Category): Observable<Category> {
-    return this.httpClient.post<Category>("https://localhost:7113/api/Activities", category);
+  postActivity(activity: Activity): Observable<Activity> {
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+
+    return this.httpClient.post<Activity>(
+      environment.api_url + '/tripactivities',
+      activity,
+      { headers: headers }
+    );
   }
 
-  putCategory(id: number, category: Category): Observable<void> {
-    return this.httpClient.put<void>("https://localhost:7113/api/Activities/" + id, category);
+  putActivity(id: number, activity: Activity): Observable<void> {
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+
+    return this.httpClient.put<void>(
+      environment.api_url + '/tripactivities/' + id,
+      activity,
+      { headers: headers }
+    );
   }
 }

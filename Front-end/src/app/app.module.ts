@@ -13,9 +13,10 @@ import { AuthModule } from '@auth0/auth0-angular';
 import { environment } from 'src/environments/environment';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { FooterComponent } from './footer/footer.component';
+import { ActivityFormComponent } from './components/activity-form/activity-form.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ActivityFormComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
