@@ -1,79 +1,76 @@
-<div class="w-[95%] lg:w-[85%] mx-auto max-w-[1650px]">
-  <app-navbar></app-navbar>
-  <div class="mx-6">
-    <h1
-      class="mt-5 hidden lg:block text-center text-4xl text-custom-orange font-bold"
-    >
-      {{ trip.name }} ({{ trip.startDate | date : "d/MM/YYYY" }} -
-      {{ trip.endDate | date : "d/MM/YYYY" }})
+<div class="mx-6">
+  <h1
+    class="mt-5 hidden lg:block text-center text-4xl text-custom-orange font-bold"
+  >
+    {{ trip.name }} ({{ trip.startDate | date : "d/MM/YYYY" }} -
+    {{ trip.endDate | date : "d/MM/YYYY" }})
+  </h1>
+  <div class="mt-5 lg:hidden text-center text-custom-orange font-bold">
+    <h1 class="text-4xl">
+      {{ trip.name }}
     </h1>
-    <div class="mt-5 lg:hidden text-center text-custom-orange font-bold">
-      <h1 class="text-4xl">
-        {{ trip.name }}
-      </h1>
-      <h2 class="text-3xl">
-        {{ trip.startDate | date : "d MMM YY" }} -
-        {{ trip.endDate | date : "d MMM YY" }}
-      </h2>
-    </div>
-    <div class="mt-10 flex justify-center ml-10">
-      <ol class="relative border-s border-gray-700">
-        <li *ngFor="let date of dates" class="mb-10 ms-10">
+    <h2 class="text-3xl">
+      {{ trip.startDate | date : "d MMM YY" }} -
+      {{ trip.endDate | date : "d MMM YY" }}
+    </h2>
+  </div>
+  <div class="mt-10 flex justify-center ml-10">
+    <ol class="relative border-s border-gray-700">
+      <li *ngFor="let date of dates" class="mb-10 ms-10">
+        <span
+          class="absolute flex items-center justify-center w-8 h-8 rounded-full -start-4 ring-8 bg-custom-orange ring-custom-orange"
+        >
+          <fa-icon class="fa-solid text-white" [icon]="faCalendarDay"></fa-icon>
+        </span>
+        <h3 class="flex items-center mb-1 text-lg font-semibold text-white">
+          {{ date | date : "d MMMM YYYY" }}
           <span
-            class="absolute flex items-center justify-center w-8 h-8 rounded-full -start-4 ring-8 bg-custom-orange ring-custom-orange"
+            class="text-sm font-medium me-2 px-2.5 py-0.5 rounded bg-blue-900 text-blue-300 ms-3"
+            *ngIf="isToday(date)"
+            >Today</span
           >
-            <fa-icon class="fa-solid text-white" [icon]="faCalendarDay"></fa-icon>
-          </span>
-          <h3 class="flex items-center mb-1 text-lg font-semibold text-white">
-            {{ date | date : "d MMMM YYYY" }}
-            <span
-              class="text-sm font-medium me-2 px-2.5 py-0.5 rounded bg-blue-900 text-blue-300 ms-3"
-              *ngIf="isToday(date)"
-              >Today</span
-            >
-          </h3>
-          <ol class="fa-ul ml-5 mt-4">
-            <li
-              *ngFor="let activity of trip.activities"
-              class="mb-4 text-base text-gray-400"
-              [ngClass]="{
-                'font-normal': !isNow(activity.startDate, activity.endDate),
-                'font-bold': isNow(activity.startDate, activity.endDate)
-              }"
-            >
-              <div *ngIf="isCalendarDay(date, activity.startDate)">
-                <span class="fa-li"
-                  ><fa-icon
-                    class="fa-solid text-gray-400 fa-xs"
-                    [icon]="faCircle"
-                  ></fa-icon
-                ></span>
-                {{ activity.startDate | date : "H:mm" }} -
-                {{ activity.endDate | date : "H:mm" }}: {{ activity.name }}
-                <fa-icon
-                  class="fa-solid text-gray-400 ml-2 cursor-pointer hover:text-green-400"
-                  [icon]="faPencil"
-                  (click)="edit(activity.tripActivityId)"
-                ></fa-icon>
-                <fa-icon
-                  class="fa-solid text-gray-400 ml-2 cursor-pointer hover:text-red-400"
-                  [icon]="faTrash"
-                  (click)="deleteActivity(activity.tripActivityId)"
-                ></fa-icon>
-              </div>
-            </li>
-            <li
-              class="mb-4 text-base font-normal text-gray-400 cursor-pointer hover:underline"
-              (click)="add(date)"
-            >
+        </h3>
+        <ol class="fa-ul ml-5 mt-4">
+          <li
+            *ngFor="let activity of trip.activities"
+            class="mb-4 text-base text-gray-400"
+            [ngClass]="{
+              'font-normal': !isNow(activity.startDate, activity.endDate),
+              'font-bold': isNow(activity.startDate, activity.endDate)
+            }"
+          >
+            <div *ngIf="isCalendarDay(date, activity.startDate)">
               <span class="fa-li"
-                ><fa-icon class="fa-solid text-gray-400" [icon]="faPlus"></fa-icon
+                ><fa-icon
+                  class="fa-solid text-gray-400 fa-xs"
+                  [icon]="faCircle"
+                ></fa-icon
               ></span>
-              Add activity
-            </li>
-          </ol>
-        </li>
-      </ol>
-    </div>
+              {{ activity.startDate | date : "H:mm" }} -
+              {{ activity.endDate | date : "H:mm" }}: {{ activity.name }}
+              <fa-icon
+                class="fa-solid text-gray-400 ml-2 cursor-pointer hover:text-green-400"
+                [icon]="faPencil"
+                (click)="edit(activity.tripActivityId)"
+              ></fa-icon>
+              <fa-icon
+                class="fa-solid text-gray-400 ml-2 cursor-pointer hover:text-red-400"
+                [icon]="faTrash"
+                (click)="deleteActivity(activity.tripActivityId)"
+              ></fa-icon>
+            </div>
+          </li>
+          <li
+            class="mb-4 text-base font-normal text-gray-400 cursor-pointer hover:underline"
+            (click)="add(date)"
+          >
+            <span class="fa-li"
+              ><fa-icon class="fa-solid text-gray-400" [icon]="faPlus"></fa-icon
+            ></span>
+            Add activity
+          </li>
+        </ol>
+      </li>
+    </ol>
   </div>
 </div>
