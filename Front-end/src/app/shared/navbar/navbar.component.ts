@@ -23,7 +23,7 @@ import {
 import { AuthService } from '@auth0/auth0-angular';
 import { LoginButtonComponent } from '../login-button/login-button.component';
 import { LogoutButtonComponent } from '../logout-button/logout-button.component';
-import { UserProfileComponent } from '../user-profile/user-profile.component';
+import { UserProfileComponent } from '../../components/user-profile/user-profile.component';
 import { SignupButtonComponent } from '../signup-button/signup-button.component';
 
 @Component({

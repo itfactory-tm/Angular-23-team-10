@@ -3,17 +3,17 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
+import { NavbarComponent } from './shared/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ToastComponent } from './toast/toast.component';
+import { ToastComponent } from './shared/toast/toast.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from '@auth0/auth0-angular';
 import { environment } from 'src/environments/environment';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
-import { FooterComponent } from './footer/footer.component';
-import { ActivityFormComponent } from './components/activity-form/activity-form.component';
+import { FooterComponent } from './shared/footer/footer.component';
+import { ActivityFormComponent } from './components/calender-activity-form/calender-activity-form.component';
 
 @NgModule({
   declarations: [AppComponent, ActivityFormComponent],

@@ -4,10 +4,10 @@ import { CommonModule } from '@angular/common';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule } from '@angular/router';
-import { ToastComponent } from '../toast/toast.component';
 import { ContactFormComponent } from '../contact-form/contact-form.component';
-import { NavbarComponent } from "../navbar/navbar.component";
-import { FooterComponent } from "../footer/footer.component";
+import { FooterComponent } from 'src/app/shared/footer/footer.component';
+import { NavbarComponent } from 'src/app/shared/navbar/navbar.component';
+import { ToastComponent } from 'src/app/shared/toast/toast.component';
 
 
 @Component({

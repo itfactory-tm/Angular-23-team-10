@@ -1,38 +1,28 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { Activity } from 'src/app/models/api/Activity';
-import { ActivityType } from 'src/app/models/api/ActivityType';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ActivityType } from 'src/app/models/ActivityType';
 import { ActivityTypeService } from 'src/app/services/activity-type/activity-type.service';
-import { ActivityService } from 'src/app/services/activity/activity.service';
+import { Subscription, delay } from 'rxjs';
+import { FormsModule } from '@angular/forms';
+import { EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-activity-form',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './activity-form.component.html',
   styleUrls: ['./activity-form.component.css'],
 })
 export class ActivityFormComponent implements OnInit, OnDestroy {
+  @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
+  @Output() activityUpdated: EventEmitter<void> = new EventEmitter<void>();
+  @Input() mode!: string;
+  @Input() activityId: number | undefined;
+
   isAdd: boolean = false;
   isEdit: boolean = false;
-  activityId: number = 0;
-  tripId: number = 0;
-  activityTypeId: string = '0';
-  isActivityTypeError: boolean = false;
-  date: string = '';
-  startTime: string = '12:00';
-  endTime: string = '12:00';
 
-  activity: Activity = {
-    tripActivityId: 0,
-    activityId: 0,
-    tripId: 0,
-    name: '',
-    price: 0,
-    startDate: new Date(),
-    endDate: new Date(),
-  };
-
-  activityTypes: ActivityType[] = [];
+  activity: ActivityType = { activityId: 0, name: '' };
 
   isSubmitted: boolean = false;
   errorMessage: string = '';
@@ -40,40 +30,23 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
   activity$: Subscription = new Subscription();
   postActivity$: Subscription = new Subscription();
   putActivity$: Subscription = new Subscription();
-  activityTypes$: Subscription = new Subscription();
 
-  constructor(
-    private router: Router,
-    private activityService: ActivityService,
-    private activityTypeService: ActivityTypeService
-  ) {
-    this.isAdd =
-      this.router.getCurrentNavigation()?.extras.state?.['mode'] === 'add';
-    this.isEdit =
-      this.router.getCurrentNavigation()?.extras.state?.['mode'] === 'edit';
-    this.activityId = +this.router.getCurrentNavigation()?.extras.state?.['id'];
-    this.tripId = +this.router.getCurrentNavigation()?.extras.state?.['tripId'];
-    this.date = this.router.getCurrentNavigation()?.extras.state?.['date'];
+  constructor(private activityTypeService: ActivityTypeService) {}
 
-    if (!this.isAdd && !this.isEdit) {
+  ngOnInit(): void {
+    console.log(this.mode);
+    if (this.mode === 'add') {
       this.isAdd = true;
+    } else if (this.mode === 'edit') {
+      this.isEdit = true;
     }
 
-    if (this.activityId != null && this.activityId > 0) {
-      this.activity$ = this.activityService
-        .getActivityById(this.activityId)
+    if (this.isEdit && this.activityId) {
+      this.activity$ = this.activityTypeService
+        .getActivityTypeById(this.activityId)
         .subscribe((result) => {
           this.activity = result;
-          this.setVariables();
         });
-    }
-
-    this.activityTypes$ = this.activityTypeService
-      .getActivityTypes()
-      .subscribe((result) => (this.activityTypes = result));
-  }
-  ngOnInit(): void {
-    if (this.isEdit) {
     }
   }
 
@@ -81,91 +54,37 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
     this.activity$.unsubscribe();
     this.postActivity$.unsubscribe();
     this.putActivity$.unsubscribe();
-    this.activityTypes$.unsubscribe();
-  }
-
-  setVariables() {
-    let startDate = new Date(this.activity.startDate);
-    let endDate = new Date(this.activity.endDate);
-
-    this.startTime =
-      startDate.getHours().toString() +
-      ':' +
-      (startDate.getMinutes() < 10
-        ? '0' + startDate.getMinutes().toString()
-        : startDate.getMinutes().toString());
-
-    this.endTime =
-      endDate.getHours().toString() +
-      ':' +
-      (endDate.getMinutes() < 10
-        ? '0' + endDate.getMinutes().toString()
-        : endDate.getMinutes().toString());
-
-    this.activityTypeId = this.activity.activityId.toString();
   }
 
   onSubmit() {
-    if (this.activityTypeId == '0') {
-      this.isActivityTypeError = true;
-    } else {
-      this.isActivityTypeError = false;
-      this.isSubmitted = true;
-
-      this.activity.activityId = Number(this.activityTypeId);
-
-      if (this.isAdd) {
-        this.activity.tripId = this.tripId;
-
-        this.activity.startDate = new Date(this.date);
-        this.activity.startDate.setHours(
-          Number(this.startTime.slice(0, 2)) + 1,
-          parseInt(this.startTime.slice(3, 5)),
-          0,
-          0
-        );
-
-        this.activity.endDate = new Date(this.date);
-        this.activity.endDate.setHours(
-          Number(this.endTime.slice(0, 2)) + 1,
-          parseInt(this.endTime.slice(3, 5)),
-          0,
-          0
-        );
-
-        this.postActivity$ = this.activityService
-          .postActivity(this.activity)
-          .subscribe({
-            next: (v) => this.router.navigateByUrl('/calendar'),
-            error: (e) => (this.errorMessage = e.message),
-          });
-      }
-      if (this.isEdit) {
-        this.activity.startDate = new Date(this.activity.startDate);
-        this.activity.endDate = new Date(this.activity.endDate);
-
-        this.activity.startDate.setHours(
-          Number(this.startTime.slice(0, 2)) + 1,
-          parseInt(this.startTime.slice(3, 5)),
-          0,
-          0
-        );
-
-        this.activity.endDate.setHours(
-          Number(this.endTime.slice(0, 2)) + 1,
-          parseInt(this.endTime.slice(3, 5)),
-          0,
-          0
-        );
-        console.log(this.activity);
-
-        this.putActivity$ = this.activityService
-          .putActivity(this.activityId, this.activity)
-          .subscribe({
-            next: (v) => this.router.navigateByUrl('/calendar'),
-            error: (e) => (this.errorMessage = e.message),
-          });
-      }
+    this.isSubmitted = true;
+    if (this.isAdd) {
+      this.postActivity$ = this.activityTypeService
+        .postActivityType(this.activity)
+        .pipe(delay(1000)) // Adjust the delay time as needed
+        .subscribe({
+          error: (e) => (this.errorMessage = e.message),
+          complete: () => this.sendEmitters(),
+        });
     }
+    if (this.isEdit) {
+      this.putActivity$ = this.activityTypeService
+        .putActivityType(this.activityId!, this.activity)
+        .pipe(delay(1000)) // Adjust the delay time as needed
+        .subscribe({
+          error: (e) => (this.errorMessage = e.message),
+          complete: () => this.sendEmitters(),
+        });
+    }
+  }
+
+  // Function to fetch updated activities
+  sendEmitters() {
+    this.activityUpdated.emit();
+    this.goBack();
+  }
+
+  goBack() {
+    this.closeModal.emit();
   }
 }

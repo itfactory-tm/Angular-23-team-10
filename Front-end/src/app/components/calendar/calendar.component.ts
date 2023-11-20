@@ -12,9 +12,9 @@ import {
 import { TripService } from '../../services/trip/trip.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from '@auth0/auth0-angular';
-import { Trip } from '../../models/api/Trip';
+import { Trip } from '../../models/Trip';
 import { ActivityService } from 'src/app/services/activity/activity.service';
-import { NavbarComponent } from "../../navbar/navbar.component";
+import { NavbarComponent } from "../../shared/navbar/navbar.component";
 
 @Component({
     selector: 'app-calendar',

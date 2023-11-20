@@ -1,15 +1,15 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { ActivityType } from 'src/app/models/api/ActivityType';
+import { ActivityType } from 'src/app/models/ActivityType';
 import { ActivityTypeService } from 'src/app/services/activity-type/activity-type.service';
 import { Subscription } from 'rxjs';
-import { PageLoaderComponent } from '../page-loader/page-loader.component';
+import { PageLoaderComponent } from '../../shared/page-loader/page-loader.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
-import { ActivityFormComponent } from './activity-form/activity-form.component';
-import { ToastComponent } from '../toast/toast.component';
+import { ActivityFormComponent } from '../activity-form/activity-form.component';
+import { ToastComponent } from '../../shared/toast/toast.component';
 import { SidebarComponent } from "../sidebar/sidebar.component";
 
 @Component({

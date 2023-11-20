@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { async } from '@angular/core/testing';
 import { Observable } from 'rxjs';
-import { Trip } from 'src/app/models/api/Trip';
+import { Trip } from 'src/app/models/Trip';
 import { environment } from 'src/environments/environment.development';
 
 @Injectable({

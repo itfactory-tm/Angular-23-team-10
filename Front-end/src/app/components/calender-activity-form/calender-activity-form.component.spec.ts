@@ -1,14 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ActivityFormComponent } from './activity-form.component';
+import { ActivityFormComponent } from './calender-activity-form.component';
 
-describe('CategoryFormComponent', () => {
+describe('ActivityFormComponent', () => {
   let component: ActivityFormComponent;
   let fixture: ComponentFixture<ActivityFormComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ActivityFormComponent]
+      declarations: [ActivityFormComponent]
     });
     fixture = TestBed.createComponent(ActivityFormComponent);
     component = fixture.componentInstance;
