@@ -5,11 +5,12 @@ import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule } from '@angular/router';
 import { ToastComponent } from '../toast/toast.component';
+import { ContactFormComponent } from '../contact-form/contact-form.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, FontAwesomeModule, ToastComponent],
+  imports: [CommonModule, RouterModule, FontAwesomeModule, ToastComponent, ContactFormComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })

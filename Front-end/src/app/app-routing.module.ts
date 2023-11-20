@@ -8,6 +8,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { CategoryListComponent } from './category/category.component';
 import { CategoryFormComponent } from './category/category-form/category-form.component';
 import { AdminComponent } from './admin/admin.component';
+import { AboutUsComponent } from './about-us/about-us.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent }, 
@@ -16,7 +17,8 @@ const routes: Routes = [
   {path: 'calendar', component: CalendarComponent},
   {path: 'admin/category', component: CategoryListComponent},
   {path: 'admin/category/form', component: CategoryFormComponent},
-  {path: 'admin', component: AdminComponent}
+  {path: 'admin', component: AdminComponent},
+  {path: 'aboutus', component: AboutUsComponent}
 ];
 
 @NgModule({
