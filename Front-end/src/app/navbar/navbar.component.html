@@ -24,7 +24,7 @@
           class="text-custom-nav-text hover:text-white">Explore trips</a>
       </li>
       <li>
-        <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"></a>
         <a routerLink="/admin/activity" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
           class="text-custom-nav-text hover:text-white">Admin</a>
       </li>
@@ -32,9 +32,9 @@
   </div>
   <div class="w-[203px]">
     <div class="flex items-center justify-end gap-3 md:justify-between md:gap-0">
-      <app-login-button *ngIf="!(_auth.isAuthenticated$ | async); else logoutButton"
+      <app-login-button *ngIf="!(authService.isAuthenticated$ | async); else logoutButton"
         class="text-custom-nav-text hover:text-white hidden md:block"></app-login-button>
-      <app-signup-button *ngIf="!(_auth.isAuthenticated$ | async)"></app-signup-button>
+      <app-signup-button *ngIf="!(authService.isAuthenticated$ | async)"></app-signup-button>
       <!-- <app-user-profile class="text-[#989896]"></app-user-profile> -->
 
       <ng-template #logoutButton>
@@ -61,14 +61,14 @@
                 <fa-icon [icon]="faCog" class="mr-2 text-lg"></fa-icon>
                 <a href="#">Settings</a>
               </li>
-              <li class="cursor-pointer hover:bg-gray-600 px-2 py-1 rounded-md" (click)="_auth.logout()">
+              <li class="cursor-pointer hover:bg-gray-600 px-2 py-1 rounded-md" (click)="authService.logout()">
                 <fa-icon [icon]="faSignOutAlt" class="mr-2 text-lg"></fa-icon>
                 <a href="#">Log out</a>
               </li>
             </ul>
           </div>
         </div>
-        <app-logout-button *ngIf="(_auth.isAuthenticated$ | async)" (click)="_auth.logout()"
+        <app-logout-button *ngIf="(authService.isAuthenticated$ | async)" (click)="authService.logout()"
           class="bg-[#e66462] cursor-pointer transition duration-200 text-white px-8 py-2 rounded-lg hover:bg-[#ea7a78] hidden md:block"></app-logout-button>
       </ng-template>
 
@@ -131,7 +131,7 @@
       <div>
 
       </div>
-      <section *ngIf="!(_auth.isAuthenticated$ | async)">
+      <section *ngIf="!(authService.isAuthenticated$ | async)">
         <div class="mt-3">
           <a href="#" class="text-center block py-2 px-4 text-custom-nav-text hover:text-white">
             <i class="fas fa-sign-in-alt mr-2"></i>Log in
@@ -144,9 +144,9 @@
           </a>
         </div>
       </section>
-      <section *ngIf="(_auth.isAuthenticated$ | async)">
+      <section *ngIf="(authService.isAuthenticated$ | async)">
         <div class="mt-3">
-          <a href="#" (click)="_auth.logout()"
+          <a href="#" (click)="authService.logout()"
             class="text-center block py-2 px-4 bg-custom-orange text-white rounded-lg hover:bg-custom-orange-hover">
             <i class="fas fa-user-plus mr-2"></i>Log out
           </a>
