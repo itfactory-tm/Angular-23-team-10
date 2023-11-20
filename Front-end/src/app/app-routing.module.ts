@@ -8,6 +8,7 @@ import { CategoryListComponent } from './category/category.component';
 import { CategoryFormComponent } from './category/category-form/category-form.component';
 import { ActivityFormComponent } from './components/activity-form/activity-form.component';
 import { TripComponent } from './trip/trip.component';
+import { ActivityListComponent } from './activity/activity.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'calendar/activity', component: ActivityFormComponent },
   { path: 'admin/category', component: CategoryListComponent },
   { path: 'admin/category/form', component: CategoryFormComponent },
+  { path: 'admin/activity', component: ActivityListComponent },
   { path: 'trips', component: TripComponent },
 ];
 

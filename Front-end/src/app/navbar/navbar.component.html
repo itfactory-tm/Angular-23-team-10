@@ -9,8 +9,8 @@
           class="text-custom-nav-text hover:text-white">Home</a>
       </li>
       <li>
-        <a routerLink="/admin/category" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-          class="text-custom-nav-text hover:text-white">Categories</a>
+        <a routerLink="/calendar" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+          class="text-custom-nav-text hover:text-white">Calendar</a>
       </li>
       <li>
         <a href="#" class="text-custom-nav-text hover:text-white">About us</a>
@@ -20,7 +20,7 @@
           class="text-custom-nav-text hover:text-white">Test API</a>
       </li>
       <li>
-        <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        <a routerLink="/admin/activity" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
           class="text-custom-nav-text hover:text-white">Admin</a>
       </li>
     </ul>
@@ -98,16 +98,23 @@
             </a>
           </li>
           <li>
-            <a (click)="onToggleMenu()" routerLink="/category" routerLinkActive="active"
+            <a (click)="onToggleMenu()" routerLink="/calendar" routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
               class="block hover:bg-gray-600 rounded-md py-2 px-4 text-custom-nav-text hover:text-white">
-              <i class="fas fa-list mr-2"></i>Categories
+              <i class="fas fa-list mr-2"></i>Calendar
             </a>
           </li>
           <li>
             <a (click)="onToggleMenu()" href="#"
               class="block hover:bg-gray-600 rounded-md py-2 px-4 text-custom-nav-text hover:text-white">
               <i class="fas fa-info-circle mr-2"></i>About us
+            </a>
+          </li>
+          <li>
+            <a (click)="onToggleMenu()" routerLink="/admin/activity" routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              class="block hover:bg-gray-600 rounded-md py-2 px-4 text-custom-nav-text hover:text-white">
+              <i class="fas fa-list mr-2"></i>Admin
             </a>
           </li>
         </ul>

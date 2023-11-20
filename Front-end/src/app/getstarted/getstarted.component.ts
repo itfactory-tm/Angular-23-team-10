@@ -16,19 +16,23 @@ import { HttpClientModule } from '@angular/common/http';
 import { ToastComponent } from '../toast/toast.component';
 import { TripService } from '../services/trip/trip.service';
 import { NgForm } from '@angular/forms';
+import { NavbarComponent } from "../navbar/navbar.component";
+import { FooterComponent } from "../footer/footer.component";
 
 @Component({
-  selector: 'app-getstarted',
-  standalone: true,
-  templateUrl: './getstarted.component.html',
-  styleUrls: ['./getstarted.component.css'],
-  imports: [
-    CommonModule,
-    FontAwesomeModule,
-    FormsModule,
-    HttpClientModule,
-    ToastComponent,
-  ],
+    selector: 'app-getstarted',
+    standalone: true,
+    templateUrl: './getstarted.component.html',
+    styleUrls: ['./getstarted.component.css'],
+    imports: [
+        CommonModule,
+        FontAwesomeModule,
+        FormsModule,
+        HttpClientModule,
+        ToastComponent,
+        NavbarComponent,
+        FooterComponent
+    ]
 })
 export class GetstartedComponent implements OnInit {
   @ViewChild('startDateInput') startDateInput!: ElementRef<HTMLInputElement>;

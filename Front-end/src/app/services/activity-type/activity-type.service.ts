@@ -15,7 +15,7 @@ export class ActivityTypeService {
     return this.httpClient.get<ActivityType[]>(environment.api_url + "/activities/");
   }
 
-  deleteActivityTpe(id: number): Observable<ActivityType> {
+  deleteActivityType(id: number): Observable<ActivityType> {
     return this.httpClient.delete<ActivityType>(environment.api_url + "/activities/" + id);
   }
 
