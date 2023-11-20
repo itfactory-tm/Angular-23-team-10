@@ -1,3 +1,4 @@
 export interface ActivityType {
-    name: String;
+    activityId: number;
+    name: string;
 }

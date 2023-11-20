@@ -10,19 +10,21 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 import { CategoryFormComponent } from './category-form/category-form.component';
 import { ToastComponent } from '../toast/toast.component';
+import { SidebarComponent } from "../sidebar/sidebar.component";
 
 @Component({
-  selector: 'app-category-list',
-  standalone: true,
-  imports: [
-    CommonModule,
-    PageLoaderComponent,
-    FontAwesomeModule,
-    CategoryFormComponent,
-    ToastComponent,
-  ],
-  templateUrl: './category.component.html',
-  styleUrls: ['./category.component.css'],
+    selector: 'app-category-list',
+    standalone: true,
+    templateUrl: './category.component.html',
+    styleUrls: ['./category.component.css'],
+    imports: [
+        CommonModule,
+        PageLoaderComponent,
+        FontAwesomeModule,
+        CategoryFormComponent,
+        ToastComponent,
+        SidebarComponent
+    ]
 })
 export class CategoryListComponent implements OnInit, OnDestroy {
   categories: Category[] = [];

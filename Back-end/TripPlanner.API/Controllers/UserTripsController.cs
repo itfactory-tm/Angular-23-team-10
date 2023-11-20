@@ -36,86 +36,39 @@ namespace TripPlannerAPI.Controllers
         }
 
         // GET: api/UserTrips/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserTripRequest>> GetUserTrip(int id)
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<List<UserTripRequest>>> GetUserTripsByUserId(String userId)
         {
-            var userTrip = await _context.UserTrips.FindAsync(id);
+            var userTrip = await _context.UserTrips.Where(ut => ut.UserId == userId).ToListAsync();
 
             if (userTrip == null)
             {
                 return NotFound();
             }
 
-            return _mapper.Map<UserTripRequest>(userTrip);
+            return _mapper.Map<List<UserTripRequest>>(userTrip);
         }
 
-        // PUT: api/UserTrips/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<ActionResult<UserTripRequest>> PutUserTrip(string userId, int tripId, UserTripResponse putUserTrip)
-        {
-            if (userId != putUserTrip.UserId.ToString() || tripId != putUserTrip.TripId)
-            {
-                return BadRequest();
-            }
-
-            UserTrip updatedUserTrip = _mapper.Map<UserTrip>(putUserTrip);
-            var userTrip = _context.UserTrips.Where(u => u.UserId == userId && u.TripId == tripId).FirstOrDefault();
-            _context.Entry(putUserTrip).State = EntityState.Modified;
-
-            try
-            {
-                userTrip.UserId = putUserTrip.UserId.ToString();
-                userTrip.TripId = putUserTrip.TripId;
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.UserTrips.Any(tc => tc.TripId == tripId && tc.UserId == userId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
+        
 
         // POST: api/UserTrips
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserTripRequest>> PostUserTrip(UserTripRequest userTrip)
+        public async Task<IActionResult> PostUserTrip(UserTripResponse userTrip)
         {
             UserTrip newUserTrip = _mapper.Map<UserTrip>(userTrip);
             _context.UserTrips.Add(newUserTrip);
+            await _context.SaveChangesAsync();
             UserTripRequest userTripToReturn = _mapper.Map<UserTripRequest>(newUserTrip);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (UserTripExists(userTrip.UserId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return CreatedAtAction("GetUserTrip", new { userId = userTripToReturn.UserId, tripId = userTripToReturn.TripId }, userTripToReturn);
+            return NoContent();
         }
 
         // DELETE: api/UserTrips/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserTrip(int id)
+        [HttpDelete("{userId}/{tripId}")]
+        public async Task<IActionResult> DeleteUserTrip(String userId, int tripId)
         {
-            var userTrip = await _context.UserTrips.FindAsync(id);
+            var userTrip = await _context.UserTrips.FindAsync(userId, tripId);
             if (userTrip == null)
             {
                 return NotFound();

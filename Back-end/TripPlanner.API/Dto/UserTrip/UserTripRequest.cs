@@ -3,6 +3,6 @@
     public class UserTripRequest
     {
         public int TripId { get; set; }
-        public string UserId { get; set; }
+        public String UserId { get; set; }
     }
 }

@@ -1,4 +1,8 @@
-<pre>{{users$ | async | json}}</pre>
-<ul>
-    <li *ngFor="let user of users$ | async">{{user.firstname}} {{user.surname}}</li>
-</ul>
+<div class="w-[95%] lg:w-[85%] mx-auto max-w-[1650px]">
+    <app-navbar></app-navbar>
+    <pre class="text-green-400">{{users$ | async | json}}</pre>
+    <ul>
+        <li *ngFor="let user of users$ | async">{{user.firstname}} {{user.surname}}</li>
+    </ul>
+    <app-footer></app-footer>
+</div>
