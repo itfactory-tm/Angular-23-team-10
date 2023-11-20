@@ -7,7 +7,7 @@ import { AuthService } from '@auth0/auth0-angular';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './signup-button.component.html',
-  styleUrls: ['./signup-button.component.css']
+  styleUrls: ['./signup-button.component.css'],
 })
 export class SignupButtonComponent {
   constructor(private auth: AuthService) {}
@@ -15,11 +15,11 @@ export class SignupButtonComponent {
   handleSignUp(): void {
     this.auth.loginWithRedirect({
       appState: {
-        target: "/",
+        target: '/',
       },
       authorizationParams: {
-        prompt: "login",
-        screen_hint: "signup",
+        prompt: 'login',
+        screen_hint: 'signup',
       },
     });
   }
