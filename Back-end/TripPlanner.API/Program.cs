@@ -6,6 +6,14 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+
+if (builder.Environment.IsProduction())
+{
+    // Use production connection string
+    connectionString = builder.Configuration.GetConnectionString("ProductionConnection");
+}
+
 builder.Services.AddDbContext<TripContext>(options =>
 options.UseSqlServer(connectionString));
 
