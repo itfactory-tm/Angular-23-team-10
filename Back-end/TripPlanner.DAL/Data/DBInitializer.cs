@@ -10,31 +10,22 @@ namespace TripPlannerAPI.Data
         {
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
-            // Look for any users.
-            //if (context.Users.Any())
-            //{
-            //    return;   // DB has been seeded
-            //}
 
-            //Add users
-            //context.Users.AddRange(
-            //    new User { Firstname = "Jan", Surname = "Peeters", Email = "jan.peeters@gmail.com", Password = "Password", IsAdmin = true, IsActive = true },
-            //    new User { Firstname = "John", Surname = "Doe", Email = "john.doe@gmail.com", Password = "Password123", IsAdmin = false, IsActive = true },
-            //    new User { Firstname = "Jane", Surname = "Smith", Email = "jane.smith@gmail.com", Password = "Password456", IsAdmin = false, IsActive = false }
-            //    );
             //Add trips
             context.Trips.AddRange(
-                new Trip { StartDate = new DateTime(2023, 10, 16), EndDate = new DateTime(2023, 10, 31), Picture = "https://example.com/trip1.jpg", Description = "This is a test trip", IsShared = true },
-                new Trip { StartDate = new DateTime(2023, 10, 15), EndDate = new DateTime(2023, 10, 17), Picture = "https://example.com/trip2.jpg", Description = "This is my first trip!", IsShared = false },
-                new Trip { StartDate = new DateTime(2023, 10, 16), EndDate = new DateTime(2023, 10, 31), Picture = "https://example.com/trip3.jpg", Description = "This is my second trip!", IsShared = true }
+                new Trip { Name = "Berlin City Trip", StartDate = new DateTime(2023, 10, 16), EndDate = new DateTime(2023, 10, 31), Picture = "https://example.com/trip1.jpg", Description = "This is a test trip", IsShared = true },
+                new Trip { Name = "Madrid City Trip", StartDate = new DateTime(2023, 10, 15), EndDate = new DateTime(2023, 10, 17), Picture = "https://example.com/trip2.jpg", Description = "This is my first trip!", IsShared = false },
+                new Trip { Name = "London City Trip", StartDate = new DateTime(2023, 10, 16), EndDate = new DateTime(2023, 10, 31), Picture = "https://example.com/trip3.jpg", Description = "This is my second trip!", IsShared = true },
+                new Trip { Name = "India Trip", StartDate = new DateTime(2023, 11, 15), EndDate = new DateTime(2023, 11, 30), Picture = "https://example.com/trip3.jpg", Description = "This is my India trip!", IsShared = true }
+
                 );
 
             //Add activities
             context.Activities.AddRange(
-                new Activity { Name = "Restaurant" },
-                new Activity { Name = "Hiking" },
-                new Activity { Name = "Biking" },
-                new Activity { Name = "Swimming" }
+                new Activity { Name = "Sightseeing" },
+                new Activity { Name = "Sport" },
+                new Activity { Name = "Outdoor adventure" },
+                new Activity { Name = "Cultural" }
             );
             //Add keywords
             context.Keywords.AddRange(
@@ -53,10 +44,15 @@ namespace TripPlannerAPI.Data
             //Associative tables
             //Add tripactivities
             context.TripActivities.AddRange(
-                new TripActivity { TripId = 1, ActivityId = 1, Price = 21.0, StartDate = new DateTime(2023, 10, 17, 19, 0, 0), EndDate = new DateTime(2023, 10, 17, 22, 0, 0) },
-                new TripActivity { TripId = 3, ActivityId = 2, Price = 10.0, StartDate = new DateTime(2023, 10, 15, 15, 0, 0), EndDate = new DateTime(2023, 10, 17, 18, 0, 0) },
-                new TripActivity { TripId = 1, ActivityId = 2, Price = 20.0, StartDate = new DateTime(2023, 10, 16, 6, 0, 0), EndDate = new DateTime(2023, 10, 17, 12, 0, 0) },
-                new TripActivity { TripId = 2, ActivityId = 3, Price = 30.0, StartDate = new DateTime(2023, 10, 21, 14, 0, 0), EndDate = new DateTime(2023, 10, 22, 16, 0, 0) }
+                new TripActivity { TripId = 1, ActivityId = 1, Name = "Activity", Price = 21.0, StartDate = new DateTime(2023, 10, 17, 19, 0, 0), EndDate = new DateTime(2023, 10, 17, 22, 0, 0) },
+                new TripActivity { TripId = 3, ActivityId = 2, Name = "Activity", Price = 10.0, StartDate = new DateTime(2023, 10, 15, 15, 0, 0), EndDate = new DateTime(2023, 10, 17, 18, 0, 0) },
+                new TripActivity { TripId = 1, ActivityId = 2, Name = "Activity", Price = 20.0, StartDate = new DateTime(2023, 10, 16, 6, 0, 0), EndDate = new DateTime(2023, 10, 17, 12, 0, 0) },
+                new TripActivity { TripId = 2, ActivityId = 3, Name = "Activity", Price = 30.0, StartDate = new DateTime(2023, 10, 21, 14, 0, 0), EndDate = new DateTime(2023, 10, 22, 16, 0, 0) },
+                new TripActivity { TripId = 4, ActivityId = 1, Name = "Taj Mahal", Price = 30.0, StartDate = new DateTime(2023, 11, 16, 9, 0, 0), EndDate = new DateTime(2023, 11, 16, 11, 0, 0) },
+                new TripActivity { TripId = 4, ActivityId = 1, Name = "Amber Palace", Price = 30.0, StartDate = new DateTime(2023, 11, 16, 14, 0, 0), EndDate = new DateTime(2023, 11, 16, 16, 0, 0) },
+                new TripActivity { TripId = 4, ActivityId = 1, Name = "Red Fort", Price = 30.0, StartDate = new DateTime(2023, 11, 17, 11, 0, 0), EndDate = new DateTime(2023, 11, 17, 12, 0, 0) },
+                new TripActivity { TripId = 4, ActivityId = 1, Name = "Agra Fort", Price = 30.0, StartDate = new DateTime(2023, 11, 17, 14, 0, 0), EndDate = new DateTime(2023, 11, 17, 17, 0, 0) },
+                new TripActivity { TripId = 4, ActivityId = 1, Name = "Taj Mahal", Price = 30.0, StartDate = new DateTime(2023, 11, 16, 20, 0, 0), EndDate = new DateTime(2023, 11, 16, 22, 0, 0) }
                 );
             //Add usertrips
             context.UserTrips.AddRange(

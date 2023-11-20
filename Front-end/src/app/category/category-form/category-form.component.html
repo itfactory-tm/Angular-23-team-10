@@ -1,11 +1,11 @@
 <div
   class="rounded p-4 mb-4 text-lg bg-red-200 text-red-800 border-2 border-red-300"
-  *ngIf="isSubmitted && errorMessage"
+  *ngIf="isSubmitted && errorMessage !== ''"
 >
   {{ errorMessage }}
 </div>
 
-<form (ngSubmit)="onSubmit()" [formGroup]="categoryform">
+<form (ngSubmit)="onSubmit()" #categoryForm="ngForm" (keydown.enter)="$event.preventDefault()">
   <div class="mb-6">
     <label for="name" class="block mb-2 text-sm font-bold text-white"
       >Name</label
@@ -14,23 +14,14 @@
       type="name"
       id="name"
       name="name"
-      [ngClass]="{
-        'border-red-500 border-4':
-          categoryform.controls.Name.invalid &&
-          categoryform.controls.Name.touched,
-          'border-green-500 border-4': categoryform.controls.Name.valid
-      }"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
       placeholder="Name"
-      formControlName="Name"
-      minlength="2"
+      [(ngModel)]="category.name"
+      #name="ngModel"
+      minlength="1"
+      required
     />
-    <div
-      *ngIf="categoryform.controls.Name.touched && categoryform.controls.Name.errors?.['firstCapitalLetter']"
-      class="text-red-500 mt-2"
-    >
-      Category name must start with an upper case character
-    </div>
+    <div [hidden]="name.valid || name.pristine" class="text-red-500 mt-2">Name is required.</div>
   </div>
   <div class="mb-6">
     <label for="description" class="block mb-2 text-sm font-bold text-white"
@@ -40,26 +31,17 @@
       type="description"
       id="description"
       name="description"
-      [ngClass]="{
-        'border-red-500 border-4':
-          categoryform.controls.Description.invalid &&
-          categoryform.controls.Description.touched,
-          'border-green-500 border-4': categoryform.controls.Description.valid
-      }"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
       placeholder="Description"
-      formControlName="Description"
-      minlength="2"
+      [(ngModel)]="category.description"
+      #description="ngModel"
+      minlength="1"
+      required
     />
-    <div
-      *ngIf="categoryform.controls.Name.touched && categoryform.controls.Description.errors?.['firstCapitalLetter']"
-      class="text-red-500 mt-2"
-    >
-      Category description must start with an upper case character
-    </div>
+    <div [hidden]="description.valid || description.pristine" class="text-red-500 mt-2">Description is required.</div>
   </div>
   <button
-    type="submit"
+    type="button"
     class="text-white bg-custom-orange hover:bg-custom-orange-hover focus:ring-2 focus:outline-none focus:ring-[#f1a8a7] font-medium rounded-lg text-sm w-full md:w-auto px-8 py-2.5 text-center md:mr-4 md:mb-0 mb-4"
     (click)="goBack()"
     >
@@ -68,7 +50,7 @@
   <button
     type="submit"
     *ngIf="isAdd"
-    [disabled]="!categoryform.valid || isSubmitted"
+    [disabled]="!categoryForm.valid || isSubmitted"
     class="text-white bg-custom-orange hover:bg-custom-orange-hover focus:ring-2 focus:outline-none focus:ring-[#f1a8a7] font-medium rounded-lg text-sm w-full md:w-auto px-8 py-2.5 text-center disabled:opacity-75"
   >
     Add
@@ -76,7 +58,7 @@
   <button
     type="submit"
     *ngIf="isEdit"
-    [disabled]="!categoryform.valid || isSubmitted"
+    [disabled]="!categoryForm.valid || isSubmitted"
     class="text-white bg-custom-orange hover:bg-custom-orange-hover focus:ring-2 focus:outline-none focus:ring-[#f1a8a7] font-medium rounded-lg text-sm w-full md:w-auto px-8 py-2.5 text-center disabled:opacity-75"
   >
     Save

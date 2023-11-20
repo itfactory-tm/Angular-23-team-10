@@ -5,11 +5,9 @@ namespace TripPlanner.DAL.Models
 {
     public class UserTrip
     {
-        public string UserId { get; set; } // Use the Auth0 user identifier
+        public string UserId { get; set; } 
         public int TripId { get; set; }
-        public int Sub { get; set; }
         public Trip? Trip { get; }
 
-        // Navigation property to represent the associated user
     }
 }

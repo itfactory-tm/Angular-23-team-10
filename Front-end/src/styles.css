@@ -14,5 +14,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 html {
+  /* fixes scrollbar layout jump*/
+  scrollbar-gutter: stable;
   scroll-behavior: smooth !important;
 }

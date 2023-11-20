@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-toast',
@@ -10,7 +11,7 @@ import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.css'],
 })
-export class ToastComponent {
+export class ToastComponent implements OnInit, OnDestroy {
   // this is the syntax to call a toast
   // <app-toast [showSuccessToast]="true"/>
 
@@ -19,14 +20,20 @@ export class ToastComponent {
   @Input() message?: string;
 
   faError = faTriangleExclamation;
+  timer$ = timer(5000);
+  subscription$ = this.timer$.subscribe(() => {
+    this.closeSuccessToast();
+    this.closeErrorToast();
+  });
 
   ngOnInit() {
     if (this.showSuccessToast || this.showErrorToast) {
-      setTimeout(() => {
-        this.closeSuccessToast();
-        this.closeErrorToast();
-      }, 5000);
+      this.subscription$;
     }
+  }
+
+  ngOnDestroy() {
+    this.subscription$.unsubscribe();    
   }
 
   closeSuccessToast() {

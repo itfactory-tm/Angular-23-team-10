@@ -5,7 +5,6 @@ using TripPlannerAPI.Dto.Category;
 using TripPlannerAPI.Dto.Keyword;
 using TripPlannerAPI.Dto.Trip;
 using TripPlannerAPI.Dto.TripActivity;
-//using TripPlannerAPI.Dto.User;
 using TripPlannerAPI.Dto.UserTrip;
 
 namespace TripPlannerAPI.Mapper
@@ -14,11 +13,9 @@ namespace TripPlannerAPI.Mapper
     {
         public AutoMapper()
         {
-            CreateMap<Trip, TripRequest>();
+            CreateMap<Trip, TripRequest>()
+                .ForMember(dest => dest.Activities, opt => opt.MapFrom(src => src.TripActivities));
             CreateMap<TripResponse, Trip>();
-            //CreateMap<User, UserRequest>();
-            //CreateMap<UserCreate, User>();
-            //CreateMap<UserUpdate, User>();
             CreateMap<Activity, ActivityRequest>();
             CreateMap<ActivityResponse, Activity>();
             CreateMap<KeywordResponse, Keyword>();
@@ -26,7 +23,8 @@ namespace TripPlannerAPI.Mapper
             CreateMap<Category, CategoryRequest>();
             CreateMap<CategoryResponse, Category>();
             CreateMap<TripActivityResponse, TripActivity>();
-            CreateMap<TripActivity, TripActivityRequest>();
+            CreateMap<TripActivity, TripActivityRequest>()
+                .ForMember(dest => dest.Activity, opt => opt.MapFrom(src => src.Activity));
             CreateMap<UserTripResponse, UserTrip>();
             CreateMap<UserTrip, UserTripRequest>();
         }

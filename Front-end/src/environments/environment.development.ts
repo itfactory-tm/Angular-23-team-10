@@ -5,5 +5,5 @@ export const environment = {
     AUTH0_CLIENT_ID: "jGOPQttdT71dyPnd7zJUepi46zGNoihE",
     AUTH0_AUDIENCE:"https://localhost:6587",
     redirectUri: "https://localhost:4200/callback",
-    api_url: "https://localhost:6587/api"
+    api_url: "https://localhost:7113/api"
   };

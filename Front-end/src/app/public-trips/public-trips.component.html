@@ -1,0 +1,11 @@
+<div *ngFor="let trip of trips">
+  <h1 class="text-white">{{ trip.name }}</h1>
+  <img src="{{ trip.picture }}" alt="{{ trip.name }} Picture" />
+  <p class="text-white">{{ trip.startDate }} - {{ trip.endDate }}</p>
+  <p class="text-white">{{ trip.description }}</p>
+  <ul>
+    <li *ngFor="let activity of trip.activities">
+      <p class="text-white">{{activity.name}}</p>
+    </li>
+  </ul>
+</div>
