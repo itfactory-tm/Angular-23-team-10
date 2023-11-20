@@ -6,11 +6,11 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { CategoryListComponent } from './category/category.component';
 import { PublicTripsComponent } from './public-trips/public-trips.component';
 import { CategoryFormComponent } from './category/category-form/category-form.component';
-import { AdminComponent } from './admin/admin.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { ActivityFormComponent } from './components/activity-form/activity-form.component';
 import { TripComponent } from './trip/trip.component';
 import { ActivityListComponent } from './activity/activity.component';
+import { TestAPIComponent } from './test-api/test-api.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -21,10 +21,10 @@ const routes: Routes = [
   { path: 'admin/category', component: CategoryListComponent },
   { path: 'admin/category/form', component: CategoryFormComponent },
   { path: 'admin/activity', component: ActivityListComponent },
+  { path: 'admin/activity/form', component: ActivityFormComponent },
   { path: 'trips', component: TripComponent },
-  { path: 'public-trips', component: PublicTripComponent},
-  {path: 'admin', component: AdminComponent},
-  {path: 'aboutus', component: AboutUsComponent}
+  { path: 'public-trips', component: PublicTripsComponent},
+  { path: 'aboutus', component: AboutUsComponent}
 ];
 
 @NgModule({
