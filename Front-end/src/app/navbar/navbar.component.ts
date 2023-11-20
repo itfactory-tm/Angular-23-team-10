@@ -1,4 +1,11 @@
-import { Component, ElementRef, Renderer2, OnInit,ChangeDetectionStrategy,signal } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Renderer2,
+  OnInit,
+  ChangeDetectionStrategy,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -58,14 +65,14 @@ export class NavbarComponent {
     });
   }
 
-  /* ngOnInit(): void {
-    if (this._auth.user$) {
-      this._auth.user$.subscribe((data) => {
+  ngOnInit(): void {
+    if (this.authService.user$) {
+      this.authService.user$.subscribe((data) => {
         this.loggedInUser = data;
         console.log('Logged in user: ', this.loggedInUser);
       });
     }
-  } */
+  }
 
   toggleDropdown() {
     this.showDropdown = !this.showDropdown;
