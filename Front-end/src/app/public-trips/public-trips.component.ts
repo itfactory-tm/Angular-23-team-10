@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { Trip } from '../models/api/Trip';
 import { TripService } from '../services/trip/trip.service';
 import { Subscription } from 'rxjs';
+import { NavbarComponent } from "../navbar/navbar.component";
 
 @Component({
-  selector: 'app-public-trips',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './public-trips.component.html',
-  styleUrls: ['./public-trips.component.css']
+    selector: 'app-public-trips',
+    standalone: true,
+    templateUrl: './public-trips.component.html',
+    styleUrls: ['./public-trips.component.css'],
+    imports: [CommonModule, NavbarComponent]
 })
 export class PublicTripsComponent implements OnInit, OnDestroy {
   trips$: Subscription = new Subscription();

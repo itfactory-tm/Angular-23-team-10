@@ -5,3 +5,25 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.dots-left-bottom {
+  z-index: -50;
+  bottom: -32px;
+  left: -48px;
+  pointer-events: none;
+  position: absolute;
+  width: auto;
+}
+
+.dots-right-top {
+  z-index: -50;
+  pointer-events: none;
+  position: absolute;
+  right: -48px;
+  top: -32px;
+  width: auto;
+}
+
+input:focus {
+  outline: none;
+}
