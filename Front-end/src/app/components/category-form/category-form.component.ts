@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Category } from 'src/app/models/api/category';
+import { Category } from 'src/app/models/category';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { Subscription, delay } from 'rxjs';
 import { FormsModule } from '@angular/forms';

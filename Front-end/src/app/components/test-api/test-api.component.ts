@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-import { User } from '../models/api/testAPI';
-import { APIService } from '../services/test-api.service';
-import { NavbarComponent } from "../navbar/navbar.component";
-import { FooterComponent } from "../footer/footer.component";
+import { User } from '../../models/testAPI';
+import { APIService } from '../../services/test-api.service';
+import { NavbarComponent } from "../../shared/navbar/navbar.component";
+import { FooterComponent } from "../../shared/footer/footer.component";
 
 @Component({
     selector: 'app-test-api',

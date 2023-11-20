@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { GetstartedComponent } from './getstarted/getstarted.component';
+import { GetstartedComponent } from './components/getstarted/getstarted.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
-import { CategoryListComponent } from './category/category.component';
-import { PublicTripsComponent } from './public-trips/public-trips.component';
-import { CategoryFormComponent } from './category/category-form/category-form.component';
-import { AboutUsComponent } from './about-us/about-us.component';
-import { ActivityFormComponent } from './components/activity-form/activity-form.component';
-import { TripComponent } from './trip/trip.component';
-import { ActivityListComponent } from './activity/activity.component';
-import { TestAPIComponent } from './test-api/test-api.component';
+import { CategoryListComponent } from './components/category/category.component';
+import { PublicTripsComponent } from './components/public-trips/public-trips.component';
+import { CategoryFormComponent } from './components/category-form/category-form.component';
+import { AboutUsComponent } from './components/about-us/about-us.component';
+import { ActivityFormComponent } from './components/calender-activity-form/calender-activity-form.component';
+import { TripComponent } from './components/trip/trip.component';
+import { ActivityListComponent } from './components/activity/activity.component';
+import { TestAPIComponent } from './components/test-api/test-api.component';
+import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },

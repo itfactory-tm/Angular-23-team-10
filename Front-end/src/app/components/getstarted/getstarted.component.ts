@@ -13,15 +13,15 @@ import flatpickr from 'flatpickr';
 import { Options } from 'flatpickr/dist/types/options';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { ToastComponent } from '../toast/toast.component';
-import { TripService } from '../services/trip/trip.service';
+import { ToastComponent } from '../../shared/toast/toast.component';
+import { TripService } from '../../services/trip/trip.service';
 import { NgForm } from '@angular/forms';
-import { NavbarComponent } from "../navbar/navbar.component";
-import { FooterComponent } from "../footer/footer.component";
-import { UserTripService } from '../services/user-trip/user-trip.service';
+import { NavbarComponent } from "../../shared/navbar/navbar.component";
+import { FooterComponent } from "../../shared/footer/footer.component";
+import { UserTripService } from '../../services/user-trip/user-trip.service';
 import { AuthService, User } from '@auth0/auth0-angular';
 import { take } from 'rxjs';
-import { Trip } from '../models/api/Trip';
+import { Trip } from '../../models/Trip';
 
 @Component({
     selector: 'app-getstarted',
