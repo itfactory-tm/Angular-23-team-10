@@ -18,6 +18,10 @@ import { TripService } from '../services/trip/trip.service';
 import { NgForm } from '@angular/forms';
 import { NavbarComponent } from "../navbar/navbar.component";
 import { FooterComponent } from "../footer/footer.component";
+import { UserTripService } from '../services/user-trip/user-trip.service';
+import { AuthService, User } from '@auth0/auth0-angular';
+import { take } from 'rxjs';
+import { Trip } from '../models/api/Trip';
 
 @Component({
     selector: 'app-getstarted',
@@ -66,27 +70,19 @@ export class GetstartedComponent implements OnInit {
   isSubmitted: boolean = false;
   isError: boolean = false;
 
+  tripLenght: number = 0;
+
   tripFormSubmitted = false; // Flag to track form submission
   tripFormSubmitted2 = false; // Flag to track form submission
 
   @ViewChild('tripForm') tripForm!: NgForm;
   @ViewChild('tripForm2') tripForm2!: NgForm;
 
-  constructor(private tripService: TripService) {}
-
-  inviteFriends() {
-    // Add logic for inviting friends
-  }
-
-  searchByEmail(): void {
-    // Implement your logic to search by email
-    alert('Searching by email...');
-  }
-
-  copyLink(): void {
-    // Implement your logic to copy link
-    alert('Copying link...');
-  }
+  constructor(
+    private tripService: TripService,
+    private userTripService: UserTripService,
+    public _auth: AuthService
+  ) {}
 
   nextStep(): void {
     if (this.currentStep === 2) {
@@ -109,8 +105,8 @@ export class GetstartedComponent implements OnInit {
     }
   }
 
-  submit(): void {
-    this.tripService
+  async postNewTrip(): Promise<Trip> {
+    let trip = await this.tripService
       .postTrip({
         tripId: 0,
         name: this.tripName,
@@ -119,27 +115,50 @@ export class GetstartedComponent implements OnInit {
         picture: this.selectedFileName!,
         description: this.tripDescription,
         isShared: this.isShared!,
-        activities: []
+        activities: [],
       })
-      .subscribe(
-        (response) => {
-          console.log(response);
-          // Handle success here
-          this.isSubmitted = true;
-          setTimeout(() => {
-            this.isSubmitted = false;
-          }, 5000);
-        },
-        (error) => {
-          console.log(error);
-          // Handle error here
-          this.isError = true;
-          // after 3 seconds, remove the error message
-          setTimeout(() => {
-            this.isError = false;
-          }, 5000);
-        }
-      );
+      .toPromise();
+
+    if (!trip) {
+      throw new Error('Trip creation failed or returned undefined.'); // Handle undefined case
+    }
+
+    return trip;
+  }
+
+  async postNewUserTrip(tripId: number, userId: string) {
+    this.userTripService
+      .postUserTrip({
+        tripId: tripId,
+        userId: userId,
+      })
+      .toPromise();
+  }
+
+  async checkUserLoggedIn(): Promise<any> {
+    let loggedInUser: any;
+
+    if (this._auth.user$) {
+      await this._auth.user$
+        .pipe(take(1))
+        .toPromise()
+        .then((data) => {
+          loggedInUser = data;
+          console.log('Logged in user: ', loggedInUser);
+        });
+    }
+
+    return loggedInUser;
+  }
+
+  async submit() {
+    let loggedInUser = await this.checkUserLoggedIn();
+
+    if (loggedInUser !== null) {
+      let trip = await this.postNewTrip();
+      console.log(trip.tripId, loggedInUser.sub);
+      await this.postNewUserTrip(trip.tripId, loggedInUser.sub);
+    }
   }
 
   isPrevButtonDisabled(): boolean {
