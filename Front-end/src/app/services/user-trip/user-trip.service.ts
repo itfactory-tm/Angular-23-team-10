@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserTrip } from 'src/app/models/UserTrip';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,7 @@ export class UserTripService {
     headers = headers.set('Content-Type', 'application/json; charset=utf-8');
 
     return this.httpClient.post<UserTrip>(
-      'https://localhost:7113/api/UserTrips',
+      environment.api_url + '/UserTrips',
       userTrip,
       { headers: headers }
     );
