@@ -34,6 +34,21 @@ namespace TripPlannerAPI.Controllers
             return _mapper.Map<List<TripRequest>>(trips);
         }
 
+        // GET: api/public-trips
+        [HttpGet]
+        [Route("public-trips")]
+        public async Task<ActionResult<List<TripRequest>>> GetPublicTrips()
+        {
+            var trips = await _context.Trips.Where(t => t.IsShared.Equals(true)).ToListAsync();
+
+            if (trips == null)
+            {
+                return NotFound();
+            }
+
+            return _mapper.Map<List<TripRequest>>(trips);
+        }
+
         // GET: api/Trips/5
         [HttpGet("{id}")]
         public async Task<ActionResult<TripRequest>> GetTrip(int id)

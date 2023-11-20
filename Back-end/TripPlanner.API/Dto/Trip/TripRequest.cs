@@ -1,4 +1,5 @@
-﻿using TripPlannerAPI.Dto.TripActivity;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using TripPlannerAPI.Dto.TripActivity;
 
 namespace TripPlannerAPI.Dto.Trip
 {
@@ -9,6 +10,9 @@ namespace TripPlannerAPI.Dto.Trip
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string? Picture { get; set; }
+        [NotMapped]
+        public IFormFile? File { get; set; }
+        public string? ImgName { get; set; }
         public string? Description { get; set; }
         public bool IsShared { get; set; }
         public ICollection<TripActivityRequest> Activities { get; set; }

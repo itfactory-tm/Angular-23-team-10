@@ -14,6 +14,10 @@ export class TripService {
     return this.httpClient.get<Trip>(environment.api_url + "/trips/" + id);
   }
 
+  getPublicTrips(): Observable<Trip[]> {
+    return this.httpClient.get<Trip[]>(environment.api_url + "/trips/public-trips");
+  }
+
   postTrip(trip: Trip): Observable<Trip> {
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8');
