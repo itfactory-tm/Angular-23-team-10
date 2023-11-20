@@ -14,13 +14,14 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '@auth0/auth0-angular';
 import { Trip } from '../../models/api/Trip';
 import { ActivityService } from 'src/app/services/activity/activity.service';
+import { NavbarComponent } from "../../navbar/navbar.component";
 
 @Component({
-  selector: 'app-calendar',
-  standalone: true,
-  imports: [CommonModule, FontAwesomeModule],
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.css'],
+    selector: 'app-calendar',
+    standalone: true,
+    templateUrl: './calendar.component.html',
+    styleUrls: ['./calendar.component.css'],
+    imports: [CommonModule, FontAwesomeModule, NavbarComponent]
 })
 export class CalendarComponent implements OnInit, OnDestroy {
   user: any;

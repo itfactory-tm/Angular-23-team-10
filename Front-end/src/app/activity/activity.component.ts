@@ -1,35 +1,35 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { Category } from 'src/app/models/api/category';
-import { CategoryService } from 'src/app/services/category/category.service';
+import { ActivityType } from 'src/app/models/api/ActivityType';
+import { ActivityTypeService } from 'src/app/services/activity-type/activity-type.service';
 import { Subscription } from 'rxjs';
 import { PageLoaderComponent } from '../page-loader/page-loader.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
-import { CategoryFormComponent } from './category-form/category-form.component';
+import { ActivityFormComponent } from './activity-form/activity-form.component';
 import { ToastComponent } from '../toast/toast.component';
 import { SidebarComponent } from "../sidebar/sidebar.component";
 
 @Component({
-    selector: 'app-category-list',
+    selector: 'app-activity-list',
     standalone: true,
-    templateUrl: './category.component.html',
-    styleUrls: ['./category.component.css'],
+    templateUrl: './activity.component.html',
+    styleUrls: ['./activity.component.css'],
     imports: [
         CommonModule,
         PageLoaderComponent,
         FontAwesomeModule,
-        CategoryFormComponent,
+        ActivityFormComponent,
         ToastComponent,
         SidebarComponent
     ]
 })
-export class CategoryListComponent implements OnInit, OnDestroy {
-  categories: Category[] = [];
-  categories$: Subscription = new Subscription();
-  deleteCategory$: Subscription = new Subscription();
+export class ActivityListComponent implements OnInit, OnDestroy {
+  activities: ActivityType[] = [];
+  activities$: Subscription = new Subscription();
+  deleteActivity$: Subscription = new Subscription();
 
   errorMessage: string = '';
   isLoading: boolean = true;
@@ -38,72 +38,76 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   currentSort: string = 'id';
   isModalOpen: boolean = false;
   mode: string = 'add';
-  categoryId: number = 0;
+  activityId: number = 0;
   isSubmitted: boolean = false;
 
   constructor(
-    private categoryService: CategoryService,
+    private activitTypeService: ActivityTypeService,
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.getCategories();
+    this.getActivities();
   }
 
   ngOnDestroy(): void {
-    this.categories$.unsubscribe();
-    this.deleteCategory$.unsubscribe();
+    this.activities$.unsubscribe();
+    this.deleteActivity$.unsubscribe();
   }
 
   delete(id: number) {
-    this.deleteCategory$ = this.categoryService.deleteCategory(id).subscribe({
-      next: (v) => this.getCategories(),
-      error: (e) => (this.errorMessage = e.message),
+    this.deleteActivity$ = this.activitTypeService.deleteActivityType(id).subscribe({
+      next: (v) => {
+        // Delete was successful, update activities and set mode to 'delete'
+        this.getActivities();
+        this.mode = 'delete';
+      },
+      error: (e) => {
+        // Handle error if deletion fails
+        this.errorMessage = e.message;
+      },
     });
-    this.mode = 'delete';
   }
+  
 
-  getCategories() {
+  getActivities() {
     this.isLoading = true;
-    this.categories$ = this.categoryService
-      .getCategories()
+    this.activities$ = this.activitTypeService
+      .getActivityTypes()
       .subscribe((result) => {
-        (this.categories = result), (this.isLoading = false);
+        (this.activities = result), (this.isLoading = false);
       });
   }
 
+  
   sort(filter: string) {
     if (filter !== this.currentSort) {
       this.currentSort = filter;
     }
-    this.categories$ = this.categoryService
-      .getCategories()
+    this.activities$ = this.activitTypeService
+      .getActivityTypes()
       .subscribe((result) => {
         if (filter == 'name') {
-          this.categories = result.sort((a, b) => a.name.localeCompare(b.name));
-        } else if (filter == 'description') {
-          this.categories = result.sort((a, b) =>
-            a.description.localeCompare(b.description)
-          );
+          this.activities = result.sort((a, b) => a.name.localeCompare(b.name));
         } else {
-          this.categories = result.sort();
+          this.activities = result.sort();
         }
         this.isLoading = false;
       });
   }
-
+  
   openModal(mode: string, id: number) {
     this.isSubmitted = false;
     this.mode = mode;
     if (id !== 0) {
-      this.categoryId = id;
+      this.activityId = id;
     }
     this.isModalOpen = true;
   }
 
   onUpdateOrCreate() {
     this.isSubmitted = true;
-    this.getCategories();
+    this.getActivities();
   }
 }
