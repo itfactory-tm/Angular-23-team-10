@@ -12,6 +12,7 @@ if (builder.Environment.IsProduction())
 {
     // Use production connection string
     connectionString = builder.Configuration.GetConnectionString("ProductionConnection");
+
 }
 
 builder.Services.AddDbContext<TripContext>(options =>
@@ -41,7 +42,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors(x => x
-            .WithOrigins("http://localhost:4200", "https://localhost:4200")
+            .WithOrigins("http://localhost:4200", "https://localhost:4200", "https://trip-planner-46730.web.app")
             .AllowAnyMethod()
             .AllowAnyHeader()); //Temporary (security risk)
 
