@@ -6,6 +6,8 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { CategoryListComponent } from './category/category.component';
 import { PublicTripsComponent } from './public-trips/public-trips.component';
 import { CategoryFormComponent } from './category/category-form/category-form.component';
+import { AdminComponent } from './admin/admin.component';
+import { AboutUsComponent } from './about-us/about-us.component';
 import { ActivityFormComponent } from './components/activity-form/activity-form.component';
 import { TripComponent } from './trip/trip.component';
 import { ActivityListComponent } from './activity/activity.component';
@@ -21,6 +23,8 @@ const routes: Routes = [
   { path: 'admin/activity', component: ActivityListComponent },
   { path: 'trips', component: TripComponent },
   { path: 'public-trips', component: PublicTripComponent},
+  {path: 'admin', component: AdminComponent},
+  {path: 'aboutus', component: AboutUsComponent}
 ];
 
 @NgModule({

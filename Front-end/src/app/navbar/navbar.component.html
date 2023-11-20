@@ -13,7 +13,7 @@
           class="text-custom-nav-text hover:text-white">Calendar</a>
       </li>
       <li>
-        <a href="#" class="text-custom-nav-text hover:text-white">About us</a>
+        <a href="/aboutus" class="text-custom-nav-text hover:text-white">About us</a>
       </li>
       <li>
         <a routerLink="/users" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
@@ -32,7 +32,6 @@
   </div>
   <div class="w-[203px]">
     <div class="flex items-center justify-end gap-3 md:justify-between md:gap-0">
-
       <app-login-button *ngIf="!(_auth.isAuthenticated$ | async); else logoutButton"
         class="text-custom-nav-text hover:text-white hidden md:block"></app-login-button>
       <app-signup-button *ngIf="!(_auth.isAuthenticated$ | async)"></app-signup-button>
@@ -69,7 +68,6 @@
             </ul>
           </div>
         </div>
-
         <app-logout-button *ngIf="(_auth.isAuthenticated$ | async)" (click)="_auth.logout()"
           class="bg-[#e66462] cursor-pointer transition duration-200 text-white px-8 py-2 rounded-lg hover:bg-[#ea7a78] hidden md:block"></app-logout-button>
       </ng-template>
@@ -124,6 +122,12 @@
           </li>
         </ul>
       </nav>
+<!-- <<<<<<< JB-dynamically-buttons
+      <section>
+        <app-login-button *ngIf="!isAuthenticated()" class="text-center block py-2 px-4 mt-3 bg-custom-orange text-white rounded-lg hover:bg-custom-orange-hover"></app-login-button>
+        <app-logout-button *ngIf="isAuthenticated()" class="text-center block py-2 px-4 mt-3 bg-custom-orange text-white rounded-lg hover:bg-custom-orange-hover"></app-logout-button>
+        <app-signup-button *ngIf="!isAuthenticated()" class="text-center block py-2 px-4 mt-3 bg-custom-orange text-white rounded-lg hover:bg-custom-orange-hover"></app-signup-button>
+======= -->
       <div>
 
       </div>

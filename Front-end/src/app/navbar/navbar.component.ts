@@ -1,4 +1,4 @@
-import { Component, ElementRef, Renderer2, OnInit } from '@angular/core';
+import { Component, ElementRef, Renderer2, OnInit,ChangeDetectionStrategy,signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -33,8 +33,9 @@ import { SignupButtonComponent } from '../signup-button/signup-button.component'
   ],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   faBars = faBars;
   faTimes = faTimes;
   isMenuOpen = false; // Flag to track menu state
@@ -49,16 +50,22 @@ export class NavbarComponent implements OnInit {
 
   public loggedInUser: any;
 
-  constructor(public _auth: AuthService) {}
+  isAuthenticated = signal(false);
 
-  ngOnInit(): void {
+  constructor(public authService: AuthService) {
+    this.authService.isAuthenticated$.subscribe((auth) => {
+      this.isAuthenticated.set(auth);
+    });
+  }
+
+  /* ngOnInit(): void {
     if (this._auth.user$) {
       this._auth.user$.subscribe((data) => {
         this.loggedInUser = data;
         console.log('Logged in user: ', this.loggedInUser);
       });
     }
-  }
+  } */
 
   toggleDropdown() {
     this.showDropdown = !this.showDropdown;

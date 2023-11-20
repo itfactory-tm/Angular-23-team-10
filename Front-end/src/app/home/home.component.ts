@@ -5,16 +5,19 @@ import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule } from '@angular/router';
 import { ToastComponent } from '../toast/toast.component';
+import { ContactFormComponent } from '../contact-form/contact-form.component';
 import { NavbarComponent } from "../navbar/navbar.component";
 import { FooterComponent } from "../footer/footer.component";
+
 
 @Component({
     selector: 'app-home',
     standalone: true,
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css'],
-    imports: [CommonModule, RouterModule, FontAwesomeModule, ToastComponent, NavbarComponent, FooterComponent]
+    imports: [CommonModule, RouterModule, FontAwesomeModule, ToastComponent, NavbarComponent, FooterComponent, ContactFormComponent]
 })
+
 export class HomeComponent {
   faLocation = faLocationDot;
 
