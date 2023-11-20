@@ -16,27 +16,27 @@ import { HttpClientModule } from '@angular/common/http';
 import { ToastComponent } from '../../shared/toast/toast.component';
 import { TripService } from '../../services/trip/trip.service';
 import { NgForm } from '@angular/forms';
-import { NavbarComponent } from "../../shared/navbar/navbar.component";
-import { FooterComponent } from "../../shared/footer/footer.component";
+import { NavbarComponent } from '../../shared/navbar/navbar.component';
+import { FooterComponent } from '../../shared/footer/footer.component';
 import { UserTripService } from '../../services/user-trip/user-trip.service';
 import { AuthService, User } from '@auth0/auth0-angular';
 import { take } from 'rxjs';
 import { Trip } from '../../models/Trip';
 
 @Component({
-    selector: 'app-getstarted',
-    standalone: true,
-    templateUrl: './getstarted.component.html',
-    styleUrls: ['./getstarted.component.css'],
-    imports: [
-        CommonModule,
-        FontAwesomeModule,
-        FormsModule,
-        HttpClientModule,
-        ToastComponent,
-        NavbarComponent,
-        FooterComponent
-    ]
+  selector: 'app-getstarted',
+  standalone: true,
+  templateUrl: './getstarted.component.html',
+  styleUrls: ['./getstarted.component.css'],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    FormsModule,
+    HttpClientModule,
+    ToastComponent,
+    NavbarComponent,
+    FooterComponent,
+  ],
 })
 export class GetstartedComponent implements OnInit {
   @ViewChild('startDateInput') startDateInput!: ElementRef<HTMLInputElement>;
@@ -152,12 +152,21 @@ export class GetstartedComponent implements OnInit {
   }
 
   async submit() {
-    let loggedInUser = await this.checkUserLoggedIn();
+    try {
+      let loggedInUser = await this.checkUserLoggedIn();
 
-    if (loggedInUser !== null) {
-      let trip = await this.postNewTrip();
-      console.log(trip.tripId, loggedInUser.sub);
-      await this.postNewUserTrip(trip.tripId, loggedInUser.sub);
+      if (loggedInUser !== null) {
+        let trip = await this.postNewTrip();
+        console.log(trip.tripId, loggedInUser.sub);
+
+        await this.postNewUserTrip(trip.tripId, loggedInUser.sub);
+
+        this.isSubmitted = true;
+      } else {
+        this._auth.loginWithPopup();
+      }
+    } catch (error) {
+      this.isError = true;
     }
   }
 

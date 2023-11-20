@@ -37,16 +37,20 @@ namespace TripPlannerAPI.Controllers
 
         // GET: api/UserTrips/5
         [HttpGet("{userId}")]
-        public async Task<ActionResult<List<UserTripRequest>>> GetUserTripsByUserId(String userId)
+        public async Task<ActionResult<List<UserTripRequest>>> GetTripsByUserId(String userId)
         {
-            var userTrip = await _context.UserTrips.Where(ut => ut.UserId == userId).ToListAsync();
+            var trips = await _context.UserTrips
+                .Include(ut => ut.Trip)
+                .Where(ut => ut.UserId == userId)
+                .Select(ut => ut.Trip)
+                .ToListAsync();
 
-            if (userTrip == null)
+            if (trips == null)
             {
                 return NotFound();
             }
 
-            return _mapper.Map<List<UserTripRequest>>(userTrip);
+            return Ok(trips);
         }
 
         

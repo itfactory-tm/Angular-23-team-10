@@ -10,8 +10,10 @@ import { environment } from 'src/environments/environment';
 export class UserTripService {
   constructor(private httpClient: HttpClient) {}
 
-  getUserTrips(): Observable<UserTrip[]> {
-    return this.httpClient.get<UserTrip[]>(environment.api_url + '/UserTrips');
+  GetTripsByUserId(userId: string): Observable<UserTrip[]> {
+    return this.httpClient.get<UserTrip[]>(
+      environment.api_url + '/UserTrips/' + userId
+    );
   }
 
   postUserTrip(userTrip: UserTrip): Observable<UserTrip> {
