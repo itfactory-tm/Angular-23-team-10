@@ -26,4 +26,10 @@ export class UserTripService {
       { headers: headers }
     );
   }
+
+  deleteUserTrip(userId: string, tripId: number): Observable<UserTrip> {
+    return this.httpClient.delete<UserTrip>(
+      environment.api_url + '/UserTrips/' + userId + '/' + tripId
+    );
+  }
 }

@@ -28,21 +28,27 @@ import { ActivityFormComponent } from './components/calender-activity-form/calen
     HttpClientModule,
     FontAwesomeModule,
     ReactiveFormsModule,
+
     AuthModule.forRoot({
       //domain: 'dev-2ki8nim0a3vrbww1.us.auth0.com',
       domain: environment.AUTH0_DOMAIN,
       //clientId: 'jGOPQttdT71dyPnd7zJUepi46zGNoihE',
       clientId: environment.AUTH0_CLIENT_ID,
       authorizationParams: {
-        redirect_uri: window.location.origin
+        redirect_uri: window.location.origin,
       },
       // The AuthHttpInterceptor configuration
       httpInterceptor: {
-        allowedList: [`${environment.api_url}/trip`,`${environment.api_url}/trip/*`]
-      }
+        allowedList: [
+          `${environment.api_url}/trip`,
+          `${environment.api_url}/trip/*`,
+        ],
+      },
     }),
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true }],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

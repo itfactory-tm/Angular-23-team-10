@@ -16,7 +16,7 @@ export class TripService {
   }
 
   getTripById(id: number): Observable<Trip> {
-    return this.httpClient.get<Trip>(environment.api_url + '/trips/' + id);
+    return this.httpClient.get<Trip>(environment.api_url + '/Trips/' + id);
   }
 
   getPublicTrips(): Observable<Trip[]> {
@@ -32,5 +32,11 @@ export class TripService {
     return this.httpClient.post<Trip>(environment.api_url + '/Trips', trip, {
       headers: headers,
     });
+  }
+
+  deleteTrip(tripId: number): Observable<Trip> {
+    return this.httpClient.delete<Trip>(
+      environment.api_url + '/Trips/' + tripId
+    );
   }
 }
