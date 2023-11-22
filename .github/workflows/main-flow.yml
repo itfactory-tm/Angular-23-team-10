@@ -32,4 +32,6 @@ jobs:
       - name: Build and Deploy to Okteto Cloud
         uses: okteto/build@latest
         with:
-          file: ./Back-end/docker-compose.yml
+          tag: myapp-backend:latest
+          file: docker-compose.yml
+          path: Back-end
