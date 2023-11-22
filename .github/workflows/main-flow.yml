@@ -25,10 +25,11 @@ jobs:
           node-version: "14"
 
       - name: Set context to Okteto Cloud
-        uses: okteto/context@v2
+        uses: okteto/context@latest
         with:
           context: ./Back-end
           token: jFjquV8P0AbTToon1ompj19hpYoU1ZPBOKbT5JHB4Sf7OjKv
 
       - name: Build and Deploy to Okteto Cloud
         uses: okteto/build@latest
+        file: ./Back-end/docker-compose.yml
