@@ -9,8 +9,6 @@ import {
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import flatpickr from 'flatpickr';
-import { Options } from 'flatpickr/dist/types/options';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastComponent } from '../../shared/toast/toast.component';
@@ -22,6 +20,9 @@ import { UserTripService } from '../../services/user-trip/user-trip.service';
 import { AuthService, User } from '@auth0/auth0-angular';
 import { take } from 'rxjs';
 import { Trip } from '../../models/Trip';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-getstarted',
@@ -36,6 +37,9 @@ import { Trip } from '../../models/Trip';
     ToastComponent,
     NavbarComponent,
     FooterComponent,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
   ],
 })
 export class GetstartedComponent implements OnInit {
@@ -43,10 +47,6 @@ export class GetstartedComponent implements OnInit {
   @ViewChild('endDateInput') endDateInput!: ElementRef<HTMLInputElement>;
 
   ngOnInit(): void {}
-
-  ngAfterViewInit(): void {
-    this.initDatePickers();
-  }
 
   faImage = faImage;
   faTrash = faTrashAlt;
@@ -69,8 +69,6 @@ export class GetstartedComponent implements OnInit {
 
   isSubmitted: boolean = false;
   isError: boolean = false;
-
-  tripLenght: number = 0;
 
   tripFormSubmitted = false; // Flag to track form submission
   tripFormSubmitted2 = false; // Flag to track form submission
@@ -157,7 +155,6 @@ export class GetstartedComponent implements OnInit {
 
       if (loggedInUser !== null) {
         let trip = await this.postNewTrip();
-        console.log(trip.tripId, loggedInUser.sub);
 
         await this.postNewUserTrip(trip.tripId, loggedInUser.sub);
 
@@ -172,21 +169,6 @@ export class GetstartedComponent implements OnInit {
 
   isPrevButtonDisabled(): boolean {
     return this.currentStep === 1;
-  }
-
-  private initDatePickers(): void {
-    const startDatePickerOptions: Options = {
-      enableTime: false,
-      dateFormat: 'Y-m-d',
-    };
-
-    const endDatePickerOptions: Options = {
-      enableTime: false,
-      dateFormat: 'Y-m-d',
-    };
-
-    flatpickr(this.startDateInput.nativeElement, startDatePickerOptions);
-    flatpickr(this.endDateInput.nativeElement, endDatePickerOptions);
   }
 
   selectChoose(choice: string) {
@@ -217,5 +199,9 @@ export class GetstartedComponent implements OnInit {
   removeImage(): void {
     this.selectedFileName = undefined;
     this.imagePreviewUrl = undefined;
+  }
+
+  selectSharingOption(isShared: boolean): void {
+    this.isShared = isShared;
   }
 }
