@@ -15,7 +15,7 @@ jobs:
 
       - name: Build and Deploy Backend
         run: |
-          cd Angular-23-team-10/Back-end
+          cd ./Back-end
           docker-compose -f docker-compose.yml build
           docker-compose -f docker-compose.yml up -d
 
@@ -27,10 +27,9 @@ jobs:
       - name: Set context to Okteto Cloud
         uses: okteto/context@latest
         with:
-          context: ./ # assuming your docker-compose.yml is in the root of Back-end
           token: jFjquV8P0AbTToon1ompj19hpYoU1ZPBOKbT5JHB4Sf7OjKv
 
       - name: Build and Deploy to Okteto Cloud
         uses: okteto/build@latest
         with:
-          file: ./docker-compose.yml
+          file: ./Back-end/docker-compose.yml
