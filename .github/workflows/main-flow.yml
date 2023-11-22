@@ -18,7 +18,6 @@ jobs:
           cd ../Back-end
           docker-compose -f docker-compose.yml build
           docker-compose -f docker-compose.yml up -d
-        working-directory: ./Back-end
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -28,10 +27,9 @@ jobs:
       - name: Set context to Okteto Cloud
         uses: okteto/context@v2
         with:
-          context: ./Back-end
           token: jFjquV8P0AbTToon1ompj19hpYoU1ZPBOKbT5JHB4Sf7OjKv
 
       - name: Build and Deploy to Okteto Cloud
         uses: okteto/build@latest
         with:
-          file: ./docker-compose.yml
+          file: ../Back-end/docker-compose.yml
