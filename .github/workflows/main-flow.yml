@@ -33,5 +33,5 @@ jobs:
         uses: okteto/build@latest
         with:
           tag: myapp-backend:latest
-          file: docker-compose.yml
+          file: ./Back-end/docker-compose.yml
           path: Back-end
