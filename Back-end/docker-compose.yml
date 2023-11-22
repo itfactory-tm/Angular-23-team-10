@@ -16,8 +16,8 @@ services:
       - sql
     image: ${DOCKER_REGISTRY-}tripplannerapi
     build:
-      context: ./Back-end/TripPlanner.API
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./TripPlanner.API/Dockerfile
     ports:
       - "5000:80"
 
