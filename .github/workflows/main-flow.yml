@@ -24,15 +24,6 @@ jobs:
         with:
           node-version: "14"
 
-      - name: Docker login
-        run: docker login -u testuser70 -p testuser70
-
-      - name: Docker Compose Build
-        run: docker-compose -f Back-end/docker-compose.yml build
-
-      - name: Upload container to Docker Hub with Push
-        run: docker-compose -f Back-end/docker-compose.yml push
-
       - name: Set context to Okteto Cloud
         uses: okteto/context@latest
         with:
