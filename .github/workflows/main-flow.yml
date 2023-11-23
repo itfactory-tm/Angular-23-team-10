@@ -10,19 +10,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      # - name: Checkout code
+      #   uses: actions/checkout@v2
 
-      - name: Build and Deploy Backend
-        run: |
-          cd ./Back-end
-          docker-compose -f docker-compose.yml build
-          docker-compose -f docker-compose.yml up -d
+      # - name: Build and Deploy Backend
+      #   run: |
+      #     cd ./Back-end
+      #     docker-compose -f docker-compose.yml build
+      #     docker-compose -f docker-compose.yml up -d
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "14"
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: "14"
 
       # this okteto cloud works without error
       - name: Set context to Okteto Cloud
@@ -36,9 +36,18 @@ jobs:
       # !  Build 'tripplanner-api': Dockerfile 'TripPlanner.API/Dockerfile' is not in a relative path to context 'Back-end'
       # x  Error building service 'tripplanner-api': invalid build context: 'Back-end' does not exist
 
+      # WHY AM I GETTING THE ABOVE ERROR? MAYBE SOME PATH IS WRONG IN MY DOCKER-COMPOSE FILE?
+      # I HAVE TRIED MANY DIFFERENT PATHS BUT I KEEP GETTING THE SAME ERROR
+      # can you help me with this?
+      # GENERATE CODE FOR ME TO COPY AND PASTE HERE
+
+  
+      # can you explain to me what this does?
       - name: Build and Deploy to Okteto Cloud
-        uses: okteto/build@latest
-        with:
-          tag: myapp-backend:latest
-          file: ./Back-end/docker-compose.yml
-          path: ./Back-end
+        uses: okteto/build@latest # this is the action
+        with: # these are the inputs
+          tag: myapp-backend:latest # this is the image tag
+          file: ./Back-end/docker-compose.yml # this is the docker-compose file
+          path: ./Back-end # this is the path to the docker-compose file
+          
+
