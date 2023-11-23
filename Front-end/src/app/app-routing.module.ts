@@ -10,6 +10,7 @@ import { ActivityFormComponent } from './components/calender-activity-form/calen
 import { TripComponent } from './components/trip/trip.component';
 import { ActivityListComponent } from './components/activity/activity.component';
 import { HomeComponent } from './components/home/home.component';
+import { PublicApiTestComponent } from './components/public-api-test/public-api-test.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'trips', component: TripComponent },
   { path: 'public-trips', component: PublicTripsComponent },
   { path: 'aboutus', component: AboutUsComponent },
+  { path: 'api', component: PublicApiTestComponent}
 ];
 
 @NgModule({
