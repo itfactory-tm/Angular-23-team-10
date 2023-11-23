@@ -42,3 +42,5 @@ jobs:
         run: |
           okteto context use https://cloud.okteto.com
           okteto deploy
+        env:
+          OKTETO_TOKEN: jFjquV8P0AbTToon1ompj19hpYoU1ZPBOKbT5JHB4Sf7OjKv
