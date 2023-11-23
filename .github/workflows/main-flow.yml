@@ -34,7 +34,4 @@ jobs:
           tag: myapp-backend:latest 
           file: ./docker-compose.yml 
       
-      - name: "Deploy to Okteto Cloud"
-        run: |
-          okteto deploy
-  
+          
