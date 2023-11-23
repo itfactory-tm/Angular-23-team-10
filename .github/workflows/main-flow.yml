@@ -34,4 +34,8 @@ jobs:
           tag: myapp-backend:latest 
           file: ./docker-compose.yml 
       
-          
+      - name: Deploy to Okteto Cloud
+        uses: okteto/actions/deploy@v1
+        with:
+          namespace: eliasgrinwis
+          tag: myapp-backend:latest
