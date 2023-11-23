@@ -15,7 +15,6 @@ jobs:
 
       - name: Build and Deploy Backend
         run: |
-          cd ./Back-end
           docker-compose -f docker-compose.yml build
           docker-compose -f docker-compose.yml up -d
 
