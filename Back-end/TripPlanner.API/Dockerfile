@@ -12,9 +12,9 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["Back-end/TripPlanner.API/TripPlanner.API.csproj", "Back-end/TripPlanner.API/"]
 COPY ["Back-end/TripPlanner.DAL/TripPlanner.DAL.csproj", "Back-end/TripPlanner.DAL/"]
-RUN dotnet restore "TripPlanner.API/TripPlanner.API.csproj"
+RUN dotnet restore "Back-end/TripPlanner.API/TripPlanner.API.csproj"
 COPY . .
-WORKDIR "/src/TripPlanner.API"
+WORKDIR "/src/Back-end/TripPlanner.API"
 RUN dotnet build "TripPlanner.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
