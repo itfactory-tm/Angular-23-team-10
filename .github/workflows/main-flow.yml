@@ -40,6 +40,7 @@ jobs:
       - name: Print Current Directory
         run: |
          pwd
+         cd ../
          ls -la
       
       # can you explain to me what this does?
