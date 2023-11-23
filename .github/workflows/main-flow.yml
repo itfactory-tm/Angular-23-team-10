@@ -23,6 +23,10 @@ jobs:
         with:
           node-version: "14"
       
+      - name: Install Okteto CLI
+        run: |
+          curl https://get.okteto.com -sSfL | sh
+
       - name: Set context to Okteto Cloud
         uses: okteto/context@latest
         with:
@@ -35,7 +39,5 @@ jobs:
           file: ./docker-compose.yml 
       
       - name: Deploy to Okteto Cloud
-        uses: okteto/actions/deploy@v1
-        with:
-          namespace: eliasgrinwis
-          tag: myapp-backend:latest
+        run: |
+          okteto deploy
