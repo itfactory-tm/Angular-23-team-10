@@ -23,7 +23,7 @@ jobs:
       #   uses: actions/setup-node@v3
       #   with:
       #     node-version: "14"
-
+      
       # this okteto cloud works without error
       - name: Set context to Okteto Cloud
         uses: okteto/context@latest
@@ -36,17 +36,16 @@ jobs:
       # !  Build 'tripplanner-api': Dockerfile 'TripPlanner.API/Dockerfile' is not in a relative path to context 'Back-end'
       # x  Error building service 'tripplanner-api': invalid build context: 'Back-end' does not exist
 
-      # WHY AM I GETTING THE ABOVE ERROR? MAYBE SOME PATH IS WRONG IN MY DOCKER-COMPOSE FILE?
-      # I HAVE TRIED MANY DIFFERENT PATHS BUT I KEEP GETTING THE SAME ERROR
-      # can you help me with this?
-      # GENERATE CODE FOR ME TO COPY AND PASTE HERE
-
-  
+      # Print the current working directory
+      - name: Print Current Directory
+        run: |
+         pwd
+      
       # can you explain to me what this does?
       - name: Build and Deploy to Okteto Cloud
         uses: okteto/build@latest # this is the action
         with: # these are the inputs
           tag: myapp-backend:latest # this is the image tag
-          file: ./Back-end/docker-compose.yml # this is the docker-compose file
+          file: ./Back-end/docker-compose.yml  # Adjust the path to your docker-compose.yml
           
 
