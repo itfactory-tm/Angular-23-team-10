@@ -48,6 +48,5 @@ jobs:
         with: # these are the inputs
           tag: myapp-backend:latest # this is the image tag
           file: ./Back-end/docker-compose.yml # this is the docker-compose file
-          path: ./Back-end # this is the path to the docker-compose file
           
 
