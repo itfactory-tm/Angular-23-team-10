@@ -40,5 +40,5 @@ jobs:
       
       - name: Deploy to Okteto Cloud
         run: |
-          okteto.exe context use https://cloud.okteto.com
+          okteto context use https://cloud.okteto.com
           okteto deploy
