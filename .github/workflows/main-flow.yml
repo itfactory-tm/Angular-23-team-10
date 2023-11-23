@@ -36,6 +36,4 @@ jobs:
       
       - name: "Push changes to Okteto Cloud"
         uses: okteto/push@latest
-        with:
-          namespace: eliasgrinwis
-          name: Angular-23-team-10
+  
