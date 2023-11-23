@@ -10,8 +10,8 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["TripPlanner.API/TripPlanner.API.csproj", "TripPlanner.API/"]
-COPY ["TripPlanner.DAL/TripPlanner.DAL.csproj", "TripPlanner.DAL/"]
+COPY ["Back-end/TripPlanner.API/TripPlanner.API.csproj", "Back-end/TripPlanner.API/"]
+COPY ["Back-end/TripPlanner.DAL/TripPlanner.DAL.csproj", "Back-end/TripPlanner.DAL/"]
 RUN dotnet restore "TripPlanner.API/TripPlanner.API.csproj"
 COPY . .
 WORKDIR "/src/TripPlanner.API"
