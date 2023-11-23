@@ -42,11 +42,10 @@ jobs:
          pwd
          ls -la
       
+
       # can you explain to me what this does?
       - name: Build and Deploy to Okteto Cloud
-        uses: okteto/build@latest # this is the action
-        with: # these are the inputs
-          tag: myapp-backend:latest # this is the image tag
-          file: ./Back-end/docker-compose.yml  # Adjust the path to your docker-compose.yml
-          
+        run: |
+          cd ./Back-end
+          okteto build --progress plain -f docker-compose.yml
 
