@@ -56,9 +56,8 @@ jobs:
       - run: |
           pwd
           cd ./Front-end
-          pwd
-      - run: npm install
-      - run: npm run build
+          npm install
+          npm run build
       - uses: w9jds/firebase-action@master
         with:
           args: deploy --only hosting
