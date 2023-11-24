@@ -58,11 +58,11 @@ jobs:
         with:
           node-version: "18.17.1"
       - run: |
-          pwd
+          ls -la
           npm install
           npm run build
       - uses: w9jds/firebase-action@master
         with:
-          args: deploy --only hosting
+          args: deploy --only hosting --project ./Front-end
         env:
           FIREBASE_TOKEN: 1//096Mn1E67cFirCgYIARAAGAkSNwF-L9IrlD2avG8X5NGaeLFbnC2dGJdWzAWyHCvb3KDxuiLf7c3h0LL3Y1AcC2UBAY8sOlwM-50
