@@ -44,3 +44,23 @@ jobs:
           okteto deploy
         env:
           OKTETO_TOKEN: jFjquV8P0AbTToon1ompj19hpYoU1ZPBOKbT5JHB4Sf7OjKv
+  
+  front-end:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: "14"
+      - run: |
+          pwd
+          cd ./Front-end
+          pwd
+      - run: npm install
+      - run: npm run build
+      - uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: 1//096Mn1E67cFirCgYIARAAGAkSNwF-L9IrlD2avG8X5NGaeLFbnC2dGJdWzAWyHCvb3KDxuiLf7c3h0LL3Y1AcC2UBAY8sOlwM-50
