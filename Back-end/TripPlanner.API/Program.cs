@@ -42,7 +42,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors(x => x
-            .WithOrigins("http://localhost:4200", "https://localhost:4200", "https://trip-planner-46730.web.app/")
+            .AllowAnyOrigin() // temporary
             .AllowAnyMethod()
             .AllowAnyHeader()); //Temporary (security risk)
 
