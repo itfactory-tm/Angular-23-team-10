@@ -52,7 +52,7 @@ jobs:
       - uses: actions/checkout@master
       - uses: actions/setup-node@master
         with:
-          node-version: "14"
+          node-version: "18.17.1"
       - run: |
           pwd
           cd ./Front-end
