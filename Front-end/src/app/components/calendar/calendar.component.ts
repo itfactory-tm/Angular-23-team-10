@@ -1,7 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {Router} from '@angular/router';
-import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faCalendar,
   faCircle,
@@ -9,19 +9,25 @@ import {
   faPlus,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import {TripService} from '../../services/trip/trip.service';
-import {Subscription} from 'rxjs';
-import {Trip} from '../../models/Trip';
-import {ActivityService} from 'src/app/services/activity/activity.service';
-import {NavbarComponent} from "../../shared/navbar/navbar.component";
-import {PageLoaderComponent} from "../../shared/page-loader/page-loader.component";
+import { TripService } from '../../services/trip/trip.service';
+import { Subscription } from 'rxjs';
+import { Trip } from '../../models/Trip';
+import { ActivityService } from 'src/app/services/activity/activity.service';
+import { NavbarComponent } from '../../shared/navbar/navbar.component';
+import { PageLoaderComponent } from '../../shared/page-loader/page-loader.component';
+//import { Input } from 'postcss';
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css'],
-  imports: [CommonModule, FontAwesomeModule, NavbarComponent, PageLoaderComponent]
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    NavbarComponent,
+    PageLoaderComponent,
+  ],
 })
 export class CalendarComponent implements OnInit, OnDestroy {
   user: any;
@@ -32,7 +38,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   trip$: Subscription = new Subscription();
   deleteActivity$: Subscription = new Subscription();
 
-  errorMessage: string = "";
+  errorMessage: string = '';
 
   faCalendarDay = faCalendar;
   faPlus = faPlus;
@@ -40,20 +46,28 @@ export class CalendarComponent implements OnInit, OnDestroy {
   faPencil = faPencil;
   faTrash = faTrash;
 
+  tripId: number = 4;
+
   constructor(
     private tripService: TripService,
     private activityService: ActivityService,
     private router: Router,
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.getTripById(4);
+    this.getTripId();
+    this.getTripById(this.tripId);
   }
 
   ngOnDestroy(): void {
     this.trip$.unsubscribe();
     this.deleteActivity$.unsubscribe();
+  }
+
+  getTripId() {
+    this.tripService.tripId$.subscribe((id: number) => {
+      this.tripId = id;
+    });
   }
 
   getTripById(id: number) {
@@ -106,18 +120,27 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   add(activityDate: Date, tripId: number = this.trip.tripId) {
-    let date = activityDate.getFullYear() + "-" + (activityDate.getMonth() + 1) + "-" + activityDate.getDate();
-    this.router.navigate(['/calendar/activity'], {state: {tripId: tripId, date: date, mode: 'add'}});
+    let date =
+      activityDate.getFullYear() +
+      '-' +
+      (activityDate.getMonth() + 1) +
+      '-' +
+      activityDate.getDate();
+    this.router.navigate(['/calendar/activity'], {
+      state: { tripId: tripId, date: date, mode: 'add' },
+    });
   }
 
   edit(id: number) {
-    this.router.navigate(['calendar/activity'], {state: {id: id, mode: 'edit'}});
+    this.router.navigate(['calendar/activity'], {
+      state: { id: id, mode: 'edit' },
+    });
   }
 
   deleteActivity(id: number) {
     this.deleteActivity$ = this.activityService.deleteActivity(id).subscribe({
       next: (v) => this.getTripById(4),
-      error: (e) => this.errorMessage = e.message
+      error: (e) => (this.errorMessage = e.message),
     });
   }
 
