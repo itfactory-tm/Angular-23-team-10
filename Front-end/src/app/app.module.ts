@@ -28,7 +28,6 @@ import { ActivityFormComponent } from './components/calender-activity-form/calen
     HttpClientModule,
     FontAwesomeModule,
     ReactiveFormsModule,
-
     AuthModule.forRoot({
       //domain: 'dev-2ki8nim0a3vrbww1.us.auth0.com',
       domain: environment.AUTH0_DOMAIN,
