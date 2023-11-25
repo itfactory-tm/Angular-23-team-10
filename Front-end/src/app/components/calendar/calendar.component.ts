@@ -66,7 +66,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   getTripId() {
     this.tripService.tripId$.subscribe((id: number) => {
-      this.tripId = id;
+      if (id !== 0) {
+        this.tripId = id;
+      }
     });
   }
 
