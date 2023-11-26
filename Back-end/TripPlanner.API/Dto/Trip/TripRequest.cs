@@ -14,6 +14,9 @@ namespace TripPlannerAPI.Dto.Trip
         public IFormFile? File { get; set; }
         public string? ImgName { get; set; }
         public string? Description { get; set; }
+        public string? Country { get; set; }
+        public string? City { get; set; }
+        public string? Street { get; set; }
         public bool IsShared { get; set; }
         public ICollection<TripActivityRequest> Activities { get; set; }
     }

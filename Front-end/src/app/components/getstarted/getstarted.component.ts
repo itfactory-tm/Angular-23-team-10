@@ -30,24 +30,26 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { StorageService } from 'src/app/services/storage/storage.service';
+import { AutocompleteComponent } from "../autocomplete/autocomplete.component";
 
 @Component({
-  selector: 'app-getstarted',
-  standalone: true,
-  templateUrl: './getstarted.component.html',
-  styleUrls: ['./getstarted.component.css'],
-  imports: [
-    CommonModule,
-    FontAwesomeModule,
-    FormsModule,
-    HttpClientModule,
-    ToastComponent,
-    NavbarComponent,
-    FooterComponent,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatNativeDateModule,
-  ],
+    selector: 'app-getstarted',
+    standalone: true,
+    templateUrl: './getstarted.component.html',
+    styleUrls: ['./getstarted.component.css'],
+    imports: [
+        CommonModule,
+        FontAwesomeModule,
+        FormsModule,
+        HttpClientModule,
+        ToastComponent,
+        NavbarComponent,
+        FooterComponent,
+        MatDatepickerModule,
+        MatFormFieldModule,
+        MatNativeDateModule,
+        AutocompleteComponent
+    ]
 })
 export class GetstartedComponent implements OnInit {
   @ViewChild('startDateInput') startDateInput!: ElementRef<HTMLInputElement>;
@@ -73,6 +75,8 @@ export class GetstartedComponent implements OnInit {
   imagePreviewUrl: string | undefined;
   isShared: boolean | null = null;
   tripDescription: string = '';
+  tripCountry: string = '';
+  tripCity: string = '';
 
   isSubmitted: boolean = false;
   isError: boolean = false;
@@ -125,6 +129,8 @@ export class GetstartedComponent implements OnInit {
         picture: this.imageUrl!,
         description: this.tripDescription,
         isShared: this.isShared!,
+        city: this.tripCity,
+        country: this.tripCountry,
         activities: [],
       })
       .toPromise();
@@ -240,5 +246,10 @@ export class GetstartedComponent implements OnInit {
 
   selectSharingOption(isShared: boolean): void {
     this.isShared = isShared;
+  }
+
+  handleCitySelection(city: any) {
+    this.tripCountry = city.country;
+    this.tripCity = city.name;
   }
 }
