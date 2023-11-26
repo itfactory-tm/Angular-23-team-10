@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { async } from '@angular/core/testing';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Trip } from 'src/app/models/Trip';
 import { environment } from 'src/environments/environment';
 
@@ -10,6 +10,13 @@ import { environment } from 'src/environments/environment';
 })
 export class TripService {
   constructor(private httpClient: HttpClient) {}
+
+  private tripIdSubject = new BehaviorSubject<number>(0);
+  tripId$ = this.tripIdSubject.asObservable();
+
+  setTripId(id: number) {
+    this.tripIdSubject.next(id);
+  }
 
   getTrips(): Observable<Trip[]> {
     return this.httpClient.get<Trip[]>(environment.api_url + '/Trips');
@@ -21,7 +28,7 @@ export class TripService {
 
   getPublicTrips(): Observable<Trip[]> {
     return this.httpClient.get<Trip[]>(
-      environment.api_url + '/trips/public-trips'
+      environment.api_url + '/Trips/public-trips'
     );
   }
 

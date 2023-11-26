@@ -13,10 +13,10 @@ namespace TripPlannerAPI.Data
 
             //Add trips
             context.Trips.AddRange(
-                new Trip { Name = "Berlin City Trip", StartDate = new DateTime(2023, 10, 16), EndDate = new DateTime(2023, 10, 31), Picture = "https://example.com/trip1.jpg", Description = "This is a test trip", IsShared = true },
-                new Trip { Name = "Madrid City Trip", StartDate = new DateTime(2023, 10, 15), EndDate = new DateTime(2023, 10, 17), Picture = "https://example.com/trip2.jpg", Description = "This is my first trip!", IsShared = false },
-                new Trip { Name = "London City Trip", StartDate = new DateTime(2023, 10, 16), EndDate = new DateTime(2023, 10, 31), Picture = "https://example.com/trip3.jpg", Description = "This is my second trip!", IsShared = true },
-                new Trip { Name = "India Trip", StartDate = new DateTime(2023, 11, 15), EndDate = new DateTime(2023, 11, 30), Picture = "https://example.com/trip3.jpg", Description = "This is my India trip!", IsShared = true }
+                new Trip { Name = "Berlin City Trip", StartDate = new DateTime(2023, 10, 16), EndDate = new DateTime(2023, 10, 31), Picture = "basilika.jpg", Description = "This is a test trip", IsShared = true },
+                new Trip { Name = "Madrid City Trip", StartDate = new DateTime(2023, 10, 15), EndDate = new DateTime(2023, 10, 17), Picture = "disneylanbd.jpg", Description = "This is my first trip!", IsShared = false },
+                new Trip { Name = "London City Trip", StartDate = new DateTime(2023, 10, 16), EndDate = new DateTime(2023, 10, 31), Picture = "heroImage.jpg", Description = "This is my second trip!", IsShared = true },
+                new Trip { Name = "India Trip", StartDate = new DateTime(2023, 11, 15), EndDate = new DateTime(2023, 11, 30), Picture = "mindanou.jpg", Description = "This is my India trip!", IsShared = true }
 
                 );
 

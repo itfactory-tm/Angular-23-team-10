@@ -1,11 +1,53 @@
-<div *ngFor="let trip of trips">
-  <h1 class="text-white">{{ trip.name }}</h1>
-  <img src="{{ trip.picture }}" alt="{{ trip.name }} Picture" />
-  <p class="text-white">{{ trip.startDate }} - {{ trip.endDate }}</p>
-  <p class="text-white">{{ trip.description }}</p>
-  <ul>
-    <li *ngFor="let activity of trip.activities">
-      <p class="text-white">{{ activity.name }}</p>
-    </li>
-  </ul>
-</div>
+<main class="mx-auto container">
+  <h1 class="text-3xl lg:text-4xl font-bold text-white mb-6">
+    See other people's experiences
+  </h1>
+
+  @if (isLoading) {
+  <app-page-loader></app-page-loader>
+  }
+
+  <div class="flex flex-wrap justify-center gap-6">
+    @for (trip of trips; track trip.tripId) {
+    <div class="relative cursor-pointer" (click)="navigateToTrip(trip.tripId)">
+      <div
+        class="hover:bg-gray-600 shadow-md hover:shadow-lg bg-custom-lighter-background card rounded-lg flex content-between flex-col w-[350px] h-[400px] card"
+      >
+        <img
+          src="assets/{{ trip.picture }}"
+          alt="{{ trip.name }} Picture"
+          class="rounded-t-lg"
+        />
+        <div class="p-4 overflow-auto info">
+          <h2 class="text-white font-bold text-xl mb-2">{{ trip.name }}</h2>
+          <p class="text-white">{{ trip.startDate }} - {{ trip.endDate }}</p>
+          <p class="text-white">{{ trip.description }}</p>
+        </div>
+      </div>
+      <div
+        class="absolute md:right-0 md:top-0 md:left-[360px] bg-gray-600 shadow-md w-[300px] p-4 rounded-lg transition-all duration-300 z-10 activities"
+      >
+        <h2 class="text-white font-bold text-xl mb-2">Activities</h2>
+        <ul>
+          @for (activity of trip.activities; track activity.tripActivityId) {
+          <li class="text-white">
+            <p>
+              <span class="pr-1"
+                ><fa-icon
+                  class="fa-solid text-gray-400 fa-xs"
+                  [icon]="faCircle"
+                ></fa-icon></span
+              >{{ activity.name }}  {{ activity.startDate}} - {{ activity.endDate}}
+            </p>
+          </li>
+          } @empty {
+          <li class="text-white">
+            <p>No activities</p>
+          </li>
+          }
+        </ul>
+      </div>
+    </div>
+    }
+  </div>
+</main>
