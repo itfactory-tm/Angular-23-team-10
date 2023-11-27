@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   faEllipsis,
@@ -15,13 +15,14 @@ import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { UserTripService } from 'src/app/services/user-trip/user-trip.service';
 import { AuthService } from '@auth0/auth0-angular';
-import { Trip } from 'src/app/models/Trip';
 import { TripService } from 'src/app/services/trip/trip.service';
 import { ToastComponent } from '../../shared/toast/toast.component';
 import { PageLoaderComponent } from '../../shared/page-loader/page-loader.component';
 import { environment } from 'src/environments/environment';
 import { ClipboardService } from 'ngx-clipboard';
 import { take, timer } from 'rxjs';
+import { NgForm, FormsModule } from '@angular/forms';
+import { Trip } from 'src/app/models/Trip';
 
 @Component({
   selector: 'app-trip',
@@ -36,9 +37,12 @@ import { take, timer } from 'rxjs';
     FooterComponent,
     ToastComponent,
     PageLoaderComponent,
+    FormsModule,
   ],
 })
 export class TripComponent implements OnInit {
+  @ViewChild('tripForm') tripForm!: NgForm;
+
   faPlus = faPlus;
   faTrash = faTrash;
   faPencil = faPencilAlt;
@@ -51,11 +55,27 @@ export class TripComponent implements OnInit {
   tripId: number = 0;
   isError: boolean = false;
   warning: boolean = false;
+  share: boolean = false;
+  edit: boolean = false;
   isDeleted: boolean = false;
   isLoading = false;
   isCopied = false;
 
   allTripsFromUser: any = [];
+  tripName: string = '';
+  tripFormSubmitted = false; // Flag to track form submission
+  tripUpdate: Trip = {
+    tripId: 0,
+    name: '',
+    startDate: new Date(),
+    endDate: new Date(),
+    picture: '',
+    description: '',
+    country: '',
+    city: '',
+    isShared: false,
+    activities: [],
+  }; // Holds the form data
 
   constructor(
     private tripService: TripService,
@@ -68,7 +88,7 @@ export class TripComponent implements OnInit {
   ngOnInit(): void {
     if (this.authService.user$) {
       this.isLoading = true;
-      this.authService.user$.subscribe((data) => {
+      this.authService.user$.pipe(take(1)).subscribe((data) => {
         this.loggedInUser = data;
         this.fetchTripsFromUser(this.loggedInUser.sub);
         this.userId = data?.sub || '';
@@ -91,8 +111,23 @@ export class TripComponent implements OnInit {
     this.tripId = tripId;
   }
 
+  shareModal(): void {
+    this.share = true;
+  }
+
+  editModal(tripId: number): void {
+    let trip = this.allTripsFromUser.find(
+      (trip: any) => trip.tripId === tripId
+    );
+    this.tripUpdate = trip;
+    this.edit = true;
+    this.tripId = tripId;
+  }
+
   hideModal(): void {
     this.warning = false;
+    this.share = false;
+    this.edit = false;
   }
 
   deleteTrip(): void {
@@ -109,6 +144,19 @@ export class TripComponent implements OnInit {
       }
     );
     this.warning = false;
+  }
+
+  updateTrip(): void {
+    console.log(this.tripName);
+
+    this.tripUpdate.name = this.tripName;
+
+    this.tripService
+      .updateTrip(this.tripUpdate.tripId, this.tripUpdate)
+      .subscribe(() => {
+        this.fetchTripsFromUser(this.userId);
+      });
+    this.edit = false;
   }
 
   deleteUserTrip(userId: string, tripId: number) {
