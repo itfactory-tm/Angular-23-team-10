@@ -26,6 +26,7 @@ import { LoginButtonComponent } from '../login-button/login-button.component';
 import { LogoutButtonComponent } from '../logout-button/logout-button.component';
 import { UserProfileComponent } from '../../components/user-profile/user-profile.component';
 import { SignupButtonComponent } from '../signup-button/signup-button.component';
+import { RoleService } from 'src/app/services/role/role.service';
 
 @Component({
   selector: 'app-navbar',
@@ -60,11 +61,16 @@ export class NavbarComponent {
   public loggedInUser: any;
 
   isAuthenticated = signal(false);
+  isAdmin = signal(false);
 
-  constructor(public authService: AuthService) {
+  constructor(public authService: AuthService, public roleService: RoleService) {
     this.authService.isAuthenticated$.subscribe((auth) => {
       this.isAuthenticated.set(auth);
     });
+
+    this.roleService.hasPermission('getall:trips').subscribe(r => {
+      this.isAdmin.set(r);
+    })
   }
 
   handleSignUp(): void {

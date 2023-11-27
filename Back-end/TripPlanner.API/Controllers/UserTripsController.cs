@@ -53,8 +53,6 @@ namespace TripPlannerAPI.Controllers
             return Ok(trips);
         }
 
-        
-
         // POST: api/UserTrips
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
