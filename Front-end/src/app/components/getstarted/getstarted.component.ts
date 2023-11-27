@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   faArrowLeft,
@@ -9,19 +15,22 @@ import {
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import flatpickr from 'flatpickr';
-import { Options } from 'flatpickr/dist/types/options';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastComponent } from '../../shared/toast/toast.component';
 import { TripService } from '../../services/trip/trip.service';
 import { NgForm } from '@angular/forms';
-import { NavbarComponent } from "../../shared/navbar/navbar.component";
-import { FooterComponent } from "../../shared/footer/footer.component";
+import { NavbarComponent } from '../../shared/navbar/navbar.component';
+import { FooterComponent } from '../../shared/footer/footer.component';
 import { UserTripService } from '../../services/user-trip/user-trip.service';
-import { AuthService, User } from '@auth0/auth0-angular';
+import { AuthService } from '@auth0/auth0-angular';
 import { take } from 'rxjs';
 import { Trip } from '../../models/Trip';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { StorageService } from 'src/app/services/storage/storage.service';
+import { AutocompleteComponent } from "../autocomplete/autocomplete.component";
 
 @Component({
     selector: 'app-getstarted',
@@ -35,7 +44,11 @@ import { Trip } from '../../models/Trip';
         HttpClientModule,
         ToastComponent,
         NavbarComponent,
-        FooterComponent
+        FooterComponent,
+        MatDatepickerModule,
+        MatFormFieldModule,
+        MatNativeDateModule,
+        AutocompleteComponent
     ]
 })
 export class GetstartedComponent implements OnInit {
@@ -43,10 +56,6 @@ export class GetstartedComponent implements OnInit {
   @ViewChild('endDateInput') endDateInput!: ElementRef<HTMLInputElement>;
 
   ngOnInit(): void {}
-
-  ngAfterViewInit(): void {
-    this.initDatePickers();
-  }
 
   faImage = faImage;
   faTrash = faTrashAlt;
@@ -66,14 +75,18 @@ export class GetstartedComponent implements OnInit {
   imagePreviewUrl: string | undefined;
   isShared: boolean | null = null;
   tripDescription: string = '';
+  tripCountry: string = '';
+  tripCity: string = '';
 
   isSubmitted: boolean = false;
   isError: boolean = false;
 
-  tripLenght: number = 0;
-
   tripFormSubmitted = false; // Flag to track form submission
   tripFormSubmitted2 = false; // Flag to track form submission
+
+  fileInput: HTMLInputElement | null = null;
+  file: File | undefined;
+  imageUrl: string | undefined;
 
   @ViewChild('tripForm') tripForm!: NgForm;
   @ViewChild('tripForm2') tripForm2!: NgForm;
@@ -81,7 +94,8 @@ export class GetstartedComponent implements OnInit {
   constructor(
     private tripService: TripService,
     private userTripService: UserTripService,
-    public _auth: AuthService
+    public _auth: AuthService,
+    private storageService: StorageService
   ) {}
 
   nextStep(): void {
@@ -112,9 +126,11 @@ export class GetstartedComponent implements OnInit {
         name: this.tripName,
         startDate: this.startDate!,
         endDate: this.endDate!,
-        picture: this.selectedFileName!,
+        picture: this.imageUrl!,
         description: this.tripDescription,
         isShared: this.isShared!,
+        city: this.tripCity,
+        country: this.tripCountry,
         activities: [],
       })
       .toPromise();
@@ -152,32 +168,50 @@ export class GetstartedComponent implements OnInit {
   }
 
   async submit() {
-    let loggedInUser = await this.checkUserLoggedIn();
+    try {
+      let loggedInUser = await this.checkUserLoggedIn();
 
-    if (loggedInUser !== null) {
-      let trip = await this.postNewTrip();
-      console.log(trip.tripId, loggedInUser.sub);
-      await this.postNewUserTrip(trip.tripId, loggedInUser.sub);
+      if (loggedInUser !== null) {
+        await this.uploadImage();
+
+        let trip = await this.postNewTrip();
+
+        await this.postNewUserTrip(trip.tripId, loggedInUser.sub);
+
+        this.isSubmitted = true;
+      } else {
+        this._auth.loginWithPopup();
+      }
+    } catch (error) {
+      this.isError = true;
     }
+  }
+
+  async uploadImage(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      if (this.file) {
+        const path = 'assets/' + this.file.name;
+
+        // Upload image
+        this.storageService.uploadImage(this.file, path).subscribe(
+          (url) => {
+            this.imageUrl = url;
+            resolve(); // Resolve the promise when image upload is complete, even if imageUrl is undefined
+          },
+          (error) => {
+            console.error('Error uploading image', error);
+            reject(error); // Reject the promise if there's an error during upload
+          }
+        );
+      } else {
+        // No file selected, resolve the promise without setting imageUrl
+        resolve();
+      }
+    });
   }
 
   isPrevButtonDisabled(): boolean {
     return this.currentStep === 1;
-  }
-
-  private initDatePickers(): void {
-    const startDatePickerOptions: Options = {
-      enableTime: false,
-      dateFormat: 'Y-m-d',
-    };
-
-    const endDatePickerOptions: Options = {
-      enableTime: false,
-      dateFormat: 'Y-m-d',
-    };
-
-    flatpickr(this.startDateInput.nativeElement, startDatePickerOptions);
-    flatpickr(this.endDateInput.nativeElement, endDatePickerOptions);
   }
 
   selectChoose(choice: string) {
@@ -185,11 +219,11 @@ export class GetstartedComponent implements OnInit {
   }
 
   updateFileName(event: any): void {
-    const fileInput = event.target;
-    const file = fileInput.files?.[0];
+    this.fileInput = event.target;
+    this.file = this.fileInput?.files?.[0];
 
-    if (file) {
-      this.selectedFileName = file.name;
+    if (this.file) {
+      this.selectedFileName = this.file.name;
 
       // Create a FileReader
       const reader = new FileReader();
@@ -201,12 +235,21 @@ export class GetstartedComponent implements OnInit {
       };
 
       // Read the file as a data URL
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(this.file);
     }
   }
 
   removeImage(): void {
     this.selectedFileName = undefined;
     this.imagePreviewUrl = undefined;
+  }
+
+  selectSharingOption(isShared: boolean): void {
+    this.isShared = isShared;
+  }
+
+  handleCitySelection(city: any) {
+    this.tripCountry = city.country;
+    this.tripCity = city.name;
   }
 }

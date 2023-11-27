@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faCalendar,
@@ -11,27 +11,34 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { TripService } from '../../services/trip/trip.service';
 import { Subscription } from 'rxjs';
-import { AuthService } from '@auth0/auth0-angular';
 import { Trip } from '../../models/Trip';
 import { ActivityService } from 'src/app/services/activity/activity.service';
-import { NavbarComponent } from "../../shared/navbar/navbar.component";
+import { NavbarComponent } from '../../shared/navbar/navbar.component';
+import { PageLoaderComponent } from '../../shared/page-loader/page-loader.component';
+//import { Input } from 'postcss';
 
 @Component({
-    selector: 'app-calendar',
-    standalone: true,
-    templateUrl: './calendar.component.html',
-    styleUrls: ['./calendar.component.css'],
-    imports: [CommonModule, FontAwesomeModule, NavbarComponent]
+  selector: 'app-calendar',
+  standalone: true,
+  templateUrl: './calendar.component.html',
+  styleUrls: ['./calendar.component.css'],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    NavbarComponent,
+    PageLoaderComponent,
+  ],
 })
 export class CalendarComponent implements OnInit, OnDestroy {
   user: any;
   trip!: Trip;
   dates: Date[] = [];
+  isLoading: boolean = true;
 
   trip$: Subscription = new Subscription();
   deleteActivity$: Subscription = new Subscription();
 
-  errorMessage: string = "";
+  errorMessage: string = '';
 
   faCalendarDay = faCalendar;
   faPlus = faPlus;
@@ -39,15 +46,17 @@ export class CalendarComponent implements OnInit, OnDestroy {
   faPencil = faPencil;
   faTrash = faTrash;
 
+  tripId: number = 4;
+
   constructor(
     private tripService: TripService,
     private activityService: ActivityService,
     private router: Router,
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.getTripById(4);
+    this.getTripId();
+    this.getTripById(this.tripId);
   }
 
   ngOnDestroy(): void {
@@ -55,10 +64,19 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.deleteActivity$.unsubscribe();
   }
 
+  getTripId() {
+    this.tripService.tripId$.subscribe((id: number) => {
+      if (id !== 0) {
+        this.tripId = id;
+      }
+    });
+  }
+
   getTripById(id: number) {
     this.trip$ = this.tripService.getTripById(id).subscribe((result) => {
       this.trip = result;
       this.getDates(result.startDate, result.endDate);
+      this.isLoading = false;
     });
   }
 
@@ -69,7 +87,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   getDates(startDate: Date, endDate: Date) {
-    console.log(this.trip.activities);
     let currentDate: Date = startDate;
 
     while (currentDate <= endDate) {
@@ -89,8 +106,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
     );
   }
 
-  isCalendarDay(checkDate: Date, acitivityDate: Date) {
-    let date = new Date(acitivityDate);
+  isCalendarDay(checkDate: Date, activityDate: Date) {
+    let date = new Date(activityDate);
 
     return (
       checkDate.getDate() === date.getDate() &&
@@ -105,18 +122,27 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   add(activityDate: Date, tripId: number = this.trip.tripId) {
-    let date = activityDate.getFullYear() + "-" + (activityDate.getMonth() + 1) + "-" + activityDate.getDate();
-    this.router.navigate(['/calendar/activity'], { state: { tripId: tripId, date: date, mode: 'add' } });
+    let date =
+      activityDate.getFullYear() +
+      '-' +
+      (activityDate.getMonth() + 1) +
+      '-' +
+      activityDate.getDate();
+    this.router.navigate(['/calendar/activity'], {
+      state: { tripId: tripId, date: date, mode: 'add' },
+    });
   }
 
   edit(id: number) {
-    this.router.navigate(['calendar/activity'], { state: { id: id, mode: 'edit' } });
+    this.router.navigate(['calendar/activity'], {
+      state: { id: id, mode: 'edit' },
+    });
   }
 
   deleteActivity(id: number) {
     this.deleteActivity$ = this.activityService.deleteActivity(id).subscribe({
       next: (v) => this.getTripById(4),
-      error: (e) => this.errorMessage = e.message
+      error: (e) => (this.errorMessage = e.message),
     });
   }
 

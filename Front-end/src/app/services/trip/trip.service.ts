@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { async } from '@angular/core/testing';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Trip } from 'src/app/models/Trip';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -11,26 +11,39 @@ import { environment } from 'src/environments/environment.development';
 export class TripService {
   constructor(private httpClient: HttpClient) {}
 
+  private tripIdSubject = new BehaviorSubject<number>(0);
+  tripId$ = this.tripIdSubject.asObservable();
+
+  setTripId(id: number) {
+    this.tripIdSubject.next(id);
+  }
+
   getTrips(): Observable<Trip[]> {
     return this.httpClient.get<Trip[]>(environment.api_url + '/Trips');
   }
 
   getTripById(id: number): Observable<Trip> {
-    return this.httpClient.get<Trip>(environment.api_url + '/trips/' + id);
+    return this.httpClient.get<Trip>(environment.api_url + '/Trips/' + id);
   }
 
   getPublicTrips(): Observable<Trip[]> {
-    return this.httpClient.get<Trip[]>(environment.api_url + "/trips/public-trips");
+    return this.httpClient.get<Trip[]>(
+      environment.api_url + '/Trips/public-trips'
+    );
   }
 
   postTrip(trip: Trip): Observable<Trip> {
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8');
 
-    return this.httpClient.post<Trip>(
-      'https://localhost:7113/api/Trips',
-      trip,
-      { headers: headers }
+    return this.httpClient.post<Trip>(environment.api_url + '/Trips', trip, {
+      headers: headers,
+    });
+  }
+
+  deleteTrip(tripId: number): Observable<Trip> {
+    return this.httpClient.delete<Trip>(
+      environment.api_url + '/Trips/' + tripId
     );
   }
 }

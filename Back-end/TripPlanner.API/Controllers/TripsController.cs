@@ -39,7 +39,7 @@ namespace TripPlannerAPI.Controllers
         [Route("public-trips")]
         public async Task<ActionResult<List<TripRequest>>> GetPublicTrips()
         {
-            var trips = await _context.Trips.Where(t => t.IsShared.Equals(true)).ToListAsync();
+            var trips = await _context.Trips.Include(a => a.TripActivities).ThenInclude(a => a.Activity).Where(t => t.IsShared.Equals(true)).ToListAsync();
 
             if (trips == null)
             {
@@ -83,6 +83,8 @@ namespace TripPlannerAPI.Controllers
                 trip.EndDate = updatedTrip.EndDate;
                 trip.Description = updatedTrip.Description;
                 trip.Picture = updatedTrip.Picture;
+                trip.Country = updatedTrip.Country;
+                trip.City = updatedTrip.City;
                 trip.IsShared = updatedTrip.IsShared;
                 await _context.SaveChangesAsync();
             }

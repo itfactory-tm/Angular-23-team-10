@@ -9,12 +9,11 @@ import { AboutUsComponent } from './components/about-us/about-us.component';
 import { ActivityFormComponent } from './components/calender-activity-form/calender-activity-form.component';
 import { TripComponent } from './components/trip/trip.component';
 import { ActivityListComponent } from './components/activity/activity.component';
-import { TestAPIComponent } from './components/test-api/test-api.component';
 import { HomeComponent } from './components/home/home.component';
+import { PublicApiTestComponent } from './components/public-api-test/public-api-test.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'users', component: TestAPIComponent },
   { path: 'getstarted', component: GetstartedComponent },
   { path: 'calendar', component: CalendarComponent },
   { path: 'calendar/activity', component: ActivityFormComponent },
@@ -23,8 +22,9 @@ const routes: Routes = [
   { path: 'admin/activity', component: ActivityListComponent },
   { path: 'admin/activity/form', component: ActivityFormComponent },
   { path: 'trips', component: TripComponent },
-  { path: 'public-trips', component: PublicTripsComponent},
-  { path: 'aboutus', component: AboutUsComponent}
+  { path: 'public-trips', component: PublicTripsComponent },
+  { path: 'aboutus', component: AboutUsComponent },
+  { path: 'api', component: PublicApiTestComponent}
 ];
 
 @NgModule({

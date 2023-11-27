@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserTrip } from 'src/app/models/UserTrip';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -10,8 +10,16 @@ import { environment } from 'src/environments/environment.development';
 export class UserTripService {
   constructor(private httpClient: HttpClient) {}
 
-  getUserTrips(): Observable<UserTrip[]> {
-    return this.httpClient.get<UserTrip[]>(environment.api_url + '/UserTrips');
+  getUsersByTripId(tripId: number): Observable<UserTrip[]> {
+    return this.httpClient.get<UserTrip[]>(
+      environment.api_url + '/UserTrips/' + tripId
+    );
+  }
+
+  getTripsByUserId(userId: string): Observable<UserTrip[]> {
+    return this.httpClient.get<UserTrip[]>(
+      environment.api_url + '/UserTrips/' + userId
+    );
   }
 
   postUserTrip(userTrip: UserTrip): Observable<UserTrip> {
@@ -19,9 +27,15 @@ export class UserTripService {
     headers = headers.set('Content-Type', 'application/json; charset=utf-8');
 
     return this.httpClient.post<UserTrip>(
-      'https://localhost:7113/api/UserTrips',
+      environment.api_url + '/UserTrips',
       userTrip,
       { headers: headers }
+    );
+  }
+
+  deleteUserTrip(userId: string, tripId: number): Observable<UserTrip> {
+    return this.httpClient.delete<UserTrip>(
+      environment.api_url + '/UserTrips/' + userId + '/' + tripId
     );
   }
 }

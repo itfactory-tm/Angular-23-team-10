@@ -6,6 +6,15 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+
+if (builder.Environment.IsProduction())
+{
+    // Use production connection string
+    connectionString = builder.Configuration.GetConnectionString("ProductionConnection");
+
+}
+
 builder.Services.AddDbContext<TripContext>(options =>
 options.UseSqlServer(connectionString));
 
@@ -40,18 +49,21 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors(x => x
-            .WithOrigins("http://localhost:4200", "https://localhost:4200")
+            .AllowAnyOrigin() // temporary
             .AllowAnyMethod()
             .AllowAnyHeader()); //Temporary (security risk)
 
-app.UseHttpsRedirection();
-
-app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
 {
     var myContext = scope.ServiceProvider.GetRequiredService<TripContext>();
     DBInitializer.Initialize(myContext);
 }
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();

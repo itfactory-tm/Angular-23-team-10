@@ -7,6 +7,8 @@ export interface Trip {
   endDate: Date;
   picture: string;
   description: string;
+  city: string;
+  country: string;
   isShared: boolean;
   activities: Activity[];
 }

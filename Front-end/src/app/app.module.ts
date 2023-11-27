@@ -39,11 +39,16 @@ import { ActivityFormComponent } from './components/calender-activity-form/calen
       },      
       // The AuthHttpInterceptor configuration
       httpInterceptor: {
-        allowedList: [`${environment.api_url}/trip`,`${environment.api_url}/trip/*`]
-      }
+        allowedList: [
+          `${environment.api_url}/trip`,
+          `${environment.api_url}/trip/*`,
+        ],
+      },
     }),
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true }],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

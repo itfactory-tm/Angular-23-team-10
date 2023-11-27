@@ -12,6 +12,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faBars,
   faCog,
+  faDashboard,
   faEdit,
   faEnvelope,
   faPlane,
@@ -55,6 +56,7 @@ export class NavbarComponent {
   faQuestion = faQuestion;
   faSignOutAlt = faSignOutAlt;
   faPlane = faPlane;
+  faDashboard = faDashboard;
 
   public loggedInUser: any;
 
@@ -69,6 +71,18 @@ export class NavbarComponent {
     this.roleService.hasPermission('getall:trips').subscribe(r => {
       this.isAdmin.set(r);
     })
+  }
+
+  handleSignUp(): void {
+    this.authService.loginWithRedirect({
+      appState: {
+        target: '/',
+      },
+      authorizationParams: {
+        prompt: 'login',
+        screen_hint: 'signup',
+      },
+    });
   }
 
   ngOnInit(): void {
