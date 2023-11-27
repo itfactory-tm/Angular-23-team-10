@@ -39,18 +39,18 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
-
-    using (var scope = app.Services.CreateScope())
-    {
-        var myContext = scope.ServiceProvider.GetRequiredService<TripContext>();
-        DBInitializer.Initialize(myContext);
-    }
 }
 
 app.UseCors(x => x
             .AllowAnyOrigin() // temporary
             .AllowAnyMethod()
             .AllowAnyHeader()); //Temporary (security risk)
+
+using (var scope = app.Services.CreateScope())
+{
+    var myContext = scope.ServiceProvider.GetRequiredService<TripContext>();
+    DBInitializer.Initialize(myContext);
+}
 
 app.UseHttpsRedirection();
 
