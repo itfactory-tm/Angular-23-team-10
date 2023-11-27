@@ -12,15 +12,21 @@ import { ActivityService } from 'src/app/services/activity/activity.service';
   styleUrls: ['./calender-activity-form.component.css'],
 })
 export class ActivityFormComponent implements OnInit, OnDestroy {
-  isAdd: boolean = false;
-  isEdit: boolean = false;
   activityId: number = 0;
   tripId: number = 0;
+
   activityTypeId: string = '0';
-  isActivityTypeError: boolean = false;
   date: string = '';
   startTime: string = '12:00';
   endTime: string = '12:00';
+  activityTypeName: string = '';
+  activityName: String = '';
+
+  isAdd: boolean = false;
+  isEdit: boolean = false;
+  isActivityTypeError: boolean = false;
+  isTimeError: boolean = false;
+  isSubmitted: boolean = false;
 
   activity: Activity = {
     tripActivityId: 0,
@@ -33,9 +39,6 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
   };
 
   activityTypes: ActivityType[] = [];
-
-  isSubmitted: boolean = false;
-  errorMessage: string = '';
 
   activity$: Subscription = new Subscription();
   postActivity$: Subscription = new Subscription();
@@ -55,6 +58,10 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
     this.tripId = +this.router.getCurrentNavigation()?.extras.state?.['tripId'];
     this.date = this.router.getCurrentNavigation()?.extras.state?.['date'];
 
+    this.activityTypes$ = this.activityTypeService
+      .getActivityTypes()
+      .subscribe((result) => (this.activityTypes = result));
+
     if (!this.isAdd && !this.isEdit) {
       this.isAdd = true;
     }
@@ -67,15 +74,8 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
           this.setVariables();
         });
     }
-
-    this.activityTypes$ = this.activityTypeService
-      .getActivityTypes()
-      .subscribe((result) => (this.activityTypes = result));
   }
-  ngOnInit(): void {
-    if (this.isEdit) {
-    }
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.activity$.unsubscribe();
@@ -84,88 +84,82 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
     this.activityTypes$.unsubscribe();
   }
 
-  setVariables() {
-    let startDate = new Date(this.activity.startDate);
-    let endDate = new Date(this.activity.endDate);
-
-    this.startTime =
-      startDate.getHours().toString() +
-      ':' +
-      (startDate.getMinutes() < 10
-        ? '0' + startDate.getMinutes().toString()
-        : startDate.getMinutes().toString());
-
-    this.endTime =
-      endDate.getHours().toString() +
-      ':' +
-      (endDate.getMinutes() < 10
-        ? '0' + endDate.getMinutes().toString()
-        : endDate.getMinutes().toString());
-
+  setVariables(): void {
+    this.startTime = this.setTime(this.activity.startDate);
+    this.endTime = this.setTime(this.activity.endDate);
+    this.activityName = this.activity.name;
     this.activityTypeId = this.activity.activityId.toString();
+
+    let foundActivity = this.activityTypes.find(
+      (obj) => obj.activityId === Number(this.activityTypeId)
+    );
+
+    this.activityTypeName = foundActivity ? foundActivity.name : '';
   }
 
-  onSubmit() {
-    if (this.activityTypeId == '0') {
-      this.isActivityTypeError = true;
-    } else {
-      this.isActivityTypeError = false;
-      this.isSubmitted = true;
+  setTime(activityDate: Date): string {
+    let date = new Date(activityDate);
 
-      this.activity.activityId = Number(this.activityTypeId);
+    let time =
+      date.getHours() < 10
+        ? '0' + date.getHours().toString()
+        : date.getHours().toString();
+    time += ':';
+    time +=
+      date.getMinutes() < 10
+        ? '0' + date.getMinutes().toString()
+        : date.getMinutes().toString();
 
-      if (this.isAdd) {
-        this.activity.tripId = this.tripId;
+    return time;
+  }
 
-        this.activity.startDate = new Date(this.date);
-        this.activity.startDate.setHours(
-          Number(this.startTime.slice(0, 2)) + 1,
-          parseInt(this.startTime.slice(3, 5)),
-          0,
-          0
-        );
+  onSubmitValidate(): void {
+    this.isActivityTypeError = this.activityTypeId === '0' ? true : false;
+    this.isTimeError = this.startTime > this.endTime ? true : false;
 
-        this.activity.endDate = new Date(this.date);
-        this.activity.endDate.setHours(
-          Number(this.endTime.slice(0, 2)) + 1,
-          parseInt(this.endTime.slice(3, 5)),
-          0,
-          0
-        );
-
-        this.postActivity$ = this.activityService
-          .postActivity(this.activity)
-          .subscribe({
-            next: (v) => this.router.navigateByUrl('/calendar'),
-            error: (e) => (this.errorMessage = e.message),
-          });
-      }
-      if (this.isEdit) {
-        this.activity.startDate = new Date(this.activity.startDate);
-        this.activity.endDate = new Date(this.activity.endDate);
-
-        this.activity.startDate.setHours(
-          Number(this.startTime.slice(0, 2)) + 1,
-          parseInt(this.startTime.slice(3, 5)),
-          0,
-          0
-        );
-
-        this.activity.endDate.setHours(
-          Number(this.endTime.slice(0, 2)) + 1,
-          parseInt(this.endTime.slice(3, 5)),
-          0,
-          0
-        );
-        console.log(this.activity);
-
-        this.putActivity$ = this.activityService
-          .putActivity(this.activityId, this.activity)
-          .subscribe({
-            next: (v) => this.router.navigateByUrl('/calendar'),
-            error: (e) => (this.errorMessage = e.message),
-          });
-      }
+    if (!this.hasErrors()) {
+      this.submit();
     }
+  }
+
+  hasErrors(): boolean {
+    return this.isActivityTypeError || this.isTimeError;
+  }
+
+  submit(): void {
+    this.isSubmitted = true;
+    this.activity.activityId = Number(this.activityTypeId);
+
+    if (this.isAdd) {
+      this.activity.tripId = this.tripId;
+      this.activity.startDate = this.setDateTime(this.startTime);
+      this.activity.endDate = this.setDateTime(this.endTime);
+
+      this.postActivity$ = this.activityService
+        .postActivity(this.activity)
+        .subscribe({
+          next: (v) => this.router.navigateByUrl('/calendar'),
+        });
+    }
+    if (this.isEdit) {
+      this.activity.startDate = this.setDateTime(this.startTime);
+      this.activity.endDate = this.setDateTime(this.endTime);
+
+      this.putActivity$ = this.activityService
+        .putActivity(this.activityId, this.activity)
+        .subscribe({
+          next: (v) => this.router.navigateByUrl('/calendar'),
+        });
+    }
+  }
+
+  setDateTime(time: String): Date {
+    let date: Date;
+
+    date = this.isAdd ? new Date(this.date) : new Date(this.activity.startDate);
+
+    date.setHours(Number(time.slice(0, 2)) + 1, Number(time.slice(3, 5)), 0, 0);
+
+    return date;
   }
 }
