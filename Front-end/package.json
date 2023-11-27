@@ -24,6 +24,7 @@
     "@fortawesome/angular-fontawesome": "^0.14.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "jose": "^5.1.1",
     "firebase": "^10.6.0",
     "flowbite": "^2.2.0",
     "ngx-clipboard": "^16.0.0",

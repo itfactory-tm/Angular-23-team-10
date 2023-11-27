@@ -22,7 +22,14 @@ options.UseSqlServer(connectionString));
 //builder.Services.AddSqlServer<TripContext>(connectionString, options => options.EnableRetryOnFailure());
 
 builder.Services.AddAuthentication().AddJwtBearer();
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    //We create different policies where each policy contains the permissions required to fulfill them
+    options.AddPolicy("DeleteAccess", policy =>
+                          policy.RequireClaim("permissions", "delete:trip"));
+    options.AddPolicy("GetAccess", policy =>
+                        policy.RequireClaim("permissions", "getall:trips"));
+});
 
 builder.Services.AddControllers();
 
@@ -45,6 +52,7 @@ app.UseCors(x => x
             .AllowAnyOrigin() // temporary
             .AllowAnyMethod()
             .AllowAnyHeader()); //Temporary (security risk)
+
 
 using (var scope = app.Services.CreateScope())
 {
