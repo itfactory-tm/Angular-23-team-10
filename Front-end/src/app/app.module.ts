@@ -34,8 +34,9 @@ import { ActivityFormComponent } from './components/calender-activity-form/calen
       //clientId: 'jGOPQttdT71dyPnd7zJUepi46zGNoihE',
       clientId: environment.AUTH0_CLIENT_ID,
       authorizationParams: {
+        audience: environment.AUTH0_AUDIENCE,
         redirect_uri: window.location.origin
-      },
+      },      
       // The AuthHttpInterceptor configuration
       httpInterceptor: {
         allowedList: [`${environment.api_url}/trip`,`${environment.api_url}/trip/*`]

@@ -23,11 +23,14 @@
         <a routerLink="/public-trips" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
           class="text-custom-nav-text hover:text-white">Explore trips</a>
       </li>
+      
+    @if (isAdmin()) {
       <li>
         <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"></a>
         <a routerLink="/admin/activity" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
           class="text-custom-nav-text hover:text-white">Admin</a>
       </li>
+    }
     </ul>
   </div>
   <div class="w-[203px]">
