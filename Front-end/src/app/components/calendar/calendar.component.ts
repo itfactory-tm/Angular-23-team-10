@@ -36,7 +36,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   trip!: Trip;
   activity!: Activity;
 
-  tripId: number = 4; 
+  tripId: number = 0;
 
   dates: { date: Date; status: String; activities: Activity[] }[] = [];
   today: Date = new Date();
@@ -46,6 +46,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   isModalOpen: boolean = false;
 
   trip$: Subscription = new Subscription();
+  tripId$: Subscription = new Subscription();
 
   faPast = faCalendarCheck;
   faPresent = faCalendarXmark;
@@ -62,6 +63,15 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.trip$.unsubscribe();
+    this.tripId$.unsubscribe();
+  }
+
+  getTripId(): void {
+    this.tripId$ = this.tripService.tripId$.subscribe((id: number) => {
+      if (id !== 0) {
+        this.tripId = id;
+      }
+    });
   }
 
   getTripById(id: number) {
@@ -142,7 +152,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   add(activityDate: Date, tripId: number = this.trip.tripId): void {
-
     let date =
       activityDate.getFullYear() +
       '-' +
@@ -153,11 +162,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
       state: { tripId: tripId, date: date, mode: 'add' },
     });
   }
-  
+
   handleDelete(): void {
     this.closeModal();
     this.dates.length = 0;
-    this.getTripById(4);
+    this.getTripById(this.tripId);
   }
 
   openModal(id: number, status: String): void {
