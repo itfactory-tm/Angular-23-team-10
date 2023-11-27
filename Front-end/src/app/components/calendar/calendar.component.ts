@@ -1,21 +1,22 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
-  faCalendar,
+  faCalendarCheck,
+  faCalendarPlus,
+  faCalendarXmark,
   faCircle,
-  faPencil,
   faPlus,
-  faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { TripService } from '../../services/trip/trip.service';
 import { Subscription } from 'rxjs';
 import { Trip } from '../../models/Trip';
-import { ActivityService } from 'src/app/services/activity/activity.service';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { PageLoaderComponent } from '../../shared/page-loader/page-loader.component';
-//import { Input } from 'postcss';
+import { Activity } from 'src/app/models/Activity';
+import { ConfirmationPopupComponent } from '../../shared/confirmation-popup/confirmation-popup.component';
+import { CalendarDetailModalComponent } from '../calendar-detail-modal/calendar-detail-modal.component';
 
 @Component({
   selector: 'app-calendar',
@@ -27,32 +28,32 @@ import { PageLoaderComponent } from '../../shared/page-loader/page-loader.compon
     FontAwesomeModule,
     NavbarComponent,
     PageLoaderComponent,
+    ConfirmationPopupComponent,
+    CalendarDetailModalComponent,
   ],
 })
 export class CalendarComponent implements OnInit, OnDestroy {
-  user: any;
   trip!: Trip;
-  dates: Date[] = [];
+  activity!: Activity;
+
+  tripId: number = 4; 
+
+  dates: { date: Date; status: String; activities: Activity[] }[] = [];
+  today: Date = new Date();
+  modalDayStatus: String = '';
+
   isLoading: boolean = true;
+  isModalOpen: boolean = false;
 
   trip$: Subscription = new Subscription();
-  deleteActivity$: Subscription = new Subscription();
 
-  errorMessage: string = '';
-
-  faCalendarDay = faCalendar;
+  faPast = faCalendarCheck;
+  faPresent = faCalendarXmark;
+  faFuture = faCalendarPlus;
   faPlus = faPlus;
   faCircle = faCircle;
-  faPencil = faPencil;
-  faTrash = faTrash;
 
-  tripId: number = 4;
-
-  constructor(
-    private tripService: TripService,
-    private activityService: ActivityService,
-    private router: Router,
-  ) {}
+  constructor(private tripService: TripService, private router: Router) {}
 
   ngOnInit(): void {
     this.getTripId();
@@ -61,52 +62,71 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.trip$.unsubscribe();
-    this.deleteActivity$.unsubscribe();
-  }
-
-  getTripId() {
-    this.tripService.tripId$.subscribe((id: number) => {
-      if (id !== 0) {
-        this.tripId = id;
-      }
-    });
   }
 
   getTripById(id: number) {
     this.trip$ = this.tripService.getTripById(id).subscribe((result) => {
       this.trip = result;
       this.getDates(result.startDate, result.endDate);
+      this.filterActivities(this.trip);
       this.isLoading = false;
     });
   }
 
-  addDays(currentDate: Date): Date {
-    let date = new Date(currentDate);
-    date.setDate(date.getDate() + 1);
-    return date;
-  }
-
-  getDates(startDate: Date, endDate: Date) {
+  getDates(startDate: Date, endDate: Date): void {
     let currentDate: Date = startDate;
+    let status: String = '';
 
     while (currentDate <= endDate) {
-      this.dates.push(new Date(currentDate));
+      status = this.checkDateStatus(currentDate);
+      this.dates.push({ date: new Date(currentDate), status, activities: [] });
       currentDate = this.addDays(currentDate);
       endDate = new Date(endDate);
     }
   }
 
-  isToday(checkDate: Date): boolean {
-    let today = new Date();
+  checkDateStatus(checkDate: Date): String {
+    let date = new Date(checkDate);
+    date.setHours(0, 0, 0, 0);
+    this.today.setHours(0, 0, 0, 0);
 
-    return (
-      today.getDate() === checkDate.getDate() &&
-      today.getMonth() === checkDate.getMonth() &&
-      today.getFullYear() === checkDate.getFullYear()
-    );
+    if (date < this.today) {
+      return 'Past';
+    } else if (
+      date.getDate() === this.today.getDate() &&
+      date.getMonth() === this.today.getMonth() &&
+      date.getFullYear() === this.today.getFullYear()
+    ) {
+      return 'Present';
+    } else {
+      return 'Future';
+    }
   }
 
-  isCalendarDay(checkDate: Date, activityDate: Date) {
+  addDays(currentDate: Date): Date {
+    let date = new Date(currentDate);
+
+    date.setDate(date.getDate() + 1);
+    return date;
+  }
+
+  filterActivities(trip: Trip): void {
+    let filtered: Activity[];
+    this.dates.forEach(function (date) {
+      filtered = trip.activities.filter((obj) => {
+        let activityDate = new Date(obj.startDate);
+        let checkDate = new Date(date.date);
+        activityDate.setHours(0, 0, 0, 0);
+        checkDate.setHours(0, 0, 0, 0);
+
+        return activityDate.getTime() === checkDate.getTime();
+      });
+
+      date.activities = filtered;
+    });
+  }
+
+  isOnTripDay(checkDate: Date, activityDate: Date): boolean {
     let date = new Date(activityDate);
 
     return (
@@ -115,13 +135,14 @@ export class CalendarComponent implements OnInit, OnDestroy {
     );
   }
 
-  isNow(startDate: Date, endDate: Date) {
+  isNow(startDate: Date, endDate: Date): boolean {
     const now = new Date();
 
     return new Date(startDate) <= now && now <= new Date(endDate);
   }
 
-  add(activityDate: Date, tripId: number = this.trip.tripId) {
+  add(activityDate: Date, tripId: number = this.trip.tripId): void {
+
     let date =
       activityDate.getFullYear() +
       '-' +
@@ -132,21 +153,26 @@ export class CalendarComponent implements OnInit, OnDestroy {
       state: { tripId: tripId, date: date, mode: 'add' },
     });
   }
-
-  edit(id: number) {
-    this.router.navigate(['calendar/activity'], {
-      state: { id: id, mode: 'edit' },
-    });
+  
+  handleDelete(): void {
+    this.closeModal();
+    this.dates.length = 0;
+    this.getTripById(4);
   }
 
-  deleteActivity(id: number) {
-    this.deleteActivity$ = this.activityService.deleteActivity(id).subscribe({
-      next: (v) => this.getTripById(4),
-      error: (e) => (this.errorMessage = e.message),
-    });
+  openModal(id: number, status: String): void {
+    let foundActivity = this.trip.activities.find(
+      (obj) => obj.tripActivityId === id
+    );
+
+    if (foundActivity) {
+      this.activity = foundActivity;
+      this.modalDayStatus = status;
+      this.isModalOpen = true;
+    }
   }
 
-  show_detail() {
-    this.router.navigate(['calendar/detail']);
+  closeModal(): void {
+    this.isModalOpen = false;
   }
 }
