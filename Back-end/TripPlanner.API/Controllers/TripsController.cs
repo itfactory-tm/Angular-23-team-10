@@ -83,6 +83,8 @@ namespace TripPlannerAPI.Controllers
                 trip.EndDate = updatedTrip.EndDate;
                 trip.Description = updatedTrip.Description;
                 trip.Picture = updatedTrip.Picture;
+                trip.Country = updatedTrip.Country;
+                trip.City = updatedTrip.City;
                 trip.IsShared = updatedTrip.IsShared;
                 await _context.SaveChangesAsync();
             }
