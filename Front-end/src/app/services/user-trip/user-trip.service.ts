@@ -10,7 +10,13 @@ import { environment } from 'src/environments/environment';
 export class UserTripService {
   constructor(private httpClient: HttpClient) {}
 
-  GetTripsByUserId(userId: string): Observable<UserTrip[]> {
+  getUsersByTripId(tripId: number): Observable<UserTrip[]> {
+    return this.httpClient.get<UserTrip[]>(
+      environment.api_url + '/UserTrips/' + tripId
+    );
+  }
+
+  getTripsByUserId(userId: string): Observable<UserTrip[]> {
     return this.httpClient.get<UserTrip[]>(
       environment.api_url + '/UserTrips/' + userId
     );

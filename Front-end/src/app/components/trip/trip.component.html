@@ -1,7 +1,7 @@
 <main class="mx-auto container">
     <h1 class="text-3xl lg:text-4xl font-bold text-white mb-6">Your trips</h1>
 
-    <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         <!-- Add trip card -->
         <div routerLink="/getstarted" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
             class="hover:bg-gray-600 cursor-pointer rounded-lg shadow-md hover:shadow-lg p-6 bg-custom-lighter-background md:h-[208px] flex items-center justify-center">
@@ -15,23 +15,66 @@
             </div>
         </div>
 
+        @if (isLoading) {
+        <app-page-loader></app-page-loader>
+        }
+
         <!-- User trip cards -->
         @for (trip of allTripsFromUser; track $index) {
-        <div
-            class="relative group hover:bg-gray-600 cursor-pointer rounded-lg shadow-md hover:shadow-lg bg-custom-lighter-background h-[208px] p-6">
+        <div (click)="navigateToTrip(trip.tripId)"
+            class="relative group hover:bg-gray-600 cursor-pointer rounded-lg shadow-md hover:shadow-lg bg-custom-lighter-background h-[208px] p-4">
+
             <div>
                 <h2 class="text-white font-bold text-xl mb-2">{{trip.name}}</h2>
-                <p class="text-custom-grey-text text-md">{{trip.description}}</p>
+                <!-- Start and End Date -->
+                <div>
+                    <div>
+                        <span class="text-gray-400 text-sm">Starts: </span>
+                        <span class="text-white text-sm">{{trip.startDate | date:'MMM d, yyyy'}}</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-400 text-sm">Ends: </span>
+                        <span class="text-white text-sm">{{trip.endDate | date:'MMM d, yyyy'}}</span>
+                    </div>
+                </div>
             </div>
 
-            <!-- Delete Button/Trash Icon -->
-            <button (click)="showModal(trip.tripId)"
-                class="absolute bottom-2 right-2 bg-red-500 p-2 text-white rounded-full  hover:bg-red-600 focus:outline-none">
-                <!-- Example with a trash can icon -->
-                <fa-icon class="p-1" [icon]="faTrash"></fa-icon>
+            <div class="absolute bottom-0 left-0 p-4">
+                <div class="flex -space-x-4 rtl:space-x-reverse">
+                    <img class="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800"
+                        src="assets/heroImage.jpg" alt="">
+                    <img class="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800"
+                        src="assets/heroImage.jpg" alt="">
+                    <img class="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800"
+                        src="assets/heroImage.jpg" alt="">
+                    <a class="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800"
+                        href="#">+99</a>
+                </div>
+            </div>
+
+            <!-- Invite More People Button (Top-Right Corner) -->
+            <button class="absolute p-4 top-0 right-0 flex items-center text-white cursor-pointer hover:underline">
+                <fa-icon class="mr-2" [icon]="faUsers"></fa-icon>
+                Add People
             </button>
+
+            <!-- Edit Button/Pencil Icon -->
+            <div class="absolute bottom-0 right-0 p-4 flex gap-2">
+                <button class="bg-blue-500 p-2 text-white rounded-full hover:bg-blue-600 focus:outline-none">
+                    <fa-icon class="p-1" [icon]="faPencil"></fa-icon>
+                </button>
+
+                <!-- Delete Button/Trash Icon -->
+                <button (click)="showModal(trip.tripId); $event.stopPropagation()"
+                    class=" bg-red-500 p-2 text-white rounded-full  hover:bg-red-600 focus:outline-none">
+                    <fa-icon class="p-1" [icon]="faTrash"></fa-icon>
+                </button>
+            </div>
         </div>
-        } @empty {
+
+
+        }
+        @if (allTripsFromUser.length === 0 && !isLoading) {
         <div class="text-gray-500 text-xl font-semibold">
             No trips found for the user.
         </div>
@@ -81,4 +124,6 @@
 
 
     <app-toast [showSuccessToast]="isDeleted" [message]="'Trip successfully deleted!'" />
+    <app-toast [showErrorToast]="isError" [message]="'Something went wrong!'" />
+    <app-toast [showSuccessToast]="isCopied" [message]="'Link copied to clipboard!'" />
 </main>
