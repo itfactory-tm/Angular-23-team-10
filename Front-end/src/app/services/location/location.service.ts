@@ -16,7 +16,7 @@ export class LocationService {
 
   getCities(city: string): Observable<any> {
     if (city.length > 1) {
-      this.url = `https://api.geonames.org/searchJSON?name_startsWith=${city}&featureClass=P&maxRows=5&username=${this.username}`;
+      this.url = `http://api.geonames.org/searchJSON?name_startsWith=${city}&featureClass=P&maxRows=5&username=${this.username}`;
     } else {
       // For cities with only one letter
       this.url = `http://api.geonames.org/searchJSON?name_equals=${city}&featureClass=P&maxRows=5&username=${this.username}`;
