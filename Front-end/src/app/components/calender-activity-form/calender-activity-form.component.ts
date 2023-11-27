@@ -162,4 +162,8 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
 
     return date;
   }
+
+  goToCalendar(): void {
+    this.router.navigateByUrl('/calendar')
+  }
 }
