@@ -32,6 +32,12 @@ export class TripService {
     );
   }
 
+  updateTrip(tripId: number, updatedData: Trip): Observable<any> {
+    const url = environment.api_url + '/Trips/' + tripId;
+
+    return this.httpClient.put(url, updatedData);
+  }
+
   postTrip(trip: Trip): Observable<Trip> {
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8');
