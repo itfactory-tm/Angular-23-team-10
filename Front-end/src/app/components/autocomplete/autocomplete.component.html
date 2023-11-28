@@ -11,9 +11,9 @@
         class="rounded-none rounded-e-lg border block flex-1 min-w-0 w-full text-sm p-2.5  bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:outline-none"
         placeholder="Enter city">
         <div class="dropdown absolute top-full left-0 w-full bg-[#22272d] text-white border border-gray-300 max-h-40 overflow-y-auto z-10" *ngIf="cities.length > 0">
-            <option *ngFor="let city of cities" [value]="city" class="p-2 transition-all hover:bg-gray-900 hover:text-white" (click)="selectCity(city)">
-              {{ city.name }}, {{ city.country }} ({{ city.adminName }})
+            <option *ngIf="cities[0]?.name" [value]="cities[0]" class="p-2 transition-all hover:bg-gray-900 hover:text-white" (click)="selectCity(cities[0])">
+              {{ cities[0]?.name }}, {{ cities[0]?.country }} ({{ cities[0]?.adminName }})
             </option>
-        </div>
+        </div>                
     </div>
 </div>
