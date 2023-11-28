@@ -36,4 +36,25 @@ export class AutocompleteComponent implements OnInit {
     this.cities = []; // Clear dropdown
     this.citySelected.emit(city); // Emit selected city
   }
+
+// Assuming your cities are fetched and stored in the 'cities' array
+// You can initialize this array in your component to filter out duplicates
+
+uniqueCities: any[] = [];
+
+// Function to filter duplicates and update uniqueCities
+filterUniqueCities() {
+  const tempCities: any[] = [];
+  const cityNames: Set<string> = new Set();
+
+  this.cities.forEach(city => {
+    if (city.name && !cityNames.has(city.name)) {
+      tempCities.push(city);
+      cityNames.add(city.name);
+    }
+  });
+
+  this.uniqueCities = tempCities;
+}
+
 }

@@ -9,26 +9,21 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class LocationService {
-  private username = 'matlocky';
-  url: string = '';
+  private apikey = '15b9ec0018e94c5d94a045b11d020d6c';
 
   constructor(private http: HttpClient) {}
 
   getCities(city: string): Observable<any> {
-    if (city.length > 1) {
-      this.url = `http://api.geonames.org/searchJSON?name_startsWith=${city}&featureClass=P&maxRows=5&username=${this.username}`;
-    } else {
-      // For cities with only one letter
-      this.url = `http://api.geonames.org/searchJSON?name_equals=${city}&featureClass=P&maxRows=5&username=${this.username}`;
-    }
+    
+    const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${city}&apiKey=${this.apikey}`;
 
-    return this.http.get(this.url).pipe(
+    return this.http.get(url).pipe(
       map((response: any) => {
-        if (response && response.geonames) {
-          return response.geonames.map((cityInfo: any) => ({
-            name: cityInfo.toponymName,
-            country: cityInfo.countryName,
-            adminName: cityInfo.adminName1,
+        if (response && response.features) {
+          return response.features.map((feature: any) => ({
+            name: feature.properties.city,
+            country: feature.properties.country,
+            adminName: feature.properties.state
           }));
         }
         return [];
