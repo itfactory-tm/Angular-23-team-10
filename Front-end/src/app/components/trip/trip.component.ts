@@ -67,7 +67,7 @@ export class TripComponent implements OnInit {
   isUpdated: boolean = false;
   isLoading = false;
   isCopied = false;
-
+  isShared: boolean = false;
   startDate: Date | null = null; // or undefined
   endDate: Date | null = null; // or undefined
 
@@ -161,6 +161,7 @@ export class TripComponent implements OnInit {
     this.tripName = this.tripUpdate.name;
     this.startDate = this.tripUpdate.startDate;
     this.endDate = this.tripUpdate.endDate;
+    this.isShared = this.tripUpdate.isShared;
     this.edit = true;
     this.tripId = tripId;
   }
@@ -191,6 +192,7 @@ export class TripComponent implements OnInit {
       this.tripUpdate.name = this.tripName;
       this.tripUpdate.startDate = newStartDate;
       this.tripUpdate.endDate = newEndDate;
+      this.tripUpdate.isShared = this.isShared;
 
       this.tripService
         .updateTrip(this.tripUpdate.tripId, this.tripUpdate)

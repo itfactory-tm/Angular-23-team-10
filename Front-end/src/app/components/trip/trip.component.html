@@ -286,6 +286,44 @@
                             </div>
                         </div>
 
+                        <div class="mt-4">
+                            <label class="text-left block mb-2 text-sm font-medium text-white">WHO CAN SEE YOUR
+                                TRIP?</label>
+                            <!-- Public Trip Radio Button -->
+                            <div class="flex items-center ml-5">
+                                <input [(ngModel)]="isShared" [value]="true" id="public-radio" type="radio"
+                                    name="sharingOption" required #publicRadio="ngModel" />
+                                <label for="public-radio" class="ml-2 text-sm font-medium text-gray-300">
+                                    Public Trip
+                                    <span class="text-gray-400">
+                                        - Visible to Everyone</span>
+                                </label>
+                            </div>
+
+                            <!-- Private Trip Radio Button -->
+                            <div class="flex items-center mt-2 ml-5">
+                                <input [(ngModel)]="isShared" [value]="false" id="private-radio" type="radio"
+                                    name="sharingOption" required #privateRadio="ngModel" />
+                                <label for="private-radio" class="ml-2 text-sm font-medium text-gray-300">
+                                    Private Trip
+                                    <span class="text-gray-400">
+                                        - Visible only to Invited Participants</span>
+                                </label>
+                            </div>
+
+                            <div *ngIf="
+                                  (publicRadio.invalid || privateRadio.invalid) &&
+                                  tripFormSubmitted
+                                " class="text-red-500 mt-2">
+                                <div *ngIf="
+                                    (publicRadio.errors && publicRadio.errors['required']) ||
+                                    (privateRadio.errors && privateRadio.errors['required'])
+                                  ">
+                                    Option is required
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="flex items-center justify-end gap-2 mt-4">
                             <button data-modal-hide="popup-modal" type="button" (click)="hideModal()"
                                 class="focus:ring-4 focus:outline-none rounded-lg border text-sm font-medium px-5 py-2.5 focus:z-10 bg-gray-700 text-gray-300 border-gray-500 hover:text-white hover:bg-gray-600 focus:ring-gray-600">
@@ -304,9 +342,7 @@
 
     <hr class="my-16 border-custom-grey-text border">
 
-
     <app-toast [showSuccessToast]="isDeleted" [message]="'Trip successfully deleted!'" />
     <app-toast [showSuccessToast]="isUpdated" [message]="'Trip successfully updated!'" />
     <app-toast [showErrorToast]="isError" [message]="'Something went wrong!'" />
-    <app-toast [showSuccessToast]="isCopied" [message]="'Link copied to clipboard!'" />
 </main>
