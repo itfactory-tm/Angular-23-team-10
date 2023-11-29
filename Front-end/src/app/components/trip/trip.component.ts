@@ -23,6 +23,9 @@ import { ClipboardService } from 'ngx-clipboard';
 import { take, timer } from 'rxjs';
 import { NgForm, FormsModule } from '@angular/forms';
 import { Trip } from 'src/app/models/Trip';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-trip',
@@ -38,6 +41,9 @@ import { Trip } from 'src/app/models/Trip';
     ToastComponent,
     PageLoaderComponent,
     FormsModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
   ],
 })
 export class TripComponent implements OnInit {
@@ -58,8 +64,12 @@ export class TripComponent implements OnInit {
   share: boolean = false;
   edit: boolean = false;
   isDeleted: boolean = false;
+  isUpdated: boolean = false;
   isLoading = false;
   isCopied = false;
+
+  startDate: Date | null = null; // or undefined
+  endDate: Date | null = null; // or undefined
 
   allTripsFromUser: any = [];
   tripName: string = '';
@@ -101,7 +111,6 @@ export class TripComponent implements OnInit {
     this.isLoading = true;
     this.userTripService.getTripsByUserId(userId).subscribe((trips) => {
       this.allTripsFromUser = trips;
-      console.log(this.allTripsFromUser);
       this.isLoading = false;
     });
   }
@@ -113,15 +122,6 @@ export class TripComponent implements OnInit {
 
   shareModal(): void {
     this.share = true;
-  }
-
-  editModal(tripId: number): void {
-    let trip = this.allTripsFromUser.find(
-      (trip: any) => trip.tripId === tripId
-    );
-    this.tripUpdate = trip;
-    this.edit = true;
-    this.tripId = tripId;
   }
 
   hideModal(): void {
@@ -138,6 +138,12 @@ export class TripComponent implements OnInit {
         this.fetchTripsFromUser(this.userId);
         this.isDeleted = true;
         this.isLoading = false;
+
+        timer(5000)
+          .pipe(take(1))
+          .subscribe(() => {
+            this.isDeleted = false;
+          });
       },
       () => {
         this.isError = true;
@@ -146,17 +152,61 @@ export class TripComponent implements OnInit {
     this.warning = false;
   }
 
+  editModal(tripId: number): void {
+    let trip = this.allTripsFromUser.find(
+      (trip: any) => trip.tripId === tripId
+    );
+
+    this.tripUpdate = trip;
+    this.tripName = this.tripUpdate.name;
+    this.startDate = this.tripUpdate.startDate;
+    this.endDate = this.tripUpdate.endDate;
+    this.edit = true;
+    this.tripId = tripId;
+  }
+
   updateTrip(): void {
-    console.log(this.tripName);
+    this.tripFormSubmitted = true;
+    if (this.tripForm && this.tripForm.form.valid) {
+      this.startDate = new Date(this.tripForm.controls['start'].value);
+      this.endDate = new Date(this.tripForm.controls['end'].value);
 
-    this.tripUpdate.name = this.tripName;
+      let newStartDate = new Date(
+        this.startDate.getFullYear(),
+        this.startDate.getMonth(),
+        this.startDate.getDate(),
+        new Date().getHours(),
+        new Date().getMinutes(),
+        new Date().getSeconds()
+      );
+      let newEndDate = new Date(
+        this.endDate.getFullYear(),
+        this.endDate.getMonth(),
+        this.endDate.getDate(),
+        new Date().getHours(),
+        new Date().getMinutes(),
+        new Date().getSeconds()
+      );
 
-    this.tripService
-      .updateTrip(this.tripUpdate.tripId, this.tripUpdate)
-      .subscribe(() => {
-        this.fetchTripsFromUser(this.userId);
-      });
-    this.edit = false;
+      this.tripUpdate.name = this.tripName;
+      this.tripUpdate.startDate = newStartDate;
+      this.tripUpdate.endDate = newEndDate;
+
+      this.tripService
+        .updateTrip(this.tripUpdate.tripId, this.tripUpdate)
+        .subscribe(() => {
+          this.fetchTripsFromUser(this.userId);
+        });
+
+      this.edit = false;
+      this.isUpdated = true;
+
+      timer(5000)
+        .pipe(take(1))
+        .subscribe(() => {
+          this.isUpdated = false;
+        });
+    }
   }
 
   deleteUserTrip(userId: string, tripId: number) {

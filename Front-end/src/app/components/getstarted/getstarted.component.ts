@@ -120,14 +120,29 @@ export class GetstartedComponent implements OnInit {
   }
 
   async postNewTrip(): Promise<Trip> {
-    console.log(this.endDate!);
+    let newStartDate = new Date(
+      this.startDate!.getFullYear(),
+      this.startDate!.getMonth(),
+      this.startDate!.getDate(),
+      new Date().getHours(),
+      new Date().getMinutes(),
+      new Date().getSeconds()
+    );
+    let newEndDate = new Date(
+      this.endDate!.getFullYear(),
+      this.endDate!.getMonth(),
+      this.endDate!.getDate(),
+      new Date().getHours(),
+      new Date().getMinutes(),
+      new Date().getSeconds()
+    );
 
     let trip = await this.tripService
       .postTrip({
         tripId: 0,
         name: this.tripName,
-        startDate: this.startDate!,
-        endDate: this.endDate!,
+        startDate: newStartDate,
+        endDate: newEndDate,
         picture: this.imageUrl!,
         description: this.tripDescription,
         isShared: this.isShared!,
@@ -162,7 +177,6 @@ export class GetstartedComponent implements OnInit {
         .toPromise()
         .then((data) => {
           loggedInUser = data;
-          console.log('Logged in user: ', loggedInUser);
         });
     }
 
