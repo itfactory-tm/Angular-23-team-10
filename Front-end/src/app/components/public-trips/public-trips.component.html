@@ -58,13 +58,13 @@
     <div class="h-1/2 w-full relative rounded-t-lg overflow-hidden">
       @if (isImageValid(trip.picture)) {
         <img
-          src="assets/{{ trip.picture }}"
+          src="{{ trip.picture }}"
           alt="{{ trip.name }} Picture"
           class="absolute inset-0 w-full h-full object-cover object-center"
         />
         } @else {
         <img
-          src="assets/default.png"
+          src="default.png"
           alt="Default Picture"
           class="absolute inset-0 w-full h-full object-cover object-center"
         />
