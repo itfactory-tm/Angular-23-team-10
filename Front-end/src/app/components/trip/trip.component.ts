@@ -85,6 +85,7 @@ export class TripComponent implements OnInit {
     city: '',
     isShared: false,
     activities: [],
+    categories: [],
   }; // Holds the form data
 
   constructor(
