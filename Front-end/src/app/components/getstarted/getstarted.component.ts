@@ -119,7 +119,7 @@ export class GetstartedComponent implements OnInit {
     }
   }
 
-  async postNewTrip(): Promise<Trip> {
+  async postNewTrip(loggedInUser: any): Promise<Trip> {
     let newStartDate = new Date(
       this.startDate!.getFullYear(),
       this.startDate!.getMonth(),
@@ -191,7 +191,7 @@ export class GetstartedComponent implements OnInit {
       if (loggedInUser !== null) {
         await this.uploadImage();
 
-        let trip = await this.postNewTrip();
+        let trip = await this.postNewTrip(loggedInUser);
 
         await this.postNewUserTrip(trip.tripId, loggedInUser.sub);
 

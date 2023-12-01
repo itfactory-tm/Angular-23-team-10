@@ -14,18 +14,36 @@ import { Router, RouterModule } from '@angular/router';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { UserTripService } from 'src/app/services/user-trip/user-trip.service';
-import { AuthService } from '@auth0/auth0-angular';
+import { AuthService, User } from '@auth0/auth0-angular';
 import { TripService } from 'src/app/services/trip/trip.service';
 import { ToastComponent } from '../../shared/toast/toast.component';
 import { PageLoaderComponent } from '../../shared/page-loader/page-loader.component';
 import { environment } from 'src/environments/environment';
 import { ClipboardService } from 'ngx-clipboard';
-import { take, timer } from 'rxjs';
-import { NgForm, FormsModule } from '@angular/forms';
+import {
+  Observable,
+  forkJoin,
+  map,
+  of,
+  startWith,
+  switchMap,
+  take,
+  timer,
+} from 'rxjs';
+import {
+  NgForm,
+  FormsModule,
+  FormControl,
+  FormGroup,
+  FormBuilder,
+} from '@angular/forms';
 import { Trip } from 'src/app/models/Trip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
+import { UserService } from 'src/app/services/user/user.service';
+import { List } from 'postcss/lib/list';
+import { EmailService } from 'src/app/services/email/email.service';
 
 @Component({
   selector: 'app-trip',
@@ -70,8 +88,11 @@ export class TripComponent implements OnInit {
   isShared: boolean = false;
   startDate: Date | null = null; // or undefined
   endDate: Date | null = null; // or undefined
+  users: User[] = [];
+  filteredUsers: User[] = [];
+  searchTerm: string = '';
+  allTripsFromUser: any[] = [];
 
-  allTripsFromUser: any = [];
   tripName: string = '';
   tripFormSubmitted = false; // Flag to track form submission
   tripUpdate: Trip = {
@@ -93,17 +114,91 @@ export class TripComponent implements OnInit {
     private userTripService: UserTripService,
     public authService: AuthService,
     private router: Router,
-    private clipboardService: ClipboardService
+    private userService: UserService,
+    private emailService: EmailService
   ) {}
 
-  ngOnInit(): void {
-    if (this.authService.user$) {
+  tripContributors: User[] = [];
+
+  async ngOnInit(): Promise<void> {
+    try {
       this.isLoading = true;
-      this.authService.user$.pipe(take(1)).subscribe((data) => {
-        this.loggedInUser = data;
-        this.fetchTripsFromUser(this.loggedInUser.sub);
-        this.userId = data?.sub || '';
-        this.isLoading = false;
+      await this.fetchUsers();
+      await this.fetchLoggedInUser();
+    } catch (error) {
+      console.error('Error during initialization:', error);
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+  private async fetchUsers(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.userService.getUsers().subscribe(
+        (data) => {
+          this.users = data;
+          console.log(this.users);
+          resolve();
+        },
+        (error) => {
+          console.error('Error fetching users:', error);
+          reject(error);
+        }
+      );
+    });
+  }
+
+  private async fetchLoggedInUser(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (this.authService.user$) {
+        this.authService.user$.pipe(take(1)).subscribe(
+          (data) => {
+            this.loggedInUser = data;
+            this.fetchTripsFromUser(this.loggedInUser.sub);
+            this.userId = data?.sub || '';
+            resolve();
+          },
+          (error) => {
+            console.error('Error fetching logged-in user:', error);
+            this.isLoading = false;
+            reject(error);
+          }
+        );
+      }
+    });
+  }
+
+  sendEmail(emailAddres?: string): void {
+    if (emailAddres == undefined) {
+      console.log('invalid email address', emailAddres);
+    } else {
+      this.emailService.sendEmail(emailAddres);
+      console.log('correct');
+    }
+  }
+
+  updateFilter(event: any): void {
+    if (event.target.value === '') {
+      this.filteredUsers = [];
+    } else {
+      this.userTripService.getUserTrips().subscribe((userTrips) => {
+        const contributors = userTrips.filter(
+          (userTrip) => userTrip.tripId === this.tripId
+        );
+
+        // Extract unique userId values from contributors
+        const uniqueUserIds = Array.from(
+          new Set(contributors.map((userTrip) => userTrip.userId))
+        );
+
+        // Filter users based on name and exclude contributors
+        this.filteredUsers = this.users.filter(
+          (user) =>
+            user
+              .name!.toLowerCase()
+              .includes(event.target.value.toLowerCase()) &&
+            !uniqueUserIds.includes(user['user_id'])
+        );
       });
     }
   }
@@ -112,7 +207,37 @@ export class TripComponent implements OnInit {
     this.isLoading = true;
     this.userTripService.getTripsByUserId(userId).subscribe((trips) => {
       this.allTripsFromUser = trips;
+      console.log(this.allTripsFromUser);
       this.isLoading = false;
+
+      // Fetch contributors for each trip
+      for (const trip of this.allTripsFromUser) {
+        this.fetchContributors(trip.tripId);
+      }
+    });
+  }
+
+  contributors: any[] = [];
+  contributorsMap: { [tripId: number]: User[] } = {};
+
+  fetchContributors(tripId: number): void {
+    this.userTripService.getUserTrips().subscribe((userTrips) => {
+      const contributors = userTrips.filter(
+        (userTrip) => userTrip.tripId === tripId
+      );
+
+      const uniqueUserIds = Array.from(
+        new Set(contributors.map((userTrip) => userTrip.userId))
+      );
+
+      const filteredUsers = this.users.filter((user) =>
+        uniqueUserIds.includes(user['user_id'])
+      );
+
+      // Store the result in the map
+      this.contributorsMap[tripId] = filteredUsers;
+
+      console.log(this.contributorsMap);
     });
   }
 
@@ -121,14 +246,19 @@ export class TripComponent implements OnInit {
     this.tripId = tripId;
   }
 
-  shareModal(): void {
+  shareModal(tripId: number): void {
     this.share = true;
+    this.tripId = tripId;
+
+    // this.fetchContributors(this.tripId);
   }
 
   hideModal(): void {
     this.warning = false;
     this.share = false;
     this.edit = false;
+    this.searchTerm = '';
+    this.filteredUsers = [];
   }
 
   deleteTrip(): void {
@@ -219,18 +349,5 @@ export class TripComponent implements OnInit {
   navigateToTrip(tripId: number) {
     this.tripService.setTripId(tripId);
     this.router.navigateByUrl('/calendar');
-  }
-
-  shareTrip(tripId: number): void {
-    const shareTripUrl = environment.api_url + '/share/trip/' + tripId;
-    this.clipboardService.copyFromContent(shareTripUrl);
-    this.isCopied = true;
-
-    // Reset isCopied after a delay (e.g., 5 seconds)
-    timer(5000)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.isCopied = false;
-      });
   }
 }
