@@ -101,7 +101,7 @@ export class PublicTripsComponent implements OnInit, OnDestroy {
 
   isImageValid(imageName: string): boolean {
     const img = new Image();
-    img.src = `assets/${imageName}`;
+    img.src = `${imageName}`;
     return img.complete && img.naturalHeight !== 0;
   }
 
