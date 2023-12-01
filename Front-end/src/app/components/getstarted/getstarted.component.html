@@ -256,59 +256,59 @@
       </p>
     </div>
 
-<!-- Trip Details Card -->
-<div class="bg-gray-700 rounded-lg p-6 mt-10">
-  <h2 class="text-2xl font-semibold mb-4">Trip Details</h2>
+    <!-- Trip Details Card -->
+    <div class="bg-gray-700 rounded-lg p-6 mt-10">
+      <h2 class="text-2xl font-semibold mb-4">Trip Details</h2>
 
-  <!-- Display Trip Information -->
-  <div class="grid grid-cols-2 gap-4">
-    <div>
-      <p class="text-lg text-gray-500">TRIP NAME</p>
-      <p class="text-md text-white font-normal">{{ tripName }}</p>
-    </div>
-    <div>
-      <p class="text-lg text-gray-500">START DATE</p>
-      <p class="text-md text-white font-normal">{{ startDate | date:'MM/dd/yyyy' }}</p>
-    </div>
-    <div>
-      <p class="text-lg text-gray-500">DESTINATION</p>
-      <p class="text-md text-white font-normal">
-        <span *ngIf="tripCity; else noCity">{{ tripCity }}</span>
-        <ng-template #noCity>Anywhere</ng-template>
-        <span *ngIf="tripCountry">, {{ tripCountry }}</span>
-      </p>
-    </div>
-    <div>
-      <p class="text-lg text-gray-500">END DATE</p>
-      <p class="text-md text-white font-normal">{{ endDate | date:'MM/dd/yyyy' }}</p>
-    </div>
-    <div>
-      <p class="text-xl text-gray-500">STATUS</p>
-      @if (isShared) {
-        <p class="text-lg text-white font-normal">Trip is public</p>
-      } @else {
-        <p class="text-lg text-white font-normal">Trip is private</p>
-      }
-    </div>
-  </div>
+      <!-- Display Trip Information -->
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <p class="text-lg text-gray-500">TRIP NAME</p>
+          <p class="text-md text-white font-normal">{{ tripName }}</p>
+        </div>
+        <div>
+          <p class="text-lg text-gray-500">START DATE</p>
+          <p class="text-md text-white font-normal">{{ startDate | date:'MM/dd/yyyy' }}</p>
+        </div>
+        <div>
+          <p class="text-lg text-gray-500">DESTINATION</p>
+          <p class="text-md text-white font-normal">
+            <span *ngIf="tripCity; else noCity">{{ tripCity }}</span>
+            <ng-template #noCity>Anywhere</ng-template>
+            <span *ngIf="tripCountry">, {{ tripCountry }}</span>
+          </p>
+        </div>
+        <div>
+          <p class="text-lg text-gray-500">END DATE</p>
+          <p class="text-md text-white font-normal">{{ endDate | date:'MM/dd/yyyy' }}</p>
+        </div>
+        <div>
+          <p class="text-xl text-gray-500">STATUS</p>
+          @if (isShared) {
+          <p class="text-lg text-white font-normal">Trip is public</p>
+          } @else {
+          <p class="text-lg text-white font-normal">Trip is private</p>
+          }
+        </div>
+      </div>
 
-  <!-- Trip Description -->
-  <div class="mt-6">
-    <p class="text-lg text-gray-500">TRIP DESCRIPTION</p>
-    <p class="text-md text-white front-normal">{{ tripDescription }}</p>
-  </div>
+      <!-- Trip Description -->
+      <div class="mt-6">
+        <p class="text-lg text-gray-500">TRIP DESCRIPTION</p>
+        <p class="text-md text-white front-normal">{{ tripDescription }}</p>
+      </div>
 
-  <!-- Preview Image (Assuming you have an image URL) -->
-  <div class="mt-6">
-    <p class="text-lg text-gray-500 font-normal">PREVIEW IMAGE</p>
-    @if (imagePreviewUrl === undefined) {
-      <p class="text-md text-white font-normal">This trip has no image.</p>
-    } @else {
-      <img *ngIf="imagePreviewUrl" [src]="imagePreviewUrl" alt="Image Preview"
-        class="w-full h-44 object-cover rounded-lg inset-0" />
-    }
-  </div>
-  </div>
+      <!-- Preview Image (Assuming you have an image URL) -->
+      <div class="mt-6">
+        <p class="text-lg text-gray-500 font-normal">PREVIEW IMAGE</p>
+        @if (imagePreviewUrl === undefined) {
+        <p class="text-md text-white font-normal">This trip has no image.</p>
+        } @else {
+        <img *ngIf="imagePreviewUrl" [src]="imagePreviewUrl" alt="Image Preview"
+          class="w-full h-44 object-cover rounded-lg inset-0" />
+        }
+      </div>
+    </div>
 
 
     <!-- Additional Information -->

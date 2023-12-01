@@ -1,3 +1,4 @@
+import { User } from '@auth0/auth0-angular';
 import { Activity } from './Activity';
 
 export interface Trip {
