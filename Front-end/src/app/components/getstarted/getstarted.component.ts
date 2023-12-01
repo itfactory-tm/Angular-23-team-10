@@ -149,6 +149,7 @@ export class GetstartedComponent implements OnInit {
         city: this.tripCity,
         country: this.tripCountry,
         activities: [],
+        categories: [],
       })
       .toPromise();
 
