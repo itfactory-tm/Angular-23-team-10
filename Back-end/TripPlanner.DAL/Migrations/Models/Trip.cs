@@ -13,7 +13,7 @@
         public Boolean IsShared { get; set; }
         public ICollection<UserTrip>? Users { get; }
         public ICollection<TripActivity>? TripActivities { get; }
-        public ICollection<TripKeyword>? Keywords { get; }
-        public ICollection<TripCategory>? Categories { get; }
+        public ICollection<TripKeyword>? TripKeywords { get; }
+        public ICollection<TripCategory>? TripCategories { get; }
     }
 }
