@@ -25,7 +25,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: corsConfig,
         policy =>
         {
-            policy.WithOrigins("http://localhost:4200")
+            policy.WithOrigins("http://localhost:4200", "https://trip-planner-46730.web.app")
             .AllowAnyMethod()
             .AllowAnyHeader();
         });
