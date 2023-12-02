@@ -161,7 +161,6 @@ export class TripComponent implements OnInit {
           },
           (error) => {
             console.error('Error fetching logged-in user:', error);
-            this.isLoading = false;
             reject(error);
           }
         );
@@ -224,11 +223,9 @@ export class TripComponent implements OnInit {
   }
 
   fetchTripsFromUser(userId: string): void {
-    this.isLoading = true;
     this.userTripService.getTripsByUserId(userId).subscribe((trips) => {
       this.allTripsFromUser = trips;
       console.log(this.allTripsFromUser);
-      this.isLoading = false;
 
       // Fetch contributors for each trip
       for (const trip of this.allTripsFromUser) {
