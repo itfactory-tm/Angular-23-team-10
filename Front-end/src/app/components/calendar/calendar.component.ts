@@ -35,7 +35,6 @@ import { CalendarDetailModalComponent } from '../calendar-detail-modal/calendar-
 export class CalendarComponent implements OnInit, OnDestroy {
   trip!: Trip;
   activity!: Activity;
-
   tripId: number = 0;
 
   dates: { date: Date; status: String; activities: Activity[] }[] = [];
