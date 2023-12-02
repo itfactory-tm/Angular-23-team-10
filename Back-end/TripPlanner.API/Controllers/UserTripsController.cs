@@ -15,11 +15,15 @@ namespace TripPlannerAPI.Controllers
     {
         private readonly TripContext _context;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public UserTripsController(TripContext context, IMapper mapper)
+        public UserTripsController(TripContext context, IMapper mapper, IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             _context = context;
             _mapper = mapper;
+            _configuration = configuration;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         // GET: api/UserTrips
@@ -80,7 +84,11 @@ namespace TripPlannerAPI.Controllers
             _context.UserTrips.Add(newUserTrip);
             await _context.SaveChangesAsync();
 
-            return Redirect("http://localhost:4200");
+            var baseUrl = _hostingEnvironment.IsProduction() ?
+            "https://trip-planner-46730.web.app" :
+            "http://localhost:4200";
+
+            return Redirect(baseUrl);
         }
 
 
