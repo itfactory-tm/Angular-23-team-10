@@ -92,6 +92,7 @@ export class TripComponent implements OnInit {
   filteredUsers: User[] = [];
   searchTerm: string = '';
   allTripsFromUser: any[] = [];
+  isSend: boolean = false;
 
   tripName: string = '';
   tripFormSubmitted = false; // Flag to track form submission
@@ -168,12 +169,31 @@ export class TripComponent implements OnInit {
     });
   }
 
-  sendEmail(emailAddres?: string): void {
-    if (emailAddres == undefined) {
-      console.log('invalid email address', emailAddres);
+  sendEmail(user: User): void {
+    if (user.email == undefined || user['user_id'] == undefined) {
+      console.log('invalid email address', user);
     } else {
-      this.emailService.sendEmail(emailAddres);
-      console.log('correct');
+      this.emailService
+        .sendEmail(user.email, user['user_id'], this.tripId)
+        .subscribe((success) => {
+          if (success) {
+            // Handle success
+            console.log('success');
+            this.isSend = true;
+            this.searchTerm = '';
+            this.filteredUsers = [];
+
+            timer(5000)
+              .pipe(take(1))
+              .subscribe(() => {
+                this.isSend = false;
+              });
+          } else {
+            // Handle failure
+            console.log('Not sucess');
+            this.isError = true;
+          }
+        });
     }
   }
 

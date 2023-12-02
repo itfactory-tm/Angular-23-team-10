@@ -1,16 +1,43 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { User } from '@auth0/auth0-angular';
+import { Observable, catchError, map, of } from 'rxjs';
+import { UserTrip } from 'src/app/models/UserTrip';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EmailService {
-  constructor(private http: HttpClient) {}
+  constructor(private httpClient: HttpClient) {}
 
-  sendEmail(emailAddress: string) {
-    const emailData = { emailAddress };
-    console.log(emailData);
-    return this.http.post(environment.api_url + '/Email/', emailData);
+  sendEmail(
+    email: string,
+    userId: string,
+    tripId: number
+  ): Observable<boolean> {
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+
+    const requestData = {
+      email: email,
+      userId: userId,
+      tripId: tripId,
+    };
+
+    return this.httpClient
+      .post<string>(`${environment.api_url}/Email`, requestData, {
+        headers: headers,
+      })
+      .pipe(
+        map(() => {
+          console.log('Email sent successfully');
+          return true;
+        }),
+        catchError((error) => {
+          console.error('Error sending email:', error);
+          return of(false);
+        })
+      );
   }
 }

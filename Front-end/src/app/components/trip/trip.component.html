@@ -188,7 +188,7 @@
                                                     {{user.email}}</p>
                                             </div>
                                         </div>
-                                        <button (click)="sendEmail(user.email)"
+                                        <button (click)="sendEmail(user)"
                                             class="bg-gray-500 text-white px-2 py-1 text-md rounded-md hover:bg-gray-600 focus:outline-none">
                                             Send Invite
                                         </button>
@@ -370,5 +370,7 @@
 
     <app-toast [showSuccessToast]="isDeleted" [message]="'Trip successfully deleted!'" />
     <app-toast [showSuccessToast]="isUpdated" [message]="'Trip successfully updated!'" />
+    <app-toast [showSuccessToast]="isSend" [message]="'Email sent successfully!'" />
+
     <app-toast [showErrorToast]="isError" [message]="'Something went wrong!'" />
 </main>

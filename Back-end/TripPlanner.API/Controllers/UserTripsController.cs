@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 using TripPlanner.DAL.Models;
 using TripPlannerAPI.Data;
 using TripPlannerAPI.Dto.UserTrip;
@@ -65,6 +66,23 @@ namespace TripPlannerAPI.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("{userId}/{tripId}")]
+        public async Task<IActionResult> StartContributing(string userId, int tripId)
+        {
+            var userTrip = new UserTripResponse
+            {
+                TripId = tripId,
+                UserId = userId
+            };
+
+            UserTrip newUserTrip = _mapper.Map<UserTrip>(userTrip);
+            _context.UserTrips.Add(newUserTrip);
+            await _context.SaveChangesAsync();
+
+            return Redirect("http://localhost:4200");
+        }
+
 
         // DELETE: api/UserTrips/5
         [HttpDelete("{userId}/{tripId}")]
