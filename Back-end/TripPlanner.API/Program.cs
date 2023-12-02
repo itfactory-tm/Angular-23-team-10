@@ -40,7 +40,7 @@ builder.Services.AddCors(options =>
         {
             policy.WithOrigins("http://localhost:4200")
             .WithMethods("PUT", "GET", "POST", "DELETE")
-            .WithHeaders("Content-Type", "application/json; charset=utf-8");
+            .AllowAnyHeader();
         });
 });
 
