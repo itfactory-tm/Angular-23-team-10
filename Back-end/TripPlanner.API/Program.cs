@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using TripPlannerAPI.Data;
 
+var corsConfig = "_corsConfig";
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(typeof(Program));
 
@@ -31,6 +33,17 @@ builder.Services.AddAuthorization(options =>
                         policy.RequireClaim("permissions", "getall:trips"));
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: corsConfig,
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200")
+            .WithMethods("PUT", "GET", "POST", "DELETE")
+            .WithHeaders("Content-Type", "application/json; charset=utf-8");
+        });
+});
+
 builder.Services.AddControllers();
 
 builder.Services.AddSwaggerService();
@@ -47,12 +60,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+/*
 app.UseCors(x => x
-            .AllowAnyOrigin() // temporary
-            .AllowAnyMethod()
+            .WithOrigins("http://localhost:4200", "https://tripplanner-api-eliasgrinwis.cloud.okteto.net/api") // temporary
+            .WithMethods("PUT")
             .AllowAnyHeader()); //Temporary (security risk)
-
+*/
+app.UseCors(corsConfig);
 
 using (var scope = app.Services.CreateScope())
 {
