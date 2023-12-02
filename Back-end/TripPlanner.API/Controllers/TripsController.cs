@@ -75,10 +75,11 @@ namespace TripPlannerAPI.Controllers
 
             Trip updatedTrip = _mapper.Map<Trip>(putTrip);
             var trip = _context.Trips.Where(u => u.TripId == id).FirstOrDefault();
-            _context.Entry(trip).State = EntityState.Modified;
+            //_context.Entry(trip).State = EntityState.Modified;
 
             try
             {
+                trip.Name = updatedTrip.Name;
                 trip.StartDate = updatedTrip.StartDate;
                 trip.EndDate = updatedTrip.EndDate;
                 trip.Description = updatedTrip.Description;
