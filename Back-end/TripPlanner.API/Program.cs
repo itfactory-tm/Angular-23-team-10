@@ -20,10 +20,22 @@ if (builder.Environment.IsProduction())
 builder.Services.AddDbContext<TripContext>(options =>
 options.UseSqlServer(connectionString));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: corsConfig,
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200", "https://trip-planner-46730.web.app")
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+        });
+});
+
 //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 //builder.Services.AddSqlServer<TripContext>(connectionString, options => options.EnableRetryOnFailure());
 
 builder.Services.AddAuthentication().AddJwtBearer();
+
 builder.Services.AddAuthorization(options =>
 {
     //We create different policies where each policy contains the permissions required to fulfill them
@@ -31,17 +43,6 @@ builder.Services.AddAuthorization(options =>
                           policy.RequireClaim("permissions", "delete:trip"));
     options.AddPolicy("GetAccess", policy =>
                         policy.RequireClaim("permissions", "getall:trips"));
-});
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: corsConfig,
-        policy =>
-        {
-            policy.WithOrigins("https://trip-planner-46730.web.app/")
-            .WithMethods("PUT", "GET", "POST", "DELETE")
-            .AllowAnyHeader();
-        });
 });
 
 builder.Services.AddControllers();
@@ -60,14 +61,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-/*
-app.UseCors(x => x
-            .WithOrigins("http://localhost:4200", "https://tripplanner-api-eliasgrinwis.cloud.okteto.net/api") // temporary
-            .WithMethods("PUT")
-            .AllowAnyHeader()); //Temporary (security risk)
-*/
+
 app.UseCors(corsConfig);
 
+/*
+app.UseCors(x => x
+            .WithOrigins("http://localhost:4200")
+            .WithMethods()
+            .AllowAnyHeader());
+*/
 using (var scope = app.Services.CreateScope())
 {
     var myContext = scope.ServiceProvider.GetRequiredService<TripContext>();
