@@ -31,29 +31,31 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { AutocompleteComponent } from '../autocomplete/autocomplete.component';
+import { ForecastcardComponent } from "../forecastcard/forecastcard.component";
 import { CategoryService } from 'src/app/services/category/category.service';
 import { Category } from 'src/app/models/Category';
 import { TripCategoryService } from 'src/app/services/trip-category/trip-category.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-getstarted',
-  standalone: true,
-  templateUrl: './getstarted.component.html',
-  styleUrls: ['./getstarted.component.css'],
-  imports: [
-    CommonModule,
-    FontAwesomeModule,
-    FormsModule,
-    HttpClientModule,
-    ToastComponent,
-    NavbarComponent,
-    FooterComponent,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatNativeDateModule,
-    AutocompleteComponent,
-  ],
+    selector: 'app-getstarted',
+    standalone: true,
+    templateUrl: './getstarted.component.html',
+    styleUrls: ['./getstarted.component.css'],
+    imports: [
+        CommonModule,
+        FontAwesomeModule,
+        FormsModule,
+        HttpClientModule,
+        ToastComponent,
+        NavbarComponent,
+        FooterComponent,
+        MatDatepickerModule,
+        MatFormFieldModule,
+        MatNativeDateModule,
+        AutocompleteComponent,
+        ForecastcardComponent
+    ]
 })
 export class GetstartedComponent implements OnInit {
   @ViewChild('startDateInput') startDateInput!: ElementRef<HTMLInputElement>;
@@ -105,6 +107,8 @@ export class GetstartedComponent implements OnInit {
   tripDescription: string = '';
   tripCountry: string = '';
   tripCity: string = '';
+  selectedCity: string = '';
+
 
   isSubmitted: boolean = false;
   isError: boolean = false;
@@ -335,5 +339,6 @@ export class GetstartedComponent implements OnInit {
   handleCitySelection(city: any) {
     this.tripCountry = city.country;
     this.tripCity = city.name;
+    this.selectedCity = city.name;
   }
 }

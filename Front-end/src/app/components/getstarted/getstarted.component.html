@@ -77,7 +77,15 @@
           </div>
         </div>
 
-        <!-- Step 1: Date -->
+        <!-- Step 2: Location -->
+        <div class="mt-6">
+          <app-autocomplete (citySelected)="handleCitySelection($event)"></app-autocomplete>
+        </div>
+
+        <!-- Step Optional: Weather -->
+        <app-forecastcard [city]="selectedCity"></app-forecastcard>
+
+        <!-- Step 3: Date -->
         <div class="mt-6">
 
           <label class="block mb-2 text-sm font-medium text-white">START DATE - END DATE</label>
@@ -120,10 +128,6 @@
             </div>
           </div>
         </div>
-        <div class="mt-4">
-          <app-autocomplete (citySelected)="handleCitySelection($event)"></app-autocomplete>
-        </div>
-
 
         <div class="relative inline-block text-left mt-6 w-full">
           <label class="block mb-2 text-sm font-medium text-white">TRIP CATEGORY (optional)</label>
