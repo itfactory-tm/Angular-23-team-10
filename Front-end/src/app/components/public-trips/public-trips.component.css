@@ -5,3 +5,7 @@
   background-color: #39394c;
   border-radius: 0.5rem;
 }
+
+.mat-tooltip {
+  z-index: 9999;
+}
