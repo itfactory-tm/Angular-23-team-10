@@ -96,7 +96,7 @@ export class PublicTripsComponent implements OnInit, OnDestroy {
 
   navigateToTrip(tripId: number) {
     this.tripService.setTripId(tripId);
-    this.router.navigateByUrl('/calendar');
+    this.router.navigate(['/calendar'], { state: { isPublic: 'true' } });
   }
 
   isImageValid(imageName: string): boolean {
@@ -107,7 +107,7 @@ export class PublicTripsComponent implements OnInit, OnDestroy {
 
   filterTrips() {
     this.filteredTrips = this.trips.filter((trip) => {
-      this.isLoading = true
+      this.isLoading = true;
       const nameMatch = trip.name
         .toLowerCase()
         .includes(this.searchName.toLowerCase());
@@ -145,9 +145,9 @@ export class PublicTripsComponent implements OnInit, OnDestroy {
 
   isInSearchCategories(id: number) {
     if (this.searchCategories.includes(id)) {
-      return true
+      return true;
     } else {
-      return false
+      return false;
     }
   }
 
