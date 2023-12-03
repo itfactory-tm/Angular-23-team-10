@@ -11,20 +11,22 @@ import { TripComponent } from './components/trip/trip.component';
 import { ActivityListComponent } from './components/activity/activity.component';
 import { HomeComponent } from './components/home/home.component';
 import { PublicApiTestComponent } from './components/public-api-test/public-api-test.component';
+import { adminGuard } from './guards/admin.guard';
+import { AuthGuard } from '@auth0/auth0-angular';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'getstarted', component: GetstartedComponent },
   { path: 'calendar', component: CalendarComponent },
   { path: 'calendar/activity', component: ActivityFormComponent },
-  { path: 'admin/category', component: CategoryListComponent },
-  { path: 'admin/category/form', component: CategoryFormComponent },
-  { path: 'admin/activity', component: ActivityListComponent },
-  { path: 'admin/activity/form', component: ActivityFormComponent },
-  { path: 'trips', component: TripComponent },
+  { path: 'admin/category', component: CategoryListComponent, canActivate: [adminGuard] },
+  { path: 'admin/category/form', component: CategoryFormComponent, canActivate: [adminGuard] },
+  { path: 'admin/activity', component: ActivityListComponent, canActivate: [adminGuard] },
+  { path: 'admin/activity/form', component: ActivityFormComponent, canActivate: [adminGuard] },
+  { path: 'trips', component: TripComponent, canActivate: [AuthGuard] },
   { path: 'public-trips', component: PublicTripsComponent },
   { path: 'aboutus', component: AboutUsComponent },
-  { path: 'api', component: PublicApiTestComponent}
+  { path: 'api', component: PublicApiTestComponent},
 ];
 
 @NgModule({
