@@ -10,13 +10,14 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Category } from 'src/app/models/Category';
 import { CategoryService } from 'src/app/services/category/category.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-public-trips',
   standalone: true,
   templateUrl: './public-trips.component.html',
   styleUrls: ['./public-trips.component.css'],
-  imports: [PageLoaderComponent, FontAwesomeModule, FormsModule, CommonModule],
+  imports: [PageLoaderComponent, FontAwesomeModule, FormsModule, CommonModule, MatTooltipModule],
   providers: [DatePipe],
 })
 export class PublicTripsComponent implements OnInit, OnDestroy {
@@ -64,7 +65,6 @@ export class PublicTripsComponent implements OnInit, OnDestroy {
     this.categories$ = this.categoryService
       .getCategories()
       .subscribe((result) => {
-        //console.log(result);
         this.categories = result;
       });
   }
@@ -140,7 +140,6 @@ export class PublicTripsComponent implements OnInit, OnDestroy {
       this.searchCategories.push(id);
       this.filterTrips();
     }
-    console.log(this.searchCategories);
   }
 
   isInSearchCategories(id: number) {
