@@ -107,7 +107,6 @@ namespace TripPlannerAPI.Controllers
 
         // DELETE: api/TripActivities/5
         [HttpDelete("{id}")]
-        [Authorize(Policy = "DeleteAccess")]
         public async Task<IActionResult> DeleteTripActivity(int id)
         {
             var tripActivity = await _context.TripActivities.FindAsync(id);
