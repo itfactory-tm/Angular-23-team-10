@@ -13,6 +13,7 @@ export class LocationService {
 
   constructor(private http: HttpClient) {}
 
+  // for autocomplete locations
   getCities(city: string): Observable<any> {
     
     const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${city}&apiKey=${this.apikey}`;
