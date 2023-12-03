@@ -27,7 +27,6 @@ namespace TripPlannerAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<Trip>().ToTable("Trip");
             modelBuilder.Entity<TripActivity>().ToTable("TripActivity");
             modelBuilder.Entity<Activity>().ToTable("Activity");
@@ -51,37 +50,33 @@ namespace TripPlannerAPI.Data
                 .HasForeignKey(ta => ta.ActivityId);
 
 
-            modelBuilder.Entity<UserTrip>()// Define the Entity configuration for the UserTrip entity.                           
-                .HasKey(ut => new { ut.UserId, ut.TripId });// Set a composite primary key for UserTrip entity using UserId and TripId.
-            //modelBuilder.Entity<UserTrip>()// Configure the relationship between UserTrip and User entities.                                     
-            //     .HasOne(ut => ut.UserId)// UserTrip has a reference to a User entity.                                   
-            //     .WithMany(t => t.Trips)// Each User can be associated with multiple trips. 
-            //     .HasForeignKey(ut => ut.UserId);// Set the foreign key relationship with the UserId property in UserTrip.
-            modelBuilder.Entity<UserTrip>()// Configure the relationship between UserTrip and Trip entities.                     
-                .HasOne(ut => ut.Trip)// UserTrip has a reference to a Trip entity.                     
-                .WithMany(u => u.Users)// Each Trip can have multiple users associated with it.
-                .HasForeignKey(ut => ut.TripId);// Set the foreign key relationship with the TripId property in UserTrip.
+            modelBuilder.Entity<UserTrip>()
+                .HasKey(ut => new { ut.UserId, ut.TripId });
+            modelBuilder.Entity<UserTrip>()
+                .HasOne(ut => ut.Trip)
+                .WithMany(u => u.Users)
+                .HasForeignKey(ut => ut.TripId);
 
-            modelBuilder.Entity<TripCategory>()// Define the primary key for the 'TripCategory' entity using a composite key composed of 'TripId' and 'CategoryId'.
+            modelBuilder.Entity<TripCategory>()
                 .HasKey(tc => new { tc.TripId, tc.CategoryId });
-            modelBuilder.Entity<TripCategory>()// Create a relationship between 'TripCategory' and 'Trip' entities.
-                .HasOne(tc => tc.Trip) // Each 'TripCategory' has one 'Trip'.
-                .WithMany(t => t.Categories) // Each 'Trip' can have many 'TripCategory' items, forming a collection called 'Categories'.
-                .HasForeignKey(tc => tc.TripId); // Set the foreign key property in 'TripCategory' to reference the 'Trip' entity's primary key, 'TripId'.
-            modelBuilder.Entity<TripCategory>()// Create a relationship between 'TripCategory' and 'Category' entities.
-                .HasOne(tc => tc.Category) // Each 'TripCategory' has one 'Category'.
-                .WithMany(c => c.Trips) // Each 'Category' can have many 'TripCategory' items, forming a collection called 'Trips'.
-                .HasForeignKey(tc => tc.CategoryId); // Set the foreign key property in 'TripCategory' to reference the 'Category' entity's primary key, 'CategoryId'.
+            modelBuilder.Entity<TripCategory>()
+                .HasOne(tc => tc.Trip)
+                .WithMany(t => t.TripCategories)
+                .HasForeignKey(tc => tc.TripId);
+            modelBuilder.Entity<TripCategory>()
+                .HasOne(tc => tc.Category)
+                .WithMany(c => c.TripCategories)
+                .HasForeignKey(tc => tc.CategoryId);
 
             modelBuilder.Entity<TripKeyword>()
                 .HasKey(tc => new { tc.TripId, tc.KeywordId });
             modelBuilder.Entity<TripKeyword>()
                 .HasOne(tc => tc.Trip)
-                .WithMany(t => t.Keywords)
+                .WithMany(t => t.TripKeywords)
                 .HasForeignKey(tc => tc.TripId);
             modelBuilder.Entity<TripKeyword>()
                 .HasOne(tc => tc.Keyword)
-                .WithMany(c => c.Trips)
+                .WithMany(c => c.TripKeywords)
                 .HasForeignKey(tc => tc.KeywordId);
         }
 

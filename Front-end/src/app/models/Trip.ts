@@ -1,4 +1,6 @@
+import { User } from '@auth0/auth0-angular';
 import { Activity } from './Activity';
+import { TripCategory } from './TripCategory';
 
 export interface Trip {
   tripId: number;
@@ -11,4 +13,5 @@ export interface Trip {
   country: string;
   isShared: boolean;
   activities: Activity[];
+  categories: TripCategory[];
 }

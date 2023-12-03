@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using TripPlanner.DAL.Models;
 using TripPlannerAPI.Data;
 using TripPlannerAPI.Dto.Category;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TripPlannerAPI.Controllers
 {
@@ -108,6 +109,7 @@ namespace TripPlannerAPI.Controllers
 
         // DELETE: api/Categories/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = "DeleteAccess")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             var category = await _context.Categories.FindAsync(id);

@@ -35,8 +35,9 @@ import { CalendarDetailModalComponent } from '../calendar-detail-modal/calendar-
 export class CalendarComponent implements OnInit, OnDestroy {
   trip!: Trip;
   activity!: Activity;
-
   tripId: number = 0;
+
+  isPublic: boolean = false;
 
   dates: { date: Date; status: String; activities: Activity[] }[] = [];
   today: Date = new Date();
@@ -54,7 +55,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
   faPlus = faPlus;
   faCircle = faCircle;
 
-  constructor(private tripService: TripService, private router: Router) {}
+  constructor(private tripService: TripService, private router: Router) {
+    this.isPublic = this.router.getCurrentNavigation()?.extras.state?.['isPublic'] === 'true';
+  }
 
   ngOnInit(): void {
     this.getTripId();
