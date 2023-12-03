@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Trip } from 'src/app/models/Trip';
 import { UserTrip } from 'src/app/models/UserTrip';
 import { environment } from 'src/environments/environment';
 
@@ -10,14 +11,18 @@ import { environment } from 'src/environments/environment';
 export class UserTripService {
   constructor(private httpClient: HttpClient) {}
 
+  getUserTrips(): Observable<UserTrip[]> {
+    return this.httpClient.get<UserTrip[]>(environment.api_url + '/UserTrips');
+  }
+
   getUsersByTripId(tripId: number): Observable<UserTrip[]> {
     return this.httpClient.get<UserTrip[]>(
       environment.api_url + '/UserTrips/' + tripId
     );
   }
 
-  getTripsByUserId(userId: string): Observable<UserTrip[]> {
-    return this.httpClient.get<UserTrip[]>(
+  getTripsByUserId(userId: string): Observable<Trip[]> {
+    return this.httpClient.get<Trip[]>(
       environment.api_url + '/UserTrips/' + userId
     );
   }

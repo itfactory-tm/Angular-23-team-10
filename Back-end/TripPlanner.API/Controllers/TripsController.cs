@@ -39,7 +39,7 @@ namespace TripPlannerAPI.Controllers
         [Route("public-trips")]
         public async Task<ActionResult<List<TripRequest>>> GetPublicTrips()
         {
-            var trips = await _context.Trips.Include(a => a.TripActivities).ThenInclude(a => a.Activity).Where(t => t.IsShared.Equals(true)).ToListAsync();
+            var trips = await _context.Trips.Include(a => a.TripActivities).ThenInclude(a => a.Activity).Include(c => c.TripCategories).ThenInclude(c => c.Category).Where(t => t.IsShared.Equals(true)).ToListAsync();
 
             if (trips == null)
             {

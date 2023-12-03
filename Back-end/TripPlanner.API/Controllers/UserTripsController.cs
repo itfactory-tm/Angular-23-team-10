@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 using TripPlanner.DAL.Models;
 using TripPlannerAPI.Data;
 using TripPlannerAPI.Dto.UserTrip;
@@ -14,11 +15,15 @@ namespace TripPlannerAPI.Controllers
     {
         private readonly TripContext _context;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public UserTripsController(TripContext context, IMapper mapper)
+        public UserTripsController(TripContext context, IMapper mapper, IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             _context = context;
             _mapper = mapper;
+            _configuration = configuration;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         // GET: api/UserTrips
@@ -65,6 +70,27 @@ namespace TripPlannerAPI.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("{userId}/{tripId}")]
+        public async Task<IActionResult> StartContributing(string userId, int tripId)
+        {
+            var userTrip = new UserTripResponse
+            {
+                TripId = tripId,
+                UserId = userId
+            };
+
+            UserTrip newUserTrip = _mapper.Map<UserTrip>(userTrip);
+            _context.UserTrips.Add(newUserTrip);
+            await _context.SaveChangesAsync();
+
+            var baseUrl = _hostingEnvironment.IsProduction() ?
+            "https://trip-planner-46730.web.app" :
+            "http://localhost:4200";
+
+            return Redirect(baseUrl);
+        }
+
 
         // DELETE: api/UserTrips/5
         [HttpDelete("{userId}/{tripId}")]

@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using TripPlannerAPI.Data;
 
+var corsConfig = "_corsConfig";
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(typeof(Program));
 
@@ -18,10 +20,22 @@ if (builder.Environment.IsProduction())
 builder.Services.AddDbContext<TripContext>(options =>
 options.UseSqlServer(connectionString));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: corsConfig,
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200", "https://trip-planner-46730.web.app")
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+        });
+});
+
 //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 //builder.Services.AddSqlServer<TripContext>(connectionString, options => options.EnableRetryOnFailure());
 
 builder.Services.AddAuthentication().AddJwtBearer();
+
 builder.Services.AddAuthorization(options =>
 {
     //We create different policies where each policy contains the permissions required to fulfill them
@@ -48,12 +62,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(corsConfig);
+
+/*
 app.UseCors(x => x
-            .AllowAnyOrigin() // temporary
-            .AllowAnyMethod()
-            .AllowAnyHeader()); //Temporary (security risk)
-
-
+            .WithOrigins("http://localhost:4200")
+            .WithMethods()
+            .AllowAnyHeader());
+*/
 using (var scope = app.Services.CreateScope())
 {
     var myContext = scope.ServiceProvider.GetRequiredService<TripContext>();

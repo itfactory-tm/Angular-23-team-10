@@ -15,7 +15,7 @@ import {
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastComponent } from '../../shared/toast/toast.component';
 import { TripService } from '../../services/trip/trip.service';
@@ -24,7 +24,7 @@ import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { UserTripService } from '../../services/user-trip/user-trip.service';
 import { AuthService } from '@auth0/auth0-angular';
-import { take } from 'rxjs';
+import { delay, of, take } from 'rxjs';
 import { Trip } from '../../models/Trip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -32,6 +32,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { AutocompleteComponent } from '../autocomplete/autocomplete.component';
 import { ForecastcardComponent } from "../forecastcard/forecastcard.component";
+import { CategoryService } from 'src/app/services/category/category.service';
+import { Category } from 'src/app/models/Category';
+import { TripCategoryService } from 'src/app/services/trip-category/trip-category.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-getstarted',
@@ -57,7 +61,31 @@ export class GetstartedComponent implements OnInit {
   @ViewChild('startDateInput') startDateInput!: ElementRef<HTMLInputElement>;
   @ViewChild('endDateInput') endDateInput!: ElementRef<HTMLInputElement>;
 
-  ngOnInit(): void {}
+  categories: Category[] = [];
+  form = new FormControl({});
+  selectedItems: number[] = [];
+
+  ngOnInit(): void {
+    this.categoryService.getCategories().subscribe((data) => {
+      this.categories = data;
+    });
+  }
+
+  isSelected(categoryId: number): boolean {
+    return this.selectedItems.includes(categoryId);
+  }
+
+  toggleSelection(categoryId: number): void {
+    if (this.isSelected(categoryId)) {
+      this.selectedItems = this.selectedItems.filter(
+        (item) => item !== categoryId
+      );
+    } else {
+      this.selectedItems.push(categoryId);
+    }
+
+    console.log('Selected Items:', this.selectedItems);
+  }
 
   faImage = faImage;
   faTrash = faTrashAlt;
@@ -92,6 +120,11 @@ export class GetstartedComponent implements OnInit {
   file: File | undefined;
   imageUrl: string | undefined;
 
+  toggleDropdown() {
+    const dropdown = document.getElementById('dropdown-menu-items');
+    dropdown?.classList.toggle('hidden');
+  }
+
   @ViewChild('tripForm') tripForm!: NgForm;
   @ViewChild('tripForm2') tripForm2!: NgForm;
 
@@ -99,7 +132,10 @@ export class GetstartedComponent implements OnInit {
     private tripService: TripService,
     private userTripService: UserTripService,
     public _auth: AuthService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private categoryService: CategoryService,
+    private tripCategoryService: TripCategoryService,
+    private router: Router
   ) {}
 
   nextStep(): void {
@@ -123,7 +159,7 @@ export class GetstartedComponent implements OnInit {
     }
   }
 
-  async postNewTrip(): Promise<Trip> {
+  async postNewTrip(loggedInUser: any): Promise<Trip> {
     let newStartDate = new Date(
       this.startDate!.getFullYear(),
       this.startDate!.getMonth(),
@@ -153,6 +189,7 @@ export class GetstartedComponent implements OnInit {
         city: this.tripCity,
         country: this.tripCountry,
         activities: [],
+        categories: [],
       })
       .toPromise();
 
@@ -170,6 +207,30 @@ export class GetstartedComponent implements OnInit {
         userId: userId,
       })
       .toPromise();
+  }
+
+  async postNewTripCategory(tripId: number, categoryIds: number[]) {
+    for (let categoryId of categoryIds) {
+      try {
+        console.log(categoryId);
+        this.categoryService
+          .getCategoryById(categoryId)
+          .subscribe((category) => {
+            this.tripCategoryService
+              .postTripCategory({
+                tripId: tripId,
+                categoryId: categoryId,
+                category: category,
+              })
+              .toPromise();
+          });
+      } catch (error) {
+        console.error(
+          `Error while making POST request for categoryId ${categoryId}:`,
+          error
+        );
+      }
+    }
   }
 
   async checkUserLoggedIn(): Promise<any> {
@@ -194,11 +255,18 @@ export class GetstartedComponent implements OnInit {
       if (loggedInUser !== null) {
         await this.uploadImage();
 
-        let trip = await this.postNewTrip();
+        let trip = await this.postNewTrip(loggedInUser);
 
         await this.postNewUserTrip(trip.tripId, loggedInUser.sub);
+        await this.postNewTripCategory(trip.tripId, this.selectedItems);
 
         this.isSubmitted = true;
+        // Redirect after 2 seconds using rxjs delay operator
+        of(null)
+          .pipe(delay(2000))
+          .subscribe(() => {
+            this.router.navigate(['/trips']);
+          });
       } else {
         this._auth.loginWithPopup();
       }

@@ -126,13 +126,13 @@
     type="submit"
     *ngIf="isEdit"
     [disabled]="!activityForm.form.valid || isSubmitted"
-    class="text-white ring-2 mr-2 ring-custom-orange enabled:hover:bg-custom-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center disabled:opacity-75"
+    class="text-white ring-2 md:mr-2 mb-3 md:mb-0 ring-custom-orange enabled:hover:bg-custom-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center disabled:opacity-75"
   >
     Save changes
   </button>
   <button
     type="button"
-    class="text-white ring-2 ml-2 ring-custom-orange enabled:hover:bg-custom-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center disabled:opacity-75"
+    class="text-white ring-2 md:ml-2 ring-custom-orange enabled:hover:bg-custom-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center disabled:opacity-75"
     (click)="goToCalendar()"
     >
     Back

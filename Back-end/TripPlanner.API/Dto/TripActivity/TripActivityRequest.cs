@@ -12,5 +12,6 @@ namespace TripPlannerAPI.Dto.TripActivity
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public ActivityRequest Activity { get; set; }
+        public Array contributors { get; set; }
     }
 }
