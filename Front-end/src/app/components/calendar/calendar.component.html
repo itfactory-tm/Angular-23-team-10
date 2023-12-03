@@ -64,7 +64,7 @@
               No planned activities
               <span *ngIf="date.status !== 'Past'">yet</span>
             </li>
-            } @if (date.status !== 'Past' && isPublic) {
+            } @if (date.status !== 'Past' && !isPublic) {
             <li
               class="mb-4 text-base font-normal text-gray-400 cursor-pointer hover:underline"
               (click)="add(date.date)"
