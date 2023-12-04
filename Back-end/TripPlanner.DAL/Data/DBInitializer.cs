@@ -16,51 +16,8 @@ namespace TripPlannerAPI.Data
                 new Trip { Name = "Berlin City Trip", StartDate = new DateTime(2023, 10, 16), EndDate = new DateTime(2023, 10, 31), Picture = "basilika.jpg", Description = "This is a test trip", Country = "Germany", City = "Berlin", IsShared = true },
                 new Trip { Name = "Madrid City Trip", StartDate = new DateTime(2023, 10, 15), EndDate = new DateTime(2023, 10, 17), Picture = "disneylanbd.jpg", Description = "This is my first trip!", Country = "Spain", City = "Madrid", IsShared = false },
                 new Trip { Name = "London City Trip", StartDate = new DateTime(2023, 10, 16), EndDate = new DateTime(2023, 10, 31), Picture = "heroImage.jpg", Description = "This is my second trip!", Country = "England", City = "London", IsShared = true },
-                new Trip { Name = "India Trip", StartDate = new DateTime(2023, 11, 15), EndDate = new DateTime(2023, 11, 30), Picture = "mindanou.jpg", Description = "This is my India trip!", Country = "India", City = "Madras", IsShared = true },
-                new Trip
-                {
-                    Name = "Tokyo Expedition",
-                    StartDate = new DateTime(2023, 7, 10),
-                    EndDate = new DateTime(2023, 7, 20),
-                    Picture = "tokyo_picture.jpg",
-                    Description = "Discover the wonders of Tokyo!",
-                    Country = "Japan",
-                    City = "Tokyo",
-                    IsShared = true
-                },
-                new Trip
-                {
-                    Name = "Roman Holiday",
-                    StartDate = new DateTime(2023, 8, 25),
-                    EndDate = new DateTime(2023, 9, 5),
-                    Picture = "rome_picture.jpg",
-                    Description = "Experience the history of Rome!",
-                    Country = "Italy",
-                    City = "Rome",
-                    IsShared = true
-                },
-                new Trip
-                {
-                    Name = "New York Adventure",
-                    StartDate = new DateTime(2023, 9, 20),
-                    EndDate = new DateTime(2023, 9, 30),
-                    Picture = "newyork_picture.jpg",
-                    Description = "Explore the hustle and bustle of New York City!",
-                    Country = "United States",
-                    City = "New York",
-                    IsShared = false
-                },
-                new Trip
-                {
-                    Name = "Sydney Escape",
-                    StartDate = new DateTime(2023, 10, 15),
-                    EndDate = new DateTime(2023, 10, 25),
-                    Picture = "sydney_picture.jpg",
-                    Description = "Enjoy the beauty of Sydney!",
-                    Country = "Australia",
-                    City = "Sydney",
-                    IsShared = true
-                }
+                new Trip { Name = "India Trip", StartDate = new DateTime(2023, 11, 15), EndDate = new DateTime(2023, 11, 30), Picture = "mindanou.jpg", Description = "This is my India trip!", Country = "India", City = "Madras", IsShared = true }
+
                 );
 
             //Add activities
@@ -87,87 +44,15 @@ namespace TripPlannerAPI.Data
             //Associative tables
             //Add tripactivities
             context.TripActivities.AddRange(
-                new TripActivity { TripId = 1, ActivityId = 1, Name = "Brandenburg Gate Tour", Price = 21.0, StartDate = new DateTime(2023, 10, 17, 19, 0, 0), EndDate = new DateTime(2023, 10, 17, 22, 0, 0) },
-                new TripActivity { TripId = 3, ActivityId = 2, Name = "British Museum Tour", Price = 10.0, StartDate = new DateTime(2023, 10, 15, 15, 0, 0), EndDate = new DateTime(2023, 10, 17, 18, 0, 0) },
-                new TripActivity { TripId = 1, ActivityId = 2, Name = "Museum Island Visit", Price = 20.0, StartDate = new DateTime(2023, 10, 16, 6, 0, 0), EndDate = new DateTime(2023, 10, 17, 12, 0, 0) },
-                new TripActivity { TripId = 2, ActivityId = 3, Name = "Prado Museum Tour", Price = 30.0, StartDate = new DateTime(2023, 10, 21, 14, 0, 0), EndDate = new DateTime(2023, 10, 22, 16, 0, 0) },
+                new TripActivity { TripId = 1, ActivityId = 1, Name = "Activity", Price = 21.0, StartDate = new DateTime(2023, 10, 17, 19, 0, 0), EndDate = new DateTime(2023, 10, 17, 22, 0, 0) },
+                new TripActivity { TripId = 3, ActivityId = 2, Name = "Activity", Price = 10.0, StartDate = new DateTime(2023, 10, 15, 15, 0, 0), EndDate = new DateTime(2023, 10, 17, 18, 0, 0) },
+                new TripActivity { TripId = 1, ActivityId = 2, Name = "Activity", Price = 20.0, StartDate = new DateTime(2023, 10, 16, 6, 0, 0), EndDate = new DateTime(2023, 10, 17, 12, 0, 0) },
+                new TripActivity { TripId = 2, ActivityId = 3, Name = "Activity", Price = 30.0, StartDate = new DateTime(2023, 10, 21, 14, 0, 0), EndDate = new DateTime(2023, 10, 22, 16, 0, 0) },
                 new TripActivity { TripId = 4, ActivityId = 1, Name = "Taj Mahal", Price = 30.0, StartDate = new DateTime(2023, 11, 16, 9, 0, 0), EndDate = new DateTime(2023, 11, 16, 11, 0, 0) },
                 new TripActivity { TripId = 4, ActivityId = 1, Name = "Amber Palace", Price = 30.0, StartDate = new DateTime(2023, 11, 16, 14, 0, 0), EndDate = new DateTime(2023, 11, 16, 16, 0, 0) },
                 new TripActivity { TripId = 4, ActivityId = 1, Name = "Red Fort", Price = 30.0, StartDate = new DateTime(2023, 11, 17, 11, 0, 0), EndDate = new DateTime(2023, 11, 17, 12, 0, 0) },
                 new TripActivity { TripId = 4, ActivityId = 1, Name = "Agra Fort", Price = 30.0, StartDate = new DateTime(2023, 11, 17, 14, 0, 0), EndDate = new DateTime(2023, 11, 17, 17, 0, 0) },
-                new TripActivity { TripId = 4, ActivityId = 1, Name = "Taj Mahal", Price = 30.0, StartDate = new DateTime(2023, 11, 16, 20, 0, 0), EndDate = new DateTime(2023, 11, 16, 22, 0, 0) },
-                new TripActivity
-                {
-                    ActivityId = 4,
-                    TripId = 8,
-                    Name = "Sydney Opera House Tour",
-                    Price = 35.0,
-                    StartDate = new DateTime(2023, 10, 10, 11, 0, 0),
-                    EndDate = new DateTime(2023, 10, 10, 13, 0, 0)
-                },
-                new TripActivity
-                {
-                    ActivityId = 2,
-                    TripId = 8,
-                    Name = "Bondi Beach Surfing Lesson",
-                    Price = 50.0,
-                    StartDate = new DateTime(2023, 10, 12, 9, 0, 0),
-                    EndDate = new DateTime(2023, 10, 12, 12, 0, 0)
-                },
-                new TripActivity
-                {
-                    ActivityId = 3,
-                    TripId = 5,
-                    Name = "Shibuya Crossing Exploration",
-                    Price = 20.0,
-                    StartDate = new DateTime(2023, 7, 12, 12, 0, 0),
-                    EndDate = new DateTime(2023, 7, 12, 14, 0, 0)
-                },
-                new TripActivity
-                {
-                    ActivityId = 4,
-                    TripId = 5,
-                    Name = "Tokyo Tower Visit",
-                    Price = 35.0,
-                    StartDate = new DateTime(2023, 7, 15, 10, 0, 0),
-                    EndDate = new DateTime(2023, 7, 15, 12, 0, 0)
-                },
-                new TripActivity
-                {
-                    ActivityId = 4,
-                    TripId = 6,
-                    Name = "Colosseum Tour",
-                    Price = 28.0,
-                    StartDate = new DateTime(2023, 8, 28, 11, 0, 0),
-                    EndDate = new DateTime(2023, 8, 28, 13, 0, 0)
-                },
-                new TripActivity
-                {
-                    ActivityId = 4,
-                    TripId = 6,
-                    Name = "Vatican Museum Visit",
-                    Price = 30.0,
-                    StartDate = new DateTime(2023, 8, 30, 9, 0, 0),
-                    EndDate = new DateTime(2023, 8, 30, 12, 0, 0)
-                },
-                new TripActivity
-                {
-                    ActivityId = 4,
-                    TripId = 7,
-                    Name = "Statue of Liberty Tour",
-                    Price = 40.0,
-                    StartDate = new DateTime(2023, 9, 22, 10, 0, 0),
-                    EndDate = new DateTime(2023, 9, 22, 13, 0, 0)
-                },
-                new TripActivity
-                {
-                    ActivityId = 3,
-                    TripId = 7,
-                    Name = "Central Park Bike Ride",
-                    Price = 25.0,
-                    StartDate = new DateTime(2023, 9, 25, 9, 0, 0),
-                    EndDate = new DateTime(2023, 9, 25, 11, 0, 0)
-                }
+                new TripActivity { TripId = 4, ActivityId = 1, Name = "Taj Mahal", Price = 30.0, StartDate = new DateTime(2023, 11, 16, 20, 0, 0), EndDate = new DateTime(2023, 11, 16, 22, 0, 0) }
                 );
             //Add usertrips
             context.UserTrips.AddRange(
@@ -188,22 +73,7 @@ namespace TripPlannerAPI.Data
                 new TripCategory { TripId = 1, CategoryId = 3 },
                 new TripCategory { TripId = 2, CategoryId = 1 },
                 new TripCategory { TripId = 3, CategoryId = 1 },
-                new TripCategory { TripId = 3, CategoryId = 2 },
-                new TripCategory { TripId = 4, CategoryId = 3 },
-                new TripCategory { TripId = 4, CategoryId = 4 },
-                new TripCategory { TripId = 5, CategoryId = 1 },
-                new TripCategory { TripId = 5, CategoryId = 3 },
-                new TripCategory { TripId = 5, CategoryId = 4 },
-                new TripCategory { TripId = 6, CategoryId = 3 },
-                new TripCategory { TripId = 6, CategoryId = 4 },
-                new TripCategory { TripId = 7, CategoryId = 1 },
-                new TripCategory { TripId = 7, CategoryId = 2 },
-                new TripCategory { TripId = 7, CategoryId = 3 },
-                new TripCategory { TripId = 7, CategoryId = 4 },
-                new TripCategory { TripId = 8, CategoryId = 1 },
-                new TripCategory { TripId = 8, CategoryId = 2 },
-                new TripCategory { TripId = 8, CategoryId = 3 },
-                new TripCategory { TripId = 8, CategoryId = 4 }
+                new TripCategory { TripId = 3, CategoryId = 2 }
                 );
             context.SaveChanges();
         }
