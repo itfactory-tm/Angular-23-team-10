@@ -31,10 +31,6 @@
     >
       @for (category of categories; track category.categoryId) {
       <li
-      matTooltip="{{ category.description }}"
-            matTooltipPosition="above"
-            matTooltipShowDelay="500"
-            matTooltipHideDelay="100"
         [ngClass]="
           isInSearchCategories(category.categoryId)
             ? 'border-white'
@@ -59,8 +55,8 @@
       class="cursor-pointer hover:bg-gray-600 shadow-md hover:shadow-lg bg-custom-lighter-background card rounded-lg flex content-between justify-between flex-col w-[300px] md:w-[350px] h-[450px] card col-start-1 col-end-2"
       (mousedown)="showActivities(trip)"
     >
-      <div class="h-1/2 w-full relative rounded-t-lg overflow-hidden">
-        @if (isImageValid(trip.picture)) {
+    <div class="h-1/2 w-full relative rounded-t-lg overflow-hidden">
+      @if (isImageValid(trip.picture)) {
         <img
           src="{{ trip.picture }}"
           alt="{{ trip.name }} Picture"
@@ -73,30 +69,28 @@
           class="absolute inset-0 w-full h-full object-cover object-center"
         />
         }
+    </div>
+        
+      <div class="p-4 overflow-auto info h-1/4">
+        <h2 class="text-white font-bold text-xl mb-2">{{ trip.name }}</h2>
+        <p class="text-white">{{ trip.startDate }} - {{ trip.endDate }}</p>
+        <p class="text-white">{{ trip.description }}</p>
       </div>
-      <div class="h-1/2">
-        <div class="p-4 overflow-auto info h-1/2">
-          <h2 class="text-white font-bold text-xl mb-2">{{ trip.name }}</h2>
-          <p class="text-white">{{ trip.startDate }} - {{ trip.endDate }}</p>
-          <p class="text-white">{{ trip.description }}</p>
-        </div>
-        <ul class="p-4 overflow-auto info flex flex-wrap gap-4 h-1/4">
-          @for (tripCategory of trip.categories; track tripCategory.categoryId)
-          {
-          <li
-            class="text-white bg-[#20202d] p-1 border-2 border-[#4a4a68] rounded-lg"
-          >
-            <p>{{ tripCategory.category.name }}</p>
-          </li>
-          }
-        </ul>
-        <button
-          class="button bg-[#e66462] cursor-pointer transition duration-200 text-white w-full rounded-b-lg hover:bg-[#ea7a78] h-1/4"
-          (click)="navigateToTrip(trip.tripId)"
+      <ul class="p-4 overflow-auto info flex flex-wrap gap-4 h-1/8">
+        @for (tripCategory of trip.categories; track tripCategory.categoryId) {
+        <li
+          class="text-white bg-[#20202d] p-1 border-2 border-[#4a4a68] rounded-lg"
         >
-          View calendar
-        </button>
-      </div>
+          <p>{{ tripCategory.category.name }}</p>
+        </li>
+        }
+      </ul>
+      <button
+        class="button bg-[#e66462] cursor-pointer transition duration-200 text-white px-8 py-2 rounded-b-lg hover:bg-[#ea7a78]"
+        (click)="navigateToTrip(trip.tripId)"
+      >
+        View calendar
+      </button>
     </article>
     }
   </section>
