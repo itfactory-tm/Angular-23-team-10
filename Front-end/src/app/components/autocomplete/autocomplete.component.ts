@@ -32,7 +32,11 @@ export class AutocompleteComponent implements OnInit {
   }
 
   selectCity(city: any) {
-    this.cityInput = `${city.name}, ${city.country} (${city.adminName})`;
+    if (city.adminName) {
+      this.cityInput = `${city.name}, ${city.country} (${city.adminName})`;
+    } else {
+      this.cityInput = `${city.name}, ${city.country}`;
+    }
     this.cities = []; // Clear dropdown
     this.citySelected.emit(city); // Emit selected city
   }
