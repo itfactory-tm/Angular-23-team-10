@@ -5,7 +5,7 @@
         <app-weathercard [city]="forecastList[0]?.name"></app-weathercard>
     </ng-container>
     -->
-    <div *ngFor="let forecast of forecastList" class="flex-shrink-0 bg-custom-table-data text-white p-4 pt-3 rounded-lg shadow-md w-[200px] mt-6">
+    <div *ngFor="let forecast of forecastList" class="flex-shrink-0 bg-custom-table-data text-white p-4 pt-2 rounded-lg shadow-md w-[200px] mt-6">
     <ng-container *ngIf="forecastList && forecastList.length > 0">
 
     <!-- Center the DayOfWeek, weather icon, and description -->
