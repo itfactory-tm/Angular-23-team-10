@@ -8,7 +8,7 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY ["Back-end/TripPlanner.API/TripPlanner.API.csproj", "Back-end/TripPlanner.API/"]
 COPY ["Back-end/TripPlanner.DAL/TripPlanner.DAL.csproj", "Back-end/TripPlanner.DAL/"]
