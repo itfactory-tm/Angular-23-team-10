@@ -12,7 +12,7 @@
         placeholder="Enter city">
         <div class="dropdown absolute top-full left-0 w-full bg-[#22272d] text-white border border-gray-300 max-h-40 overflow-y-auto z-10" *ngIf="cities.length > 0">
             <option *ngIf="cities[0]?.name" [value]="cities[0]" class="p-2 transition-all hover:bg-gray-900 hover:text-white" (click)="selectCity(cities[0])">
-              {{ cities[0]?.name }}, {{ cities[0]?.country }} ({{ cities[0]?.adminName }})
+              {{ cities[0]?.name }}, {{ cities[0]?.country }}<span *ngIf="cities[0]?.adminName"> ({{ cities[0]?.adminName }})</span>
             </option>
         </div>                
     </div>
