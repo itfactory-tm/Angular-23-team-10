@@ -8,4 +8,5 @@ export interface Activity {
     price: number;
     startDate: Date;
     endDate: Date;
+    activity: ActivityType;
 }

@@ -21,6 +21,7 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
   endTime: string = '12:00';
   activityTypeName: string = '';
   activityName: String = '';
+  errorMessage: String = '';
 
   isAdd: boolean = false;
   isEdit: boolean = false;
@@ -36,6 +37,10 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
     price: 0,
     startDate: new Date(),
     endDate: new Date(),
+    activity: {
+      activityId: 0,
+      name: ""
+    }
   };
 
   activityTypes: ActivityType[] = [];
@@ -138,7 +143,11 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
       this.postActivity$ = this.activityService
         .postActivity(this.activity)
         .subscribe({
-          next: (v) => this.router.navigateByUrl('/calendar'),
+          next: (v) =>
+            this.router.navigate(['/calendar'], { state: { mode: 'add' } }),
+          error: (e) =>
+            (this.errorMessage =
+              'Something went wrong with creating the activity.'),
         });
     }
     if (this.isEdit) {
@@ -148,7 +157,11 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
       this.putActivity$ = this.activityService
         .putActivity(this.activityId, this.activity)
         .subscribe({
-          next: (v) => this.router.navigateByUrl('/calendar'),
+          next: (v) =>
+            this.router.navigate(['/calendar'], { state: { mode: 'edit' } }),
+          error: (e) =>
+            (this.errorMessage =
+              'Something went wrong with updating the activity.'),
         });
     }
   }
@@ -164,6 +177,6 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
   }
 
   goToCalendar(): void {
-    this.router.navigateByUrl('/calendar')
+    this.router.navigateByUrl('/calendar');
   }
 }
