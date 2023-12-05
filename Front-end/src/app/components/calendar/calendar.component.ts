@@ -3,11 +3,17 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
+  IconDefinition,
   faCalendarCheck,
   faCalendarPlus,
   faCalendarXmark,
   faCircle,
+  faGopuram,
+  faLandmark,
+  faPersonHiking,
   faPlus,
+  faQuestion,
+  faWeightHanging,
 } from '@fortawesome/free-solid-svg-icons';
 import { TripService } from '../../services/trip/trip.service';
 import { Subscription } from 'rxjs';
@@ -17,6 +23,7 @@ import { PageLoaderComponent } from '../../shared/page-loader/page-loader.compon
 import { Activity } from 'src/app/models/Activity';
 import { ConfirmationPopupComponent } from '../../shared/confirmation-popup/confirmation-popup.component';
 import { CalendarDetailModalComponent } from '../calendar-detail-modal/calendar-detail-modal.component';
+import { ToastComponent } from '../../shared/toast/toast.component';
 
 @Component({
   selector: 'app-calendar',
@@ -30,14 +37,14 @@ import { CalendarDetailModalComponent } from '../calendar-detail-modal/calendar-
     PageLoaderComponent,
     ConfirmationPopupComponent,
     CalendarDetailModalComponent,
+    ToastComponent,
   ],
 })
 export class CalendarComponent implements OnInit, OnDestroy {
   trip!: Trip;
   activity!: Activity;
   tripId: number = 0;
-
-  isPublic: boolean = false;
+  mode: String = '';
 
   dates: { date: Date; status: String; activities: Activity[] }[] = [];
   today: Date = new Date();
@@ -45,6 +52,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   isLoading: boolean = true;
   isModalOpen: boolean = false;
+  isPublic: boolean = false;
 
   trip$: Subscription = new Subscription();
   tripId$: Subscription = new Subscription();
@@ -53,10 +61,12 @@ export class CalendarComponent implements OnInit, OnDestroy {
   faPresent = faCalendarXmark;
   faFuture = faCalendarPlus;
   faPlus = faPlus;
-  faCircle = faCircle;
+  faQuestion = faQuestion;
 
   constructor(private tripService: TripService, private router: Router) {
-    this.isPublic = this.router.getCurrentNavigation()?.extras.state?.['isPublic'] === 'true';
+    this.isPublic =
+      this.router.getCurrentNavigation()?.extras.state?.['isPublic'] === 'true';
+    this.mode = this.router.getCurrentNavigation()?.extras.state?.['mode'];
   }
 
   ngOnInit(): void {
@@ -154,6 +164,17 @@ export class CalendarComponent implements OnInit, OnDestroy {
     return new Date(startDate) <= now && now <= new Date(endDate);
   }
 
+  getIcon(name: string): IconDefinition {
+    const iconMapping: {[key: string]: IconDefinition} = {
+      'Sightseeing': faLandmark,
+      'Sport': faWeightHanging,
+      'Outdoor adventure': faPersonHiking,
+      'Cultural': faGopuram,
+    }
+
+    return iconMapping[name] || faCircle
+  }
+
   add(activityDate: Date, tripId: number = this.trip.tripId): void {
     let date =
       activityDate.getFullYear() +
@@ -170,6 +191,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.closeModal();
     this.dates.length = 0;
     this.getTripById(this.tripId);
+    this.mode = 'delete';
   }
 
   openModal(id: number, status: String): void {

@@ -1,3 +1,10 @@
+@if (isSubmitted && errorMessage) {
+<div
+  class="rounded p-4 mb-8 text-lg bg-red-200 text-red-800 border-2 border-red-300"
+>
+  {{ errorMessage }}
+</div>
+}
 <h1 class="text-custom-orange text-4xl mb-8 text-center">
   @if (isAdd) {
   <span class="hidden md:block"
@@ -134,7 +141,7 @@
     type="button"
     class="text-white ring-2 md:ml-2 ring-custom-orange enabled:hover:bg-custom-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center disabled:opacity-75"
     (click)="goToCalendar()"
-    >
+  >
     Back
   </button>
 </form>

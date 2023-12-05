@@ -28,6 +28,8 @@ export class CalendarDetailModalComponent implements OnDestroy {
   @Output() close = new EventEmitter<void>();
   @Output() delete = new EventEmitter<void>();
 
+  errorMessage: String = '';
+
   isConfirmationOpen: boolean = false;
 
   deleteActivity$: Subscription = new Subscription();
@@ -73,6 +75,9 @@ export class CalendarDetailModalComponent implements OnDestroy {
         this.isConfirmationOpen = false;
         this.delete.emit()
       },
+      error: (e) =>
+      (this.errorMessage =
+        'Something went wrong when deleting the activity.'),
     });
   }
 }
