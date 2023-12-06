@@ -1,4 +1,9 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using TripPlanner.API;
 using TripPlannerAPI.Data;
 
 var corsConfig = "_corsConfig";
@@ -9,11 +14,19 @@ builder.Services.AddAutoMapper(typeof(Program));
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+var auth0Config = builder.Configuration.GetSection("Auth0").Get<Auth0Config>();
 
 if (builder.Environment.IsProduction())
 {
     // Use production connection string
     connectionString = builder.Configuration.GetConnectionString("ProductionConnection");
+
+}
+
+if (builder.Environment.IsProduction())
+{
+    // Use production Audience
+    auth0Config = builder.Configuration.GetSection("Auth0Production").Get<Auth0Config>();
 
 }
 
@@ -34,7 +47,21 @@ builder.Services.AddCors(options =>
 //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 //builder.Services.AddSqlServer<TripContext>(connectionString, options => options.EnableRetryOnFailure());
 
-builder.Services.AddAuthentication().AddJwtBearer();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+            .AddJwtBearer(options =>
+            {
+                options.Authority = $"https://{auth0Config.Domain}/";
+                options.Audience = auth0Config.Audience;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    NameClaimType = ClaimTypes.NameIdentifier,
+                    RoleClaimType = ClaimTypes.Role,
+                };
+            });
 
 builder.Services.AddAuthorization(options =>
 {
@@ -77,6 +104,8 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

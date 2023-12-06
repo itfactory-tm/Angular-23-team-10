@@ -10,6 +10,7 @@ namespace TripPlannerAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TripCategoriesController : ControllerBase
     {
         private readonly TripContext _context;
