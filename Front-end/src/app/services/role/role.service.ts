@@ -13,7 +13,6 @@ export class RoleService {
     return this.authService.getAccessTokenSilently().pipe(
       map((token) => {
         // Decode the token
-        console.log(token);
         const decodedToken = jose.decodeJwt(token) as {permissions: string[]} | null;
   
         // Check for permissions from the decoded token
