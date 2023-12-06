@@ -8,10 +8,6 @@
         <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
           class="text-custom-nav-text hover:text-white">Home</a>
       </li>
-      <!-- <li>
-        <a routerLink="/calendar" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-          class="text-custom-nav-text hover:text-white">Calendar</a>
-      </li> -->
       <li>
         <a routerLink="/public-trips" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
           class="text-custom-nav-text hover:text-white">Explore trips</a>
@@ -24,9 +20,6 @@
       <li>
         <a href="#" class="text-custom-nav-text hover:text-white">Contact</a>
       </li>
-
-
-
     </ul>
   </div>
   <div class="w-[203px]">
@@ -47,9 +40,10 @@
             <h3 class="mb-4">{{loggedInUser.name}}<br /><span>{{loggedInUser.email}}</span></h3>
             <hr class="my-3 w-full border-custom-orange border">
             <ul>
-              <li class="cursor-pointer mb-2 hover:bg-gray-600 px-2 py-1 rounded-md">
+              <li routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                class="cursor-pointer mb-2 hover:bg-gray-600 px-2 py-1 rounded-md">
                 <fa-icon [icon]="faUser" class="mr-2 text-lg"></fa-icon>
-                <a href="#">My profile</a>
+                <a>My profile</a>
               </li>
               <li routerLink="/trips" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
                 class="cursor-pointer mb-2 hover:bg-gray-600 px-2 py-1 rounded-md">

@@ -15,6 +15,7 @@ import { adminGuard } from './guards/admin.guard';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { AdminComponent } from './components/admin/admin.component';
 import { UserComponent } from './components/user/user.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,7 @@ const routes: Routes = [
       { path: 'trips', component: TripComponent, canActivate: [AuthGuard] },
       { path: 'public-trips', component: PublicTripsComponent },
       { path: 'aboutus', component: AboutUsComponent },
+      { path: 'profile', component: UserProfileComponent },
     ],
   },
   {
@@ -57,8 +59,8 @@ const routes: Routes = [
       {
         path: 'users',
         component: ActivityListComponent,
-        canActivate: [adminGuard]
-      }
+        canActivate: [adminGuard],
+      },
     ],
   },
   { path: 'api', component: PublicApiTestComponent },
