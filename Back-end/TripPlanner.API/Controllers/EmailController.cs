@@ -4,11 +4,13 @@ using System.Net.Mail;
 using System.Net;
 using TripPlannerAPI.Dto.Email;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TripPlanner.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class EmailController : ControllerBase
     {
         private readonly ILogger<EmailController> _logger;

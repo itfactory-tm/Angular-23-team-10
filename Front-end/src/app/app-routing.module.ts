@@ -27,7 +27,7 @@ const routes: Routes = [
       { path: 'calendar', component: CalendarComponent },
       { path: 'calendar/activity', component: ActivityFormComponent },
       { path: 'trips', component: TripComponent, canActivate: [AuthGuard] },
-      { path: 'public-trips', component: PublicTripsComponent },
+      { path: 'public-trips', component: PublicTripsComponent, canActivate: [AuthGuard] },
       { path: 'aboutus', component: AboutUsComponent },
       { path: 'profile', component: UserProfileComponent },
     ],
