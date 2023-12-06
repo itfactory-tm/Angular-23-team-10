@@ -16,6 +16,7 @@ import { AuthGuard } from '@auth0/auth0-angular';
 import { AdminComponent } from './components/admin/admin.component';
 import { UserComponent } from './components/user/user.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { UserListComponent } from './components/user-list/user-list.component';
 
 const routes: Routes = [
   {
@@ -58,7 +59,7 @@ const routes: Routes = [
       },
       {
         path: 'users',
-        component: ActivityListComponent,
+        component: UserListComponent,
         canActivate: [adminGuard],
       },
     ],
