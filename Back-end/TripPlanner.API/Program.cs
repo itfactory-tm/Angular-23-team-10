@@ -22,13 +22,13 @@ if (builder.Environment.IsProduction())
     connectionString = builder.Configuration.GetConnectionString("ProductionConnection");
 
 }
-
+/*
 if (builder.Environment.IsProduction())
 {
     // Use production Audience
     auth0Config = builder.Configuration.GetSection("Auth0Production").Get<Auth0Config>();
 
-}
+}*/
 
 builder.Services.AddDbContext<TripContext>(options =>
 options.UseSqlServer(connectionString));
