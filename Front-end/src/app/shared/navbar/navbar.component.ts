@@ -44,7 +44,7 @@ import { RoleService } from 'src/app/services/role/role.service';
   styleUrls: ['./navbar.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   faBars = faBars;
   faTimes = faTimes;
   isMenuOpen = false; // Flag to track menu state
@@ -63,14 +63,21 @@ export class NavbarComponent {
   isAuthenticated = signal(false);
   isAdmin = signal(false);
 
-  constructor(public authService: AuthService, public roleService: RoleService) {
+  constructor(
+    public authService: AuthService,
+    public roleService: RoleService
+  ) {
     this.authService.isAuthenticated$.subscribe((auth) => {
       this.isAuthenticated.set(auth);
-    });
 
-    this.roleService.hasPermission('getall:trips').subscribe(r => {
-      this.isAdmin.set(r);
-    })
+      if (auth) {
+        console.log('User is logged in');
+        // Your additional logic for logged-in users here
+        this.roleService.hasPermission('getall:trips').subscribe((r) => {
+          this.isAdmin.set(r);
+        });
+      }
+    });
   }
 
   handleSignUp(): void {
