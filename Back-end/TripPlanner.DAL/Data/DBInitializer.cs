@@ -88,7 +88,7 @@ namespace TripPlannerAPI.Data
             //Add tripactivities
             context.TripActivities.AddRange(
                 new TripActivity { TripId = 1, ActivityId = 1, Name = "Brandenburg Gate Tour", Price = 21.0, StartDate = new DateTime(2023, 10, 17, 19, 0, 0), EndDate = new DateTime(2023, 10, 17, 22, 0, 0) },
-                new TripActivity { TripId = 3, ActivityId = 2, Name = "British Museum Tour", Price = 10.0, StartDate = new DateTime(2023, 10, 15, 15, 0, 0), EndDate = new DateTime(2023, 10, 17, 18, 0, 0) },
+                new TripActivity { TripId = 3, ActivityId = 2, Name = "British Museum Tour", Price = 10.0, StartDate = new DateTime(2023, 10, 28, 15, 0, 0), EndDate = new DateTime(2023, 10, 28, 18, 0, 0) },
                 new TripActivity { TripId = 1, ActivityId = 2, Name = "Museum Island Visit", Price = 20.0, StartDate = new DateTime(2023, 10, 16, 6, 0, 0), EndDate = new DateTime(2023, 10, 17, 12, 0, 0) },
                 new TripActivity { TripId = 2, ActivityId = 3, Name = "Prado Museum Tour", Price = 30.0, StartDate = new DateTime(2023, 10, 21, 14, 0, 0), EndDate = new DateTime(2023, 10, 22, 16, 0, 0) },
                 new TripActivity { TripId = 4, ActivityId = 1, Name = "Taj Mahal", Price = 30.0, StartDate = new DateTime(2023, 11, 16, 9, 0, 0), EndDate = new DateTime(2023, 11, 16, 11, 0, 0) },
@@ -102,8 +102,8 @@ namespace TripPlannerAPI.Data
                     TripId = 8,
                     Name = "Sydney Opera House Tour",
                     Price = 35.0,
-                    StartDate = new DateTime(2023, 10, 10, 11, 0, 0),
-                    EndDate = new DateTime(2023, 10, 10, 13, 0, 0)
+                    StartDate = new DateTime(2023, 10, 16, 11, 0, 0),
+                    EndDate = new DateTime(2023, 10, 16, 13, 0, 0)
                 },
                 new TripActivity
                 {
@@ -111,8 +111,8 @@ namespace TripPlannerAPI.Data
                     TripId = 8,
                     Name = "Bondi Beach Surfing Lesson",
                     Price = 50.0,
-                    StartDate = new DateTime(2023, 10, 12, 9, 0, 0),
-                    EndDate = new DateTime(2023, 10, 12, 12, 0, 0)
+                    StartDate = new DateTime(2023, 10, 25, 9, 0, 0),
+                    EndDate = new DateTime(2023, 10, 25, 12, 0, 0)
                 },
                 new TripActivity
                 {
