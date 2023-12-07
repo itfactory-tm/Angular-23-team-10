@@ -18,7 +18,8 @@
           class="text-custom-nav-text hover:text-white">About us</a>
       </li>
       <li>
-        <a href="#" class="text-custom-nav-text hover:text-white">Contact</a>
+        <a routerLink="/contact" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+          class="text-custom-nav-text hover:text-white">Contact</a>
       </li>
     </ul>
   </div>
@@ -114,7 +115,7 @@
             </a>
           </li>
           <li>
-            <a (click)="onToggleMenu()" href="#"
+            <a (click)="onToggleMenu()" routerLink="/contact" routerLinkActive="active"
               class="block hover:bg-gray-600 rounded-md py-2 px-4 text-custom-nav-text hover:text-white">
               <i class="fas fa-info-circle mr-2"></i>Contact
             </a>
