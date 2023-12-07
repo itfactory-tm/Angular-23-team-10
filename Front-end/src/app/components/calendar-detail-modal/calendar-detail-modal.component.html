@@ -15,8 +15,10 @@
       <div
         class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-custom-orange"
       >
-        <h3 class="text-3xl font-semibold text-custom-orange">
-          Overview {{ activity.name }} activity
+        <h3
+          class="text-4xl font-semibold text-custom-orange word-wrapped break-all"
+        >
+          {{ activity.name }}
         </h3>
         <button
           type="button"
@@ -29,21 +31,56 @@
       <!-- Modal body -->
       <div class="p-4 md:p-5">
         <h4
-          class="text-custom-orange text-2xl border-b border-custom-orange mb-5"
+          class="text-custom-orange text-3xl border-b border-custom-orange mb-5"
         >
           General information
         </h4>
         <div class="space-y-3">
+          <h5
+            class="text-custom-orange text-2xl inline-block border-b border-custom-orange"
+          >
+            Date
+          </h5>
           <p class="text-base leading-relaxed text-white">
-            Date: {{ activity.startDate | date : "EEEE, dd MMMM YYYY" }}
-          </p>
-          <p class="text-base leading-relaxed text-white">
-            Period: {{ activity.startDate | date : "H:mm" }} -
+            {{ activity.startDate | date : "EEEE, dd MMMM YYYY" }},
+            {{ activity.startDate | date : "H:mm" }} -
             {{ activity.endDate | date : "H:mm" }}
           </p>
+          <h5
+            class="text-custom-orange text-2xl inline-block border-b border-custom-orange"
+          >
+            Description
+          </h5>
           <p class="text-base leading-relaxed text-white">
-            Price: € {{ activity.price }}
+            {{ activity.description }}
           </p>
+          <div class="flex justify-between text-base leading-relaxed text-white">
+            <div>
+              <h5
+                class="text-custom-orange text-2xl inline-block border-b border-custom-orange mb-4"
+              >
+                Participants
+              </h5>
+              <p class="">
+                {{ activity.participants }}
+              </p>
+            </div>
+            <div>
+              <h5
+                class="text-custom-orange text-2xl inline-block border-b border-custom-orange mb-4"
+              >
+                Activity type
+              </h5>
+              <p>
+                <fa-icon
+                  class="fa-solid text-white fa-xl mr-2"
+                  [icon]="getIcon(activity.activity.name)"
+                >
+                </fa-icon>
+                {{ activity.activity.name }}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
       <!-- Modal footer -->

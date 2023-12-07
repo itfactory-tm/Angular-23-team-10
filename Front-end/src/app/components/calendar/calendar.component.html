@@ -152,7 +152,7 @@
           <ol class="fa-ul ml-5 mt-4 self-start">
             @for (activity of date.activities; track activity) {
             <li
-              class="mb-4 text-base text-white hover:underline cursor-pointer"
+              class="mb-4 mr-10 text-base text-white wrapped-word hover:underline cursor-pointer break-words"
               [ngClass]="{
                 'font-normal': !isNow(activity.startDate, activity.endDate),
                 'font-bold': isNow(activity.startDate, activity.endDate)

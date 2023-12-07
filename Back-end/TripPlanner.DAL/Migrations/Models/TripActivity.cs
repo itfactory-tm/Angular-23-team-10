@@ -6,7 +6,8 @@
         public int ActivityId { get; set; }
         public int TripId { get; set; }
         public String Name { get; set; }
-        public double? Price { get; set; }
+        public String? Description { get; set; }
+        public int Participants { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
