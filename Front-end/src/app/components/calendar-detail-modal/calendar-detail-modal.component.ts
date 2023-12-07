@@ -8,19 +8,35 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Activity } from 'src/app/models/Activity';
-import { IconDefinition, faCircle, faGopuram, faLandmark, faPencil, faPersonHiking, faTrash, faWeightHanging, faXmark } from '@fortawesome/free-solid-svg-icons';
+import {
+  IconDefinition,
+  faCircle,
+  faGopuram,
+  faLandmark,
+  faPencil,
+  faPersonHiking,
+  faTrash,
+  faWeightHanging,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ConfirmationPopupComponent } from '../../shared/confirmation-popup/confirmation-popup.component';
 import { ActivityService } from 'src/app/services/activity/activity.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { RatingComponent } from '../rating/rating.component';
 
 @Component({
   selector: 'app-calendar-detail-modal',
   standalone: true,
   templateUrl: './calendar-detail-modal.component.html',
   styleUrl: './calendar-detail-modal.component.css',
-  imports: [CommonModule, FontAwesomeModule, ConfirmationPopupComponent],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    ConfirmationPopupComponent,
+    RatingComponent,
+  ],
 })
 export class CalendarDetailModalComponent implements OnDestroy {
   @Input() activity!: Activity;
@@ -49,10 +65,10 @@ export class CalendarDetailModalComponent implements OnDestroy {
 
   getIcon(name: string): IconDefinition {
     const iconMapping: { [key: string]: IconDefinition } = {
-      'Sightseeing': faLandmark,
-      'Sport': faWeightHanging,
+      Sightseeing: faLandmark,
+      Sport: faWeightHanging,
       'Outdoor adventure': faPersonHiking,
-      'Cultural': faGopuram,
+      Cultural: faGopuram,
     };
 
     return iconMapping[name] || faCircle;
@@ -77,7 +93,7 @@ export class CalendarDetailModalComponent implements OnDestroy {
 
   editActivity(id: number): void {
     this.router.navigate(['calendar/activity'], {
-      state: { id: id, mode: 'edit' },
+      state: { id: id, mode: 'edit', status: this.status },
     });
   }
 
