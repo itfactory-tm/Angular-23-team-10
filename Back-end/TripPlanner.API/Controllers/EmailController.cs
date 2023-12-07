@@ -5,6 +5,7 @@ using System.Net;
 using TripPlannerAPI.Dto.Email;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
+using TripPlanner.API.Dto.ContactEmail;
 
 namespace TripPlanner.API.Controllers
 {
@@ -86,7 +87,7 @@ namespace TripPlanner.API.Controllers
 
         [HttpPost]
         [Route("contact-email")]
-        public IActionResult SendContactEmail([FromBody] EmailRequest emailRequest)
+        public IActionResult SendContactEmail([FromBody] ContactEmailRequest emailRequest)
         {
             try
             {
