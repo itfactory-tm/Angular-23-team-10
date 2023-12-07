@@ -17,6 +17,7 @@ import { AdminComponent } from './components/admin/admin.component';
 import { UserComponent } from './components/user/user.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { UserListComponent } from './components/user-list/user-list.component';
+import { ContactFormComponent } from './components/contact-form/contact-form.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,7 @@ const routes: Routes = [
       { path: 'public-trips', component: PublicTripsComponent, canActivate: [AuthGuard] },
       { path: 'aboutus', component: AboutUsComponent },
       { path: 'profile', component: UserProfileComponent },
+      { path: 'contact', component: ContactFormComponent },
     ],
   },
   {
