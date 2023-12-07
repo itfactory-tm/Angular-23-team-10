@@ -10,7 +10,6 @@ namespace TripPlanner.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class EmailController : ControllerBase
     {
         private readonly ILogger<EmailController> _logger;
@@ -70,6 +69,59 @@ namespace TripPlanner.API.Controllers
                     };
 
                     mailMessage.To.Add(emailAddress);
+
+                    // Send the email
+                    smtpClient.Send(mailMessage);
+
+                    _logger.LogInformation("Email sent successfully");
+                    return Ok(new { Message = "Email sent successfully" });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error sending email: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Error = $"Error sending email: {ex.Message}" });
+            }
+        }
+
+        [HttpPost]
+        [Route("contact-email")]
+        public IActionResult SendContactEmail([FromBody] EmailRequest emailRequest)
+        {
+            try
+            {
+                string emailAddress = emailRequest.Email;
+                string contactMessage = emailRequest.Message;
+
+                var baseUrl = _hostingEnvironment.IsProduction() ?
+                _configuration.GetConnectionString("BaseUrlProduction") :
+                _configuration.GetConnectionString("BaseUrlLocal");
+
+                Debug.WriteLine(baseUrl);
+
+                // Create and configure the SMTP client
+                using (var smtpClient = new SmtpClient("smtp-auth.mailprotect.be"))
+                {
+                    smtpClient.Port = 587;
+                    smtpClient.Credentials = new NetworkCredential("tripplanner@kmaa.be", "admin1234!");
+                    smtpClient.EnableSsl = true;
+                    smtpClient.UseDefaultCredentials = false;
+
+                    // Create the email message
+                    var mailMessage = new MailMessage
+                    {
+                        From = new MailAddress("tripplanner@kmaa.be"),
+                        Subject = "Invite Trip Planner",
+                        Body = $@"<html>
+                        <body>
+                            <p>Message from {emailAddress}:</p>
+                            <p>{contactMessage}</>
+                        </body>
+                        </html>",
+                        IsBodyHtml = true,
+                    };
+
+                    mailMessage.To.Add("JonasBaelusBeerse@gmail.com");
 
                     // Send the email
                     smtpClient.Send(mailMessage);

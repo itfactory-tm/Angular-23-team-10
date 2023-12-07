@@ -21,9 +21,13 @@
     </div>
   </section>
 
-  <div>
+  <div *ngIf="isLoading">
+    <app-page-loader></app-page-loader>
+  </div>
+  <div *ngIf="!isLoading">
     <!-- Table for larger screens -->
   <section class="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 hidden md:block">
+    <pagination-controls class="my-pagination bg-custom-lighter-background pt-5" (pageChange)="p = $event"></pagination-controls>
     <div class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200">
       <table class="min-w-full">
         <thead class="bg-custom-lighter-background">
@@ -40,7 +44,7 @@
         </thead>
 
         <tbody class="bg-custom-table-data">
-          <tr *ngFor="let user of users$ | async">
+          <tr *ngFor="let user of users | paginate: { itemsPerPage: 10, currentPage: p }">
             <td class="px-6 py-4 border-b border-gray-200">
               <div class="flex items-center text-white">
                 {{ user.name }}
@@ -58,7 +62,7 @@
 
     <!-- Cards for smaller screens -->
     <section class="md:hidden flex flex-wrap">
-      <div *ngFor="let user of users$ | async" class="w-full">
+      <div *ngFor="let user of users" class="w-full">
         <div class="m-2 p-4 border rounded shadow">
           <h2 class="text-3xl font-bold mb-2 text-white">{{ user.name }}</h2>
           <div class="mt-4 flex justify-between">
