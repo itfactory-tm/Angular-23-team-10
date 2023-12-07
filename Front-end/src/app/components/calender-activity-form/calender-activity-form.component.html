@@ -47,6 +47,22 @@
       Name is required
     </div>
   </div>
+  <div class="mb-6">
+    <label
+      for="description"
+      class="block mb-2 text-xl font-medium text-white"
+      >Activity description</label
+    >
+    <textarea
+      id="description"
+      name="description"
+      rows="4"
+      class="block p-2.5 w-full text-sm rounded-lg border  bg-gray-700 border-gray-600 placeholder-gray-400 text-white"
+      placeholder="Write what you will do on the activity..."
+      [(ngModel)]="activity.description"
+      #description="ngModel"
+    ></textarea>
+  </div>
   <div class="md:grid md:grid-cols-2 md:gap-2">
     <div class="mb-6">
       <label for="startTime" class="block mb-2 text-xl font-medium text-white"
@@ -87,17 +103,20 @@
     </div>
     <div class="mb-6">
       <label for="price" class="block mb-2 text-xl font-medium text-white"
-        >Price in euros</label
+        >Participants</label
       >
       <input
         type="number"
-        id="price"
-        name="price"
+        id="participants"
+        name="participants"
+        min="0"
         class="border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500"
-        placeholder="Price"
-        [(ngModel)]="activity.price"
-        #price="ngModel"
+        [(ngModel)]="activity.participants"
+        #participants="ngModel"
       />
+      <div [hidden]="!isParticipantsError" class="text-red-500 mt-2">
+        At least 1 person needs to participate in the activity
+      </div>
     </div>
     <div class="mb-6">
       <label
@@ -125,7 +144,7 @@
     type="submit"
     *ngIf="isAdd"
     [disabled]="!activityForm.form.valid || isSubmitted"
-    class="text-white ring-2 mr-2 ring-custom-orange enabled:hover:bg-custom-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center disabled:opacity-75"
+    class="text-white ring-2 mr-2 mb-3 md:mb-0 ring-custom-orange enabled:hover:bg-custom-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center disabled:opacity-75"
   >
     Add activity
   </button>
@@ -133,13 +152,13 @@
     type="submit"
     *ngIf="isEdit"
     [disabled]="!activityForm.form.valid || isSubmitted"
-    class="text-white ring-2 md:mr-2 mb-3 md:mb-0 ring-custom-orange enabled:hover:bg-custom-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center disabled:opacity-75"
+    class="text-white ring-2 sm:mr-2 mb-3 md:mb-0 ring-custom-orange enabled:hover:bg-custom-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center disabled:opacity-75"
   >
     Save changes
   </button>
   <button
     type="button"
-    class="text-white ring-2 md:ml-2 ring-custom-orange enabled:hover:bg-custom-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center disabled:opacity-75"
+    class="text-white ring-2 sm:ml-2 ring-custom-orange enabled:hover:bg-custom-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center disabled:opacity-75"
     (click)="goToCalendar()"
   >
     Back

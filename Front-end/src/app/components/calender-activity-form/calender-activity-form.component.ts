@@ -27,6 +27,7 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
   isEdit: boolean = false;
   isActivityTypeError: boolean = false;
   isTimeError: boolean = false;
+  isParticipantsError: boolean = false;
   isSubmitted: boolean = false;
 
   activity: Activity = {
@@ -34,7 +35,8 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
     activityId: 0,
     tripId: 0,
     name: '',
-    price: 0,
+    description: null,
+    participants: 0,
     startDate: new Date(),
     endDate: new Date(),
     activity: {
@@ -121,6 +123,7 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
   onSubmitValidate(): void {
     this.isActivityTypeError = this.activityTypeId === '0' ? true : false;
     this.isTimeError = this.startTime > this.endTime ? true : false;
+    this.isParticipantsError = this.activity.participants <= 0 ? true : false;
 
     if (!this.hasErrors()) {
       this.submit();
@@ -128,7 +131,7 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
   }
 
   hasErrors(): boolean {
-    return this.isActivityTypeError || this.isTimeError;
+    return this.isActivityTypeError || this.isTimeError || this.isParticipantsError;
   }
 
   submit(): void {

@@ -61,7 +61,6 @@ namespace TripPlannerAPI.Controllers
             }
             TripActivity updatedTripActivity = _mapper.Map<TripActivity>(putTripActivity);
             var tripActivity = _context.TripActivities.Where(u => u.TripActivityId == id).FirstOrDefault();
-            //_context.Entry(updatedTripActivity).State = EntityState.Modified;
 
             if (tripActivity == null)
             {
@@ -73,9 +72,10 @@ namespace TripPlannerAPI.Controllers
                 tripActivity.ActivityId = putTripActivity.ActivityId;
                 tripActivity.TripId = putTripActivity.TripId;
                 tripActivity.Name = putTripActivity.Name;
+                tripActivity.Description = putTripActivity.Description;
                 tripActivity.StartDate = putTripActivity.StartDate;
                 tripActivity.EndDate = putTripActivity.EndDate;
-                tripActivity.Price = putTripActivity.Price;
+                tripActivity.Participants = putTripActivity.Participants;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
