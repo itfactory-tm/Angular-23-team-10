@@ -15,6 +15,7 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { FooterComponent } from './shared/footer/footer.component';
 import { ActivityFormComponent } from './components/calender-activity-form/calender-activity-form.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [AppComponent, ActivityFormComponent],
@@ -29,6 +30,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     HttpClientModule,
     FontAwesomeModule,
     ReactiveFormsModule,
+    NgxPaginationModule,
     AuthModule.forRoot({
       //domain: 'dev-2ki8nim0a3vrbww1.us.auth0.com',
       domain: environment.AUTH0_DOMAIN,
