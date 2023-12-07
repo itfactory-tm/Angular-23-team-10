@@ -1,8 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '@auth0/auth0-angular';
 import { Observable, catchError, map, of } from 'rxjs';
-import { UserTrip } from 'src/app/models/UserTrip';
 import { environment } from 'src/environments/environment';
 
 @Injectable({

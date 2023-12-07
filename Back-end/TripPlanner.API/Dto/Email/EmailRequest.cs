@@ -5,7 +5,6 @@
         public string UserId { get; set; }
         public int TripId { get; set; }
         public string Email { get; set; }
-        public string Message { get; set; }
 
     }
 }
