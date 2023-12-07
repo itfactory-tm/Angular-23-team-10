@@ -76,6 +76,8 @@ namespace TripPlannerAPI.Controllers
                 tripActivity.StartDate = putTripActivity.StartDate;
                 tripActivity.EndDate = putTripActivity.EndDate;
                 tripActivity.Participants = putTripActivity.Participants;
+                tripActivity.Review = putTripActivity.Review;
+                tripActivity.Score = putTripActivity.Score;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)

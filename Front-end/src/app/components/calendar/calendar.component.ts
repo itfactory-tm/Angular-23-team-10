@@ -165,14 +165,14 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   getIcon(name: string): IconDefinition {
-    const iconMapping: {[key: string]: IconDefinition} = {
-      'Sightseeing': faLandmark,
-      'Sport': faWeightHanging,
+    const iconMapping: { [key: string]: IconDefinition } = {
+      Sightseeing: faLandmark,
+      Sport: faWeightHanging,
       'Outdoor adventure': faPersonHiking,
-      'Cultural': faGopuram,
-    }
+      Cultural: faGopuram,
+    };
 
-    return iconMapping[name] || faCircle
+    return iconMapping[name] || faCircle;
   }
 
   add(activityDate: Date, tripId: number = this.trip.tripId): void {
@@ -195,6 +195,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   openModal(id: number, status: String): void {
+    console.log(this.trip);
     let foundActivity = this.trip.activities.find(
       (obj) => obj.tripActivityId === id
     );

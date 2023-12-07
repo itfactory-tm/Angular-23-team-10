@@ -7,6 +7,8 @@ export interface Activity {
     name: String;
     description: String | null;
     participants: number;
+    review: String | null;
+    score: number | null;
     startDate: Date;
     endDate: Date;
     activity: ActivityType;

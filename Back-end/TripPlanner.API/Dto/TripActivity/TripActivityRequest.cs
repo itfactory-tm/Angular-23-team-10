@@ -10,6 +10,8 @@ namespace TripPlannerAPI.Dto.TripActivity
         public string Name { get; set; }
         public string? Description { get; set; }
         public int Participants { get; set; }
+        public String? Review { get; set; }
+        public int? Score { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public ActivityRequest Activity { get; set; }

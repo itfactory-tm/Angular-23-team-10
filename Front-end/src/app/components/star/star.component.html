@@ -1,0 +1,12 @@
+<span
+  class="text-4xl text-custom-grey-text"
+  [ngClass]="{
+    'text-custom-orange': filled,
+    'hover:text-custom-orange': isEdit,
+    'cursor-pointer': isEdit
+  }"
+  (click)="onStarClick()"
+  (mouseenter)="onHover()"
+>
+  &#9733;
+</span>
