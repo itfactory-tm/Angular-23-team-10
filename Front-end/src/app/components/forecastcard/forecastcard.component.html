@@ -1,10 +1,8 @@
 <!-- Forecast Cards for 16-day minus today Forecast -->
 <div class="info flex space-x-4 overflow-x-auto">
-    <!-- Disabled for Demo 
     <ng-container *ngIf="forecastList && forecastList.length > 0 && forecastList[0]?.name !== undefined">
         <app-weathercard [city]="forecastList[0]?.name"></app-weathercard>
     </ng-container>
-    -->
     <div *ngFor="let forecast of forecastList" class="flex-shrink-0 bg-custom-table-data text-white p-4 pt-2 rounded-lg shadow-md w-[200px] mt-6">
     <ng-container *ngIf="forecastList && forecastList.length > 0">
 

@@ -49,15 +49,13 @@ export class ForecastcardComponent implements OnChanges{
    
     // Exclude the first record for current weather data (WeathercardComponent)
     // Disable for demo
-    // const forecastsToMap = forecastData.slice(1);
 
     if (city!= ''){
       this.weatherService.getWeatherForecast(city).subscribe(forecastData => {
-        this.forecastList = this.mapWeatherData(forecastData);
+        const forecastsToMap = forecastData.slice(1);
+        this.forecastList = this.mapWeatherData(forecastsToMap);
       });
-    } else {
-      console.error('No city given');
-    }
+    } 
      
   }
 
