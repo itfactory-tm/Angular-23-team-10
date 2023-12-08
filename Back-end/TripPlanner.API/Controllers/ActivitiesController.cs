@@ -26,8 +26,9 @@ namespace TripPlannerAPI.Controllers
 
         // GET: api/Activities
         [HttpGet]
+        [Route("paginated-activities")]
         [ProducesResponseType(200, Type = typeof(List<ActivityRequest>))]
-        public async Task<ActionResult<List<ActivityRequest>>> GetActivities([FromQuery] PaginationParameters activityParameters)
+        public async Task<ActionResult<List<ActivityRequest>>> GetPaginatedActivities([FromQuery] PaginationParameters activityParameters)
         {
 
             var activities = _context.Activities as IQueryable<Activity>;
@@ -39,7 +40,7 @@ namespace TripPlannerAPI.Controllers
 
             if (activityParameters == null)
             {
-                return Ok(_mapper.Map<List<ActivityRequest>>(activities));
+                throw new ArgumentNullException(nameof(activityParameters));
             }
 
             if (activityParameters.PageNumber == 0 & activityParameters.PageSize == 0)
@@ -60,6 +61,19 @@ namespace TripPlannerAPI.Controllers
             var items = await activities.Skip((activityParameters.PageNumber - 1) * activityParameters.PageSize).Take(activityParameters.PageSize).ToListAsync();
 
             return Ok(_mapper.Map<List<ActivityRequest>>(items));
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<ActivityRequest>>> GetActivities()
+        {
+            var activities = await _context.Activities.ToListAsync();
+
+            if (activities == null)
+            {
+                return NotFound();
+            }
+
+            return _mapper.Map<List<ActivityRequest>>(activities);
         }
 
         // GET: api/Activities/5

@@ -6,8 +6,6 @@
     {{ errorMessage }}
   </div>
 
-  <app-filter (searchNameChange)="submit($event)"></app-filter>
-
   <section class="mb-4">
     <div class="flex justify-between">
       <div>
@@ -25,7 +23,9 @@
     </div>
   </section>
 
-  <div class="mb-3 flex items-center justify-center md:justify-start">
+  <app-filter placeholderText="Filter By Activity Name" (searchNameChange)="submit($event)"></app-filter>
+
+  <div class="mb-3 flex justify-center md:justify-start">
     <pagination-controls
       (pageChange)="pageChanged($event)"
       class="my-pagination"

@@ -3,28 +3,35 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Category } from 'src/app/models/Category';
 import { CategoryService } from 'src/app/services/category/category.service';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { PageLoaderComponent } from '../../shared/page-loader/page-loader.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 import { CategoryFormComponent } from '../category-form/category-form.component';
 import { ToastComponent } from '../../shared/toast/toast.component';
-import { SidebarComponent } from "../sidebar/sidebar.component";
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import { FilterComponent } from '../filter/filter.component';
+import { PaginatedResult } from 'src/app/models/Pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-category-list',
-    standalone: true,
-    templateUrl: './category.component.html',
-    styleUrls: ['./category.component.css'],
-    imports: [
-        CommonModule,
-        PageLoaderComponent,
-        FontAwesomeModule,
-        CategoryFormComponent,
-        ToastComponent,
-        SidebarComponent
-    ]
+  selector: 'app-category-list',
+  standalone: true,
+  templateUrl: './category.component.html',
+  styleUrls: ['./category.component.css'],
+  imports: [
+    CommonModule,
+    PageLoaderComponent,
+    FontAwesomeModule,
+    CategoryFormComponent,
+    ToastComponent,
+    SidebarComponent,
+    FilterComponent,
+    NgxPaginationModule,
+    FormsModule,
+  ],
 })
 export class CategoryListComponent implements OnInit, OnDestroy {
   categories: Category[] = [];
@@ -41,6 +48,11 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   categoryId: number = 0;
   isSubmitted: boolean = false;
 
+  searchName: string = '';
+  config: any;
+  pageSizes: number[] = [2, 4, 6, 8, 10];
+  selectedPageSize: number = 4;
+
   constructor(
     private categoryService: CategoryService,
     private router: Router,
@@ -49,6 +61,11 @@ export class CategoryListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getCategories();
+    this.config = {
+      itemsPerPage: this.selectedPageSize,
+      currentPage: 1,
+      totalItems: 5,
+    };
   }
 
   ngOnDestroy(): void {
@@ -64,33 +81,46 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     this.mode = 'delete';
   }
 
-  getCategories() {
+  getCategories(pageNumber: number = 1) {
     this.isLoading = true;
     this.categories$ = this.categoryService
-      .getCategories()
-      .subscribe((result) => {
-        (this.categories = result), (this.isLoading = false);
-      });
+      .getPaginatedCategories(
+        this.searchName.trim(),
+        pageNumber,
+        this.selectedPageSize
+      )
+      .subscribe(
+        (response: PaginatedResult<Category[]>) => {
+          this.categories = response.result;
+          this.config = {
+            itemsPerPage: this.selectedPageSize,
+            currentPage: response.pagination.CurrentPage,
+            totalItems: response.pagination.TotalItems,
+          };
+          this.isLoading = false;
+        },
+        (error) => {
+          return of(null);
+        }
+      );
   }
 
   sort(filter: string) {
     if (filter !== this.currentSort) {
       this.currentSort = filter;
     }
-    this.categories$ = this.categoryService
-      .getCategories()
-      .subscribe((result) => {
-        if (filter == 'name') {
-          this.categories = result.sort((a, b) => a.name.localeCompare(b.name));
-        } else if (filter == 'description') {
-          this.categories = result.sort((a, b) =>
-            a.description.localeCompare(b.description)
-          );
-        } else {
-          this.categories = result.sort();
-        }
-        this.isLoading = false;
-      });
+    if (filter == 'name') {
+      this.categories = this.categories.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
+    } else if (filter == 'description') {
+      this.categories = this.categories.sort((a, b) =>
+        a.description.localeCompare(b.description)
+      );
+    } else {
+      this.categories = this.categories.sort();
+    }
+    this.isLoading = false;
   }
 
   openModal(mode: string, id: number) {
@@ -104,6 +134,23 @@ export class CategoryListComponent implements OnInit, OnDestroy {
 
   onUpdateOrCreate() {
     this.isSubmitted = true;
+    this.getCategories();
+  }
+
+  pageChanged(event: number) {
+    this.getCategories(event);
+  }
+
+  submit(search?: string) {
+    if (search !== undefined) {
+      this.searchName = search;
+    }
+
+    this.getCategories();
+  }
+
+  changePageSize(event: number) {
+    this.selectedPageSize = event;
     this.getCategories();
   }
 }

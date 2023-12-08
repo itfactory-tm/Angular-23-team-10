@@ -14,24 +14,24 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { PaginatedResult } from 'src/app/models/Pagination';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
-import { FilterComponent } from "../filter/filter.component";
+import { FilterComponent } from '../filter/filter.component';
 
 @Component({
-    selector: 'app-activity-list',
-    standalone: true,
-    templateUrl: './activity.component.html',
-    styleUrls: ['./activity.component.css'],
-    imports: [
-        CommonModule,
-        PageLoaderComponent,
-        FontAwesomeModule,
-        ActivityFormComponent,
-        ToastComponent,
-        SidebarComponent,
-        NgxPaginationModule,
-        FormsModule,
-        FilterComponent
-    ]
+  selector: 'app-activity-list',
+  standalone: true,
+  templateUrl: './activity.component.html',
+  styleUrls: ['./activity.component.css'],
+  imports: [
+    CommonModule,
+    PageLoaderComponent,
+    FontAwesomeModule,
+    ActivityFormComponent,
+    ToastComponent,
+    SidebarComponent,
+    NgxPaginationModule,
+    FormsModule,
+    FilterComponent,
+  ],
 })
 export class ActivityListComponent implements OnInit, OnDestroy {
   activities: ActivityType[] = [];
@@ -92,7 +92,7 @@ export class ActivityListComponent implements OnInit, OnDestroy {
   getActivities(pageNumber: number = 1) {
     this.isLoading = true;
     this.activities$ = this.activitTypeService
-      .getActivityTypes(
+      .getPaginatedActivityTypes(
         this.searchName.trim(),
         pageNumber,
         this.selectedPageSize
@@ -117,16 +117,14 @@ export class ActivityListComponent implements OnInit, OnDestroy {
     if (filter !== this.currentSort) {
       this.currentSort = filter;
     }
-    this.activities$ = this.activitTypeService
-      .getActivityTypes()
-      .subscribe((result) => {
-        if (filter == 'name') {
-          this.activities = result.result.sort((a, b) => a.name.localeCompare(b.name));
-        } else {
-          this.activities = result.result.sort();
-        }
-        this.isLoading = false;
-      });
+    if (filter == 'name') {
+      this.activities = this.activities.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
+    } else {
+      this.activities = this.activities.sort();
+    }
+    this.isLoading = false;
   }
 
   openModal(mode: string, id: number) {
@@ -157,6 +155,6 @@ export class ActivityListComponent implements OnInit, OnDestroy {
 
   changePageSize(event: number) {
     this.selectedPageSize = event;
-    this.getActivities()
+    this.getActivities();
   }
 }

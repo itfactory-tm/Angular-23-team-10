@@ -62,9 +62,9 @@ export class TripFilterComponent implements OnInit {
   getCategories() {
     this.isLoading = true;
     this.categories$ = this.categoryService
-      .getCategories()
+      .getPaginatedCategories()
       .subscribe((result) => {
-        this.categories = result;
+        this.categories = result.result;
       });
   }
 
