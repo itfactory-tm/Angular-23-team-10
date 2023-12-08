@@ -186,7 +186,7 @@
                     Supported formats: SVG, PNG or JPG
                   </p>
                 </div>
-                <input id="dropzone-file" type="file" class="hidden" (change)="updateFileName($event)"
+                <input id="dropzone-file" type="file" class="hidden" (change)="validateFileType($event)"
                   accept=".svg, .png, .jpg" />
               </label>
             </div>
@@ -386,4 +386,5 @@
 
   <app-toast [showSuccessToast]="isSubmitted" [message]="'Trip created successfully!'" />
   <app-toast [showErrorToast]="isError" [message]="'Failed to create the trip. Please try again.'" />
+  <app-toast [showErrorToast]="wrongFormat" [message]="'Format is not supported.'" />
 </main>
