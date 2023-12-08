@@ -29,7 +29,7 @@
         </button>
       </div>
       <!-- Modal body -->
-      <div class="p-4 md:p-5">
+      <div class="px-4 pt-4 md:px-5 md:pt-5">
         <h4
           class="text-custom-orange text-3xl border-b border-custom-orange mb-5"
         >
@@ -46,6 +46,7 @@
             {{ activity.startDate | date : "H:mm" }} -
             {{ activity.endDate | date : "H:mm" }}
           </p>
+          @if (activity.description !== '') {
           <h5
             class="text-custom-orange text-2xl inline-block border-b border-custom-orange"
           >
@@ -54,6 +55,7 @@
           <p class="text-base leading-relaxed text-white">
             {{ activity.description }}
           </p>
+          }
           <div
             class="md:flex md:justify-between text-base leading-relaxed text-white"
           >
@@ -83,20 +85,23 @@
               </p>
             </div>
           </div>
-          @if (status === "Past") {
+          @if (status === "Past" && ((activity.review !== null &&
+          activity.review !== '') || (activity.score !== 0))) {
           <h4
             class="text-custom-orange text-3xl border-b border-custom-orange mb-5"
           >
             Review information
           </h4>
+          @if (activity.review !== null && activity.review !== '') {
           <h5
             class="text-custom-orange text-2xl inline-block border-b border-custom-orange mb-4"
           >
             Review
           </h5>
-          <p class="text-base leading-relaxed text-white">
+          <p class="text-base leading-relaxed text-white break-words">
             {{ activity.review }}
           </p>
+          } @if (activity.score !== 0) {
           <div class="block">
             <h5
               class="text-custom-orange text-2xl inline-block border-b border-custom-orange mb-4"
@@ -108,7 +113,7 @@
             [filledStars]="activity.score!"
             [isEdit]="false"
           ></app-rating>
-          }
+          }}
         </div>
         <!-- Modal footer -->
         <div

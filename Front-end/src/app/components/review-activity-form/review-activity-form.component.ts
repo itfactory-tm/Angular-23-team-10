@@ -27,18 +27,22 @@ export class ReviewActivityFormComponent implements OnChanges {
 
   constructor(private router: Router) {}
 
-  ngOnChanges() {
+  ngOnChanges(): void {
     let score = this.activity.score;
 
     this.rating = score ? score : 0;
   }
 
-  updateRating(value: number) {
+  updateRating(value: number): void {
     this.rating = value;
   }
 
+  resetRating(): void {
+    this.rating = 0;
+  }
+
   onSubmitValidate(): void {
-    if (this.rating > 0 && this.rating <= 5) {
+    if (this.rating >= 0 && this.rating <= 5) {
       this.handleSubmit();
     }
   }
