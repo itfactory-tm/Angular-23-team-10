@@ -55,13 +55,14 @@ builder.Services.AddAuthentication(options =>
             .AddJwtBearer(options =>
             {
                 options.Authority = $"https://{auth0Config.Domain}/";
-                if (builder.Environment.IsDevelopment())
+                options.Audience = "https://tripplanner-api-eliasgrinwis.cloud.okteto.net";
+
+               /* if (builder.Environment.IsDevelopment())
                 {
-                    options.Audience = "https://tripplanner-api-eliasgrinwis.cloud.okteto.net";
+                    options.Audience = "https://localhost:7113";
                 } else
                 {
-                    options.Audience = "https://tripplanner-api-eliasgrinwis.cloud.okteto.net";
-                }
+                }*/
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
