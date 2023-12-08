@@ -213,9 +213,7 @@ export class TripComponent implements OnInit {
         // Filter users based on name and exclude contributors
         this.filteredUsers = this.users.filter(
           (user) =>
-            user
-              .name!.toLowerCase()
-              .includes(event.target.value.toLowerCase()) &&
+            user.email!.toLowerCase() === event.target.value &&
             !uniqueUserIds.includes(user['user_id'])
         );
       });

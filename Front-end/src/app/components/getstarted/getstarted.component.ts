@@ -31,31 +31,31 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { AutocompleteComponent } from '../autocomplete/autocomplete.component';
-import { ForecastcardComponent } from "../forecastcard/forecastcard.component";
+import { ForecastcardComponent } from '../forecastcard/forecastcard.component';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { Category } from 'src/app/models/Category';
 import { TripCategoryService } from 'src/app/services/trip-category/trip-category.service';
 import { Router } from '@angular/router';
 
 @Component({
-    selector: 'app-getstarted',
-    standalone: true,
-    templateUrl: './getstarted.component.html',
-    styleUrls: ['./getstarted.component.css'],
-    imports: [
-        CommonModule,
-        FontAwesomeModule,
-        FormsModule,
-        HttpClientModule,
-        ToastComponent,
-        NavbarComponent,
-        FooterComponent,
-        MatDatepickerModule,
-        MatFormFieldModule,
-        MatNativeDateModule,
-        AutocompleteComponent,
-        ForecastcardComponent
-    ]
+  selector: 'app-getstarted',
+  standalone: true,
+  templateUrl: './getstarted.component.html',
+  styleUrls: ['./getstarted.component.css'],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    FormsModule,
+    HttpClientModule,
+    ToastComponent,
+    NavbarComponent,
+    FooterComponent,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    AutocompleteComponent,
+    ForecastcardComponent,
+  ],
 })
 export class GetstartedComponent implements OnInit {
   @ViewChild('startDateInput') startDateInput!: ElementRef<HTMLInputElement>;
@@ -108,8 +108,7 @@ export class GetstartedComponent implements OnInit {
   tripCountry: string = '';
   tripCity: string = '';
   selectedCity: string = '';
-
-
+  wrongFormat: boolean = false;
   isSubmitted: boolean = false;
   isError: boolean = false;
 
@@ -272,6 +271,32 @@ export class GetstartedComponent implements OnInit {
       }
     } catch (error) {
       this.isError = true;
+    }
+  }
+
+  validateFileType(event: any): void {
+    const allowedFileTypes = ['.svg', '.png', '.jpg'];
+    const input = event.target;
+
+    if (input.files && input.files.length > 0) {
+      const fileName = input.files[0].name;
+      const fileExtension = fileName.slice(
+        ((fileName.lastIndexOf('.') - 1) >>> 0) + 2
+      );
+
+      if (allowedFileTypes.includes(`.${fileExtension.toLowerCase()}`)) {
+        // Valid file type, you can proceed with your logic here
+        this.updateFileName(event);
+      } else {
+        this.wrongFormat = true;
+        input.value = '';
+
+        of(null)
+          .pipe(delay(2000))
+          .subscribe(() => {
+            this.wrongFormat = false;
+          });
+      }
     }
   }
 
