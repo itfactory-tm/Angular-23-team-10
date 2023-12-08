@@ -30,7 +30,7 @@ namespace TripPlannerAPI.Controllers
         public async Task<ActionResult<List<ActivityRequest>>> GetActivities([FromQuery] PaginationParameters activityParameters)
         {
 
-            var activities = _context.Activities.OrderBy(a => a.Name) as IQueryable<Trip>;
+            var activities = _context.Activities as IQueryable<Activity>;
 
             if (activities == null)
             {
@@ -39,7 +39,7 @@ namespace TripPlannerAPI.Controllers
 
             if (activityParameters == null)
             {
-                throw new ArgumentNullException(nameof(activityParameters));
+                return Ok(_mapper.Map<List<ActivityRequest>>(activities));
             }
 
             if (activityParameters.PageNumber == 0 & activityParameters.PageSize == 0)

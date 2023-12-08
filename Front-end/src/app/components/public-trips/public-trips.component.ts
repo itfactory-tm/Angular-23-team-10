@@ -44,7 +44,7 @@ export class PublicTripsComponent implements OnInit, OnDestroy {
   datesWithActivities: string[] = [];
   config: any;
   pageSizes: number[] = [2, 4, 6, 8, 10];
-  selectedPageSize: number = 4;
+  selectedPageSize: number = 8;
 
   constructor(private tripService: TripService, private router: Router) {}
 
