@@ -80,7 +80,6 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
         });
     }
     if (this.mode === 'edit') {
-      console.log(activity);
       this.putActivity$ = this.activityService
         .putActivity(this.activityId, activity)
         .subscribe({

@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './star.component.html',
-  styleUrl: './star.component.css'
+  styleUrl: './star.component.css',
 })
 export class StarComponent {
   @Input() filled: boolean = false;
@@ -14,13 +14,13 @@ export class StarComponent {
   @Output() starClicked = new EventEmitter<number>();
   @Output() starHovered = new EventEmitter<number>();
 
-  onStarClick() {
+  onStarClick(): void {
     if (this.isEdit) {
-    this.starClicked.emit();
+      this.starClicked.emit();
     }
   }
 
-  onHover() {
+  onHover(): void {
     if (this.isEdit) {
       this.starHovered.emit();
     }

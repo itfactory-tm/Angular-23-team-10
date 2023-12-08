@@ -195,7 +195,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   openModal(id: number, status: String): void {
-    console.log(this.trip);
     let foundActivity = this.trip.activities.find(
       (obj) => obj.tripActivityId === id
     );
