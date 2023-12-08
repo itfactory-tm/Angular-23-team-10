@@ -24,7 +24,7 @@ export class CategoryService {
   }
 
   postCategory(category: Category): Observable<Category> {
-    return this.httpClient.post<Category>(environment.api_url + "/Categories", category);
+    return this.httpClient.post<Category>(environment.api_url + "/Categories/create", category);
   }
 
   putCategory(id: number, category: Category): Observable<void> {
