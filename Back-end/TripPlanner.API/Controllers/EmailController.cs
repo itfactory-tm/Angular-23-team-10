@@ -32,7 +32,7 @@ namespace TripPlanner.API.Controllers
         }
 
         [HttpPost("submitForm")]
-        public async Task<IActionResult> SubmitForm([FromForm] string userId, [FromForm] int tripId, [FromForm] string emailAddress)
+        public async Task<IActionResult> SubmitForm([FromForm] string userId, [FromForm] int tripId)
         {
             try
             {
@@ -56,7 +56,6 @@ namespace TripPlanner.API.Controllers
                 };
 
                 _logger.LogInformation($"Making POST request to: {url}");
-
 
                 var response = client.SendAsync(httpRequestMessage).Result;
 
