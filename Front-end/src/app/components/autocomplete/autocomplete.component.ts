@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { LocationService } from 'src/app/services/location/location.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -13,9 +13,9 @@ import { CommonModule } from '@angular/common';
 export class AutocompleteComponent implements OnInit {
 
   @Output() citySelected = new EventEmitter<any>();
-  @Input() cityInput: string = '';
 
   cities: any[] = [];
+  cityInput = '';
 
   constructor(private locationService: LocationService) {}
 

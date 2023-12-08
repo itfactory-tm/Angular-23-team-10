@@ -108,7 +108,6 @@ export class GetstartedComponent implements OnInit {
   tripCountry: string = '';
   tripCity: string = '';
   selectedCity: string = '';
-  selectedLocation: string = '';
 
 
   isSubmitted: boolean = false;
@@ -341,10 +340,5 @@ export class GetstartedComponent implements OnInit {
     this.tripCountry = city.country;
     this.tripCity = city.name;
     this.selectedCity = city.name;
-    if (city.adminName) {
-      this.selectedLocation = `${city.name}, ${city.country} (${city.adminName})`;
-    } else {
-      this.selectedLocation = `${city.name}, ${city.country}`;
-    }
   }
 }
