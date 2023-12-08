@@ -87,39 +87,39 @@ namespace TripPlannerAPI.Data
             //Associative tables
             //Add tripactivities
             context.TripActivities.AddRange(
-                new TripActivity { TripId = 1, ActivityId = 1, Name = "Brandenburg Gate Tour", Price = 21.0, StartDate = new DateTime(2023, 10, 17, 19, 0, 0), EndDate = new DateTime(2023, 10, 17, 22, 0, 0) },
-                new TripActivity { TripId = 3, ActivityId = 2, Name = "British Museum Tour", Price = 10.0, StartDate = new DateTime(2023, 10, 15, 15, 0, 0), EndDate = new DateTime(2023, 10, 17, 18, 0, 0) },
-                new TripActivity { TripId = 1, ActivityId = 2, Name = "Museum Island Visit", Price = 20.0, StartDate = new DateTime(2023, 10, 16, 6, 0, 0), EndDate = new DateTime(2023, 10, 17, 12, 0, 0) },
-                new TripActivity { TripId = 2, ActivityId = 3, Name = "Prado Museum Tour", Price = 30.0, StartDate = new DateTime(2023, 10, 21, 14, 0, 0), EndDate = new DateTime(2023, 10, 22, 16, 0, 0) },
-                new TripActivity { TripId = 4, ActivityId = 1, Name = "Taj Mahal", Price = 30.0, StartDate = new DateTime(2023, 11, 16, 9, 0, 0), EndDate = new DateTime(2023, 11, 16, 11, 0, 0) },
-                new TripActivity { TripId = 4, ActivityId = 1, Name = "Amber Palace", Price = 30.0, StartDate = new DateTime(2023, 11, 16, 14, 0, 0), EndDate = new DateTime(2023, 11, 16, 16, 0, 0) },
-                new TripActivity { TripId = 4, ActivityId = 1, Name = "Red Fort", Price = 30.0, StartDate = new DateTime(2023, 11, 17, 11, 0, 0), EndDate = new DateTime(2023, 11, 17, 12, 0, 0) },
-                new TripActivity { TripId = 4, ActivityId = 1, Name = "Agra Fort", Price = 30.0, StartDate = new DateTime(2023, 11, 17, 14, 0, 0), EndDate = new DateTime(2023, 11, 17, 17, 0, 0) },
-                new TripActivity { TripId = 4, ActivityId = 1, Name = "Taj Mahal", Price = 30.0, StartDate = new DateTime(2023, 11, 16, 20, 0, 0), EndDate = new DateTime(2023, 11, 16, 22, 0, 0) },
+                new TripActivity { TripId = 1, ActivityId = 1, Name = "Brandenburg Gate Tour", Participants = 1, StartDate = new DateTime(2023, 10, 17, 19, 0, 0), EndDate = new DateTime(2023, 10, 17, 22, 0, 0) },
+                new TripActivity { TripId = 3, ActivityId = 2, Name = "British Museum Tour", Participants = 1, StartDate = new DateTime(2023, 10, 28, 15, 0, 0), EndDate = new DateTime(2023, 10, 28, 18, 0, 0) },
+                new TripActivity { TripId = 1, ActivityId = 2, Name = "Museum Island Visit", Participants = 1, StartDate = new DateTime(2023, 10, 16, 6, 0, 0), EndDate = new DateTime(2023, 10, 17, 12, 0, 0) },
+                new TripActivity { TripId = 2, ActivityId = 3, Name = "Prado Museum Tour", Participants = 1, StartDate = new DateTime(2023, 10, 21, 14, 0, 0), EndDate = new DateTime(2023, 10, 22, 16, 0, 0) },
+                new TripActivity { TripId = 4, ActivityId = 1, Name = "Taj Mahal", Participants = 1, StartDate = new DateTime(2023, 11, 16, 9, 0, 0), EndDate = new DateTime(2023, 11, 16, 11, 0, 0) },
+                new TripActivity { TripId = 4, ActivityId = 1, Name = "Amber Palace", Participants = 1, StartDate = new DateTime(2023, 11, 16, 14, 0, 0), EndDate = new DateTime(2023, 11, 16, 16, 0, 0) },
+                new TripActivity { TripId = 4, ActivityId = 1, Name = "Red Fort", Participants = 1, StartDate = new DateTime(2023, 11, 17, 11, 0, 0), EndDate = new DateTime(2023, 11, 17, 12, 0, 0) },
+                new TripActivity { TripId = 4, ActivityId = 1, Name = "Agra Fort", Participants = 1, StartDate = new DateTime(2023, 11, 17, 14, 0, 0), EndDate = new DateTime(2023, 11, 17, 17, 0, 0) },
+                new TripActivity { TripId = 4, ActivityId = 1, Name = "Taj Mahal", Participants = 1, StartDate = new DateTime(2023, 11, 16, 20, 0, 0), EndDate = new DateTime(2023, 11, 16, 22, 0, 0) },
                 new TripActivity
                 {
                     ActivityId = 4,
                     TripId = 8,
                     Name = "Sydney Opera House Tour",
-                    Price = 35.0,
-                    StartDate = new DateTime(2023, 10, 10, 11, 0, 0),
-                    EndDate = new DateTime(2023, 10, 10, 13, 0, 0)
+                    Participants = 1,
+                    StartDate = new DateTime(2023, 10, 16, 11, 0, 0),
+                    EndDate = new DateTime(2023, 10, 16, 13, 0, 0)
                 },
                 new TripActivity
                 {
                     ActivityId = 2,
                     TripId = 8,
                     Name = "Bondi Beach Surfing Lesson",
-                    Price = 50.0,
-                    StartDate = new DateTime(2023, 10, 12, 9, 0, 0),
-                    EndDate = new DateTime(2023, 10, 12, 12, 0, 0)
+                    Participants = 1,
+                    StartDate = new DateTime(2023, 10, 25, 9, 0, 0),
+                    EndDate = new DateTime(2023, 10, 25, 12, 0, 0)
                 },
                 new TripActivity
                 {
                     ActivityId = 3,
                     TripId = 5,
                     Name = "Shibuya Crossing Exploration",
-                    Price = 20.0,
+                    Participants = 1,
                     StartDate = new DateTime(2023, 7, 12, 12, 0, 0),
                     EndDate = new DateTime(2023, 7, 12, 14, 0, 0)
                 },
@@ -128,7 +128,7 @@ namespace TripPlannerAPI.Data
                     ActivityId = 4,
                     TripId = 5,
                     Name = "Tokyo Tower Visit",
-                    Price = 35.0,
+                    Participants = 1,
                     StartDate = new DateTime(2023, 7, 15, 10, 0, 0),
                     EndDate = new DateTime(2023, 7, 15, 12, 0, 0)
                 },
@@ -137,7 +137,7 @@ namespace TripPlannerAPI.Data
                     ActivityId = 4,
                     TripId = 6,
                     Name = "Colosseum Tour",
-                    Price = 28.0,
+                    Participants = 1,
                     StartDate = new DateTime(2023, 8, 28, 11, 0, 0),
                     EndDate = new DateTime(2023, 8, 28, 13, 0, 0)
                 },
@@ -146,7 +146,7 @@ namespace TripPlannerAPI.Data
                     ActivityId = 4,
                     TripId = 6,
                     Name = "Vatican Museum Visit",
-                    Price = 30.0,
+                    Participants = 1,
                     StartDate = new DateTime(2023, 8, 30, 9, 0, 0),
                     EndDate = new DateTime(2023, 8, 30, 12, 0, 0)
                 },
@@ -155,7 +155,7 @@ namespace TripPlannerAPI.Data
                     ActivityId = 4,
                     TripId = 7,
                     Name = "Statue of Liberty Tour",
-                    Price = 40.0,
+                    Participants = 1,
                     StartDate = new DateTime(2023, 9, 22, 10, 0, 0),
                     EndDate = new DateTime(2023, 9, 22, 13, 0, 0)
                 },
@@ -164,7 +164,7 @@ namespace TripPlannerAPI.Data
                     ActivityId = 3,
                     TripId = 7,
                     Name = "Central Park Bike Ride",
-                    Price = 25.0,
+                    Participants = 1,
                     StartDate = new DateTime(2023, 9, 25, 9, 0, 0),
                     EndDate = new DateTime(2023, 9, 25, 11, 0, 0)
                 }

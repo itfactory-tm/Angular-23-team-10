@@ -5,7 +5,10 @@ export interface Activity {
     activityId: number;
     tripId: number;
     name: String;
-    price: number;
+    description: String | null;
+    participants: number;
+    review: String | null;
+    score: number | null;
     startDate: Date;
     endDate: Date;
     activity: ActivityType;
