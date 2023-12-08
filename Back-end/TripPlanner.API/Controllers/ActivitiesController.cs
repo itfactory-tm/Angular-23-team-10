@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
+using TripPlanner.API.Dto.Pagination;
 using TripPlanner.DAL.Models;
 using TripPlannerAPI.Data;
 using TripPlannerAPI.Dto.Activity;
@@ -24,17 +26,40 @@ namespace TripPlannerAPI.Controllers
 
         // GET: api/Activities
         [HttpGet]
-        public async Task<ActionResult<List<ActivityRequest>>> GetActivities()
+        [ProducesResponseType(200, Type = typeof(List<ActivityRequest>))]
+        public async Task<ActionResult<List<ActivityRequest>>> GetActivities([FromQuery] PaginationParameters activityParameters)
         {
 
-            var activities = await _context.Activities.ToListAsync();
+            var activities = _context.Activities.OrderBy(a => a.Name) as IQueryable<Trip>;
 
             if (activities == null)
             {
                 return NotFound();
             }
 
-            return _mapper.Map<List<ActivityRequest>>(activities);
+            if (activityParameters == null)
+            {
+                throw new ArgumentNullException(nameof(activityParameters));
+            }
+
+            if (activityParameters.PageNumber == 0 & activityParameters.PageSize == 0)
+            {
+                throw new ArgumentNullException(nameof(activityParameters));
+            }
+
+            if (!string.IsNullOrWhiteSpace(activityParameters.SearchQuery))
+            {
+                var searchQuery = activityParameters.SearchQuery.Trim();
+                activities = activities.Where(a => a.Name.ToLower().Contains(searchQuery.ToLower()));
+            }
+
+            var paginationMetaData = new PaginationMetaData(activities.Count(), activityParameters.PageNumber, activityParameters.PageSize);
+            Response.Headers.Add("Pagination", JsonSerializer.Serialize(paginationMetaData));
+            Response.Headers.Add("Access-Control-Expose-Headers", "Pagination");
+
+            var items = await activities.Skip((activityParameters.PageNumber - 1) * activityParameters.PageSize).Take(activityParameters.PageSize).ToListAsync();
+
+            return Ok(_mapper.Map<List<ActivityRequest>>(items));
         }
 
         // GET: api/Activities/5

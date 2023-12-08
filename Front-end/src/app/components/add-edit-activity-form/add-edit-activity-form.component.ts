@@ -66,7 +66,7 @@ export class AddEditActivityFormComponent
   getActivityTypes(): void {
     this.activityTypes$ = this.activityTypeService
       .getActivityTypes()
-      .subscribe((result) => (this.activityTypes = result));
+      .subscribe((result) => (this.activityTypes = result.result));
   }
 
   setVariables(): void {
