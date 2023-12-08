@@ -96,9 +96,10 @@ namespace TripPlannerAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Categories
+        // POST: api/Categories/create
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Route("create")]
         [Authorize]
         public async Task<ActionResult<CategoryRequest>> PostCategory(CategoryResponse category)
         {

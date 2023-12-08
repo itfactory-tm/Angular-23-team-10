@@ -87,6 +87,7 @@ namespace TripPlanner.API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult SendEmail([FromBody] EmailRequest emailRequest)
         {
             try

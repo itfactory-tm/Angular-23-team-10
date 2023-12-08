@@ -28,6 +28,7 @@
     "firebase": "^10.6.0",
     "flowbite": "^2.2.0",
     "jose": "^5.1.1",
+    "ng-recaptcha": "^13.2.1",
     "ngx-clipboard": "^16.0.0",
     "ngx-pagination": "^6.0.3",
     "rxjs": "~7.8.0",
