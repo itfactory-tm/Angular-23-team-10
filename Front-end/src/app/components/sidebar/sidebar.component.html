@@ -1,13 +1,13 @@
-<div class="md:bg-custom-lighter-background flex flex-col h-screen w-[250px] fixed">
+<div class="md:bg-custom-lighter-background flex flex-col h-screen fixed z-50">
     <!-- Burger menu icon and expanded sidebar container -->
-    <div [ngClass]="{'bg-custom-lighter-background': isSidebarExpanded}" class="flex flex-col h-screen w-[250px]">
+    <div [ngClass]="{'bg-custom-lighter-background': isSidebarExpanded}" class="flex flex-col h-screen">
         <!-- Burger menu icon for small screens -->
-        <div class="md:hidden p-4 cursor-pointer" (click)="toggleSidebar()">
+        <div class="md:hidden p-4 pr-0 cursor-pointer" (click)="toggleSidebar()">
             <fa-icon [icon]="isSidebarExpanded ? faTimes : faBars" class="text-white text-3xl"></fa-icon>
         </div>
 
         <!-- Sidebar navigation for medium screens and above -->
-        <nav [ngClass]="{'hidden': !isSidebarExpanded, 'custom-sidebar': isSidebarExpanded}" class="p-10 flex-shrink-0 md:block">
+        <nav [ngClass]="{'hidden': !isSidebarExpanded, 'block': isSidebarExpanded}" class="p-10 flex-shrink-0 md:block">
             <a href="#" class="block">
                 <img class="cursor-pointer" src="assets/logo.png" alt="logo" style="width: 100%;">
             </a>
