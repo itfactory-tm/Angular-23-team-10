@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
+using TripPlanner.API.Dto.Pagination;
 using TripPlanner.DAL.Models;
 using TripPlannerAPI.Data;
 using TripPlannerAPI.Dto.Trip;
@@ -38,17 +40,51 @@ namespace TripPlannerAPI.Controllers
 
         // GET: api/public-trips
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(List<TripRequest>))]
         [Route("public-trips")]
-        public async Task<ActionResult<List<TripRequest>>> GetPublicTrips()
+        public async Task<ActionResult<List<TripRequest>>> GetPublicTrips([FromQuery] TripParameters tripParameters)
         {
-            var trips = await _context.Trips.Include(a => a.TripActivities).ThenInclude(a => a.Activity).Include(c => c.TripCategories).ThenInclude(c => c.Category).Where(t => t.IsShared.Equals(true)).ToListAsync();
+            var trips = _context.Trips.Include(a => a.TripActivities).ThenInclude(a => a.Activity).Include(c => c.TripCategories).ThenInclude(c => c.Category).Where(t => t.IsShared.Equals(true)).OrderBy(t => t.Name) as IQueryable<Trip>;
 
             if (trips == null)
             {
                 return NotFound();
             }
 
-            return _mapper.Map<List<TripRequest>>(trips);
+            if (tripParameters == null)
+            {
+                throw new ArgumentNullException(nameof(tripParameters));
+            }
+
+            if (tripParameters.PageNumber == 0 & tripParameters.PageSize == 0)
+            {
+                throw new ArgumentNullException(nameof(tripParameters));
+            }
+
+            if (!string.IsNullOrWhiteSpace(tripParameters.SearchQuery))
+            {
+                var searchQuery = tripParameters.SearchQuery.Trim();
+                trips = trips.Where(t => t.Name.ToLower().Contains(searchQuery.ToLower()));
+            }
+
+            if (tripParameters.Categories != null && tripParameters.Categories.Any())
+            {
+                // Convert list of strings to list of integers (category IDs)
+                List<int> categoryIds = tripParameters.Categories
+                    .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(int.Parse)
+                    .ToList();
+
+                trips = trips.Where(t => t.TripCategories.Any(tc => categoryIds.Contains(tc.CategoryId)));
+            }
+
+            var paginationMetaData = new PaginationMetaData(trips.Count(), tripParameters.PageNumber, tripParameters.PageSize);
+            Response.Headers.Add("Pagination", JsonSerializer.Serialize(paginationMetaData));
+            Response.Headers.Add("Access-Control-Expose-Headers", "Pagination");
+
+            var items = await trips.Skip((tripParameters.PageNumber - 1) * tripParameters.PageSize).Take(tripParameters.PageSize).ToListAsync();
+
+            return Ok(_mapper.Map<List<TripRequest>>(items));
         }
 
         // GET: api/Trips/5

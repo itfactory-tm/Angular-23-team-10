@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Trip } from '../../models/Trip';
 import { TripService } from '../../services/trip/trip.service';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { PageLoaderComponent } from '../../shared/page-loader/page-loader.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -11,6 +11,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { TripFilterComponent } from '../trip-filter/trip-filter.component';
 import { PublicTripCardComponent } from '../public-trip-card/public-trip-card.component';
 import { ActivitySidebarComponent } from '../activity-sidebar/activity-sidebar.component';
+import { PaginatedResult } from 'src/app/models/Pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-public-trips',
@@ -26,7 +28,8 @@ import { ActivitySidebarComponent } from '../activity-sidebar/activity-sidebar.c
     MatTooltipModule,
     TripFilterComponent,
     PublicTripCardComponent,
-    ActivitySidebarComponent
+    ActivitySidebarComponent,
+    NgxPaginationModule,
   ],
 })
 export class PublicTripsComponent implements OnInit, OnDestroy {
@@ -39,27 +42,48 @@ export class PublicTripsComponent implements OnInit, OnDestroy {
   sidebar: boolean = false;
   trip: Trip | undefined;
   datesWithActivities: string[] = [];
+  config: any;
+  pageSizes: number[] = [2, 4, 6, 8, 10];
+  selectedPageSize: number = 4;
 
-  constructor(
-    private tripService: TripService,
-    private router: Router,
-  ) {}
+  constructor(private tripService: TripService, private router: Router) {}
 
   ngOnInit() {
     this.getPublicTrips();
+    this.config = {
+      itemsPerPage: this.selectedPageSize,
+      currentPage: 1,
+      totalItems: 5,
+    };
   }
 
   ngOnDestroy() {
     this.trips$.unsubscribe();
   }
 
-  getPublicTrips() {
+  getPublicTrips(pageNumber: number = 1) {
     this.isLoading = true;
-    this.trips$ = this.tripService.getPublicTrips().subscribe((result) => {
-      this.trips = result;
-      this.filteredTrips = this.trips;
-      this.isLoading = false;
-    });
+    this.tripService
+      .getPublicTrips(
+        this.searchName.trim(),
+        this.searchCategories,
+        pageNumber,
+        this.selectedPageSize
+      )
+      .subscribe(
+        (response: PaginatedResult<Trip[]>) => {
+          this.trips = response.result;
+          this.config = {
+            itemsPerPage: this.selectedPageSize,
+            currentPage: response.pagination.CurrentPage,
+            totalItems: response.pagination.TotalItems,
+          };
+          this.isLoading = false;
+        },
+        (error) => {
+          return of(null);
+        }
+      );
   }
 
   navigateToTrip(tripId: number) {
@@ -67,12 +91,24 @@ export class PublicTripsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/calendar'], { state: { isPublic: 'true' } });
   }
 
-  handleSearchNameChange(value: string) {
+  /* handleSearchNameChange(value: string) {
     this.searchName = value;
-    this.filterTrips();
-  }
+    this.tripService.getPublicTrips(this.searchName.trim(), 1, 3)
+      .subscribe((response: PaginatedResult<Trip[]>) => {
+        this.trips = response.result;
+        this.config = {
+          itemsPerPage: 3,
+          currentPage: response.pagination.CurrentPage,
+          totalItems: response.pagination.TotalItems
+        };
+      },
+        (error) => {
+          return of(null);
+        }
+      );
+  } */
 
-  filterTrips() {
+  /* filterTrips() {
     this.filteredTrips = this.trips.filter((trip) => {
       this.isLoading = true;
       const nameMatch = trip.name
@@ -90,19 +126,52 @@ export class PublicTripsComponent implements OnInit, OnDestroy {
       }
     });
     this.isLoading = false;
-  }
+  } */
 
-  setCategory(ids: number[]) {
+  /* filterTrips() {
+    this.trips = this.trips.filter((trip) => {
+      if (this.searchCategories.length !== 0) {
+        this.isLoading = true;
+        return trip.categories.some((category) =>
+        this.searchCategories.includes(category.categoryId)
+      )} else {
+        return null;
+      }
+    });
+    this.isLoading = false;
+  } */
+
+  /* setCategory(ids: number[]) {
     this.searchCategories = ids;
-    this.filterTrips();
-  }
+    //this.filterTrips();
+  } */
 
   handleTripChange(trip: Trip) {
-    if (!this.trip || (this.trip.tripId !== trip.tripId)) {
+    if (!this.trip || this.trip.tripId !== trip.tripId) {
       this.trip = trip;
       this.sidebar = true;
     } else {
       this.sidebar = !this.sidebar;
     }
+  }
+
+  pageChanged(event: number) {
+    this.getPublicTrips(event);
+  }
+
+  submit(search?: string, ids?: number[]) {
+    if (search !== undefined) {
+      this.searchName = search;
+    }
+    if (ids !== undefined) {
+      this.searchCategories = ids;
+    }
+
+    this.getPublicTrips();
+  }
+
+  changePageSize(event: number) {
+    this.selectedPageSize = event;
+    this.getPublicTrips()
   }
 }
