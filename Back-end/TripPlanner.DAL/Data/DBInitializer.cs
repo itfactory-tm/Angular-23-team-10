@@ -68,7 +68,16 @@ namespace TripPlannerAPI.Data
                 new Activity { Name = "Sightseeing" },
                 new Activity { Name = "Sport" },
                 new Activity { Name = "Outdoor adventure" },
-                new Activity { Name = "Cultural" }
+                new Activity { Name = "Cultural" },
+                new Activity { Name = "Dining" },
+                new Activity { Name = "Cinema" },
+                new Activity { Name = "Hunting" },
+                new Activity { Name = "Shopping" },
+                new Activity { Name = "Arcade" },
+                new Activity { Name = "Volunteering" },
+                new Activity { Name = "Learning" },
+                new Activity { Name = "Visit" },
+                new Activity { Name = "Nightlife" }
             );
             //Add keywords
             context.Keywords.AddRange(
