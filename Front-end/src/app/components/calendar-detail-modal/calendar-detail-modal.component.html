@@ -52,7 +52,7 @@
           >
             Description
           </h5>
-          <p class="text-base leading-relaxed text-white">
+          <p class="text-base leading-relaxed text-white break-words">
             {{ activity.description }}
           </p>
           }
@@ -121,13 +121,14 @@
         >
           <button
             class="flex items-center justify-center w-10 aspect-square text-white rounded-full ring-2 ring-custom-orange shrink-0 enabled:cursor-pointer enabled:hover:text-green-400 enabled:hover:bg-white/20 enabled:hover:scale-110"
+            [disabled]="isPublic"
             (click)="editActivity(activity.tripActivityId)"
           >
             <fa-icon class="fa-solid" [icon]="faPencil"></fa-icon>
           </button>
           <button
             class="flex items-center justify-center w-10 aspect-square text-white rounded-full ring-2 ring-custom-orange shrink-0 enabled:cursor-pointer enabled:hover:text-red-400 enabled:hover:bg-white/20 enabled:hover:scale-110"
-            [disabled]="status === 'Past'"
+            [disabled]="status === 'Past' || isPublic"
             (click)="openConfirmationModal()"
           >
             <fa-icon class="fa-solid" [icon]="faTrash"></fa-icon>

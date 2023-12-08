@@ -36,6 +36,12 @@ namespace TripPlannerAPI.Data
             modelBuilder.Entity<TripKeyword>().ToTable("TripKeyword");
             modelBuilder.Entity<TripCategory>().ToTable("TripCategory");
 
+            modelBuilder.Entity<Activity>()
+                .HasMany(a => a.TripActivities)
+                .WithOne(a => a.Activity) 
+                .HasForeignKey(a => a.ActivityId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<TripActivity>()
                 .HasKey(ta => ta.TripActivityId);
 

@@ -41,6 +41,7 @@ import { RatingComponent } from '../rating/rating.component';
 export class CalendarDetailModalComponent implements OnDestroy {
   @Input() activity!: Activity;
   @Input() status: String = '';
+  @Input() isPublic: boolean = false;
   @Output() close = new EventEmitter<void>();
   @Output() delete = new EventEmitter<void>();
 
