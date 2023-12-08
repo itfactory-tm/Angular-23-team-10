@@ -41,23 +41,23 @@ export class TripFilterComponent implements OnInit {
 
   onSearchNameChange(value: string) {
     this.searchName = value;
-    this.searchNameChange.emit(value);
+    //this.searchNameChange.emit(value);
   }
 
   setCategory(id: number) {
     if (this.searchCategories.includes(id)) {
       const index = this.searchCategories.indexOf(id);
       this.searchCategories.splice(index, 1);
-      this.onSelectCategory();
+      //this.onSelectCategory();
     } else {
       this.searchCategories.push(id);
-      this.onSelectCategory();
+      //this.onSelectCategory();
     }
   }
 
-  onSelectCategory() {
+  /* onSelectCategory() {
     this.categorySelected.emit(this.searchCategories);
-  }
+  } */
 
   getCategories() {
     this.isLoading = true;
@@ -74,5 +74,10 @@ export class TripFilterComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  submit() {
+    this.searchNameChange.emit(this.searchName);
+    this.categorySelected.emit(this.searchCategories);
   }
 }

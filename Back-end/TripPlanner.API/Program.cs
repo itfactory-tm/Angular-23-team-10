@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using TripPlanner.API;
@@ -58,7 +57,8 @@ builder.Services.AddAuthentication(options =>
                 if (builder.Environment.IsDevelopment())
                 {
                     options.Audience = "https://localhost:7113";
-                } else
+                }
+                else
                 {
                     options.Audience = "https://tripplanner-api-eliasgrinwis.cloud.okteto.net";
                 }
