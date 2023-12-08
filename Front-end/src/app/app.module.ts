@@ -38,9 +38,7 @@ import { ReviewActivityFormComponent } from "./components/review-activity-form/r
         ReactiveFormsModule,
         NgxPaginationModule,
         AuthModule.forRoot({
-            //domain: 'dev-2ki8nim0a3vrbww1.us.auth0.com',
             domain: environment.AUTH0_DOMAIN,
-            //clientId: 'jGOPQttdT71dyPnd7zJUepi46zGNoihE',
             clientId: environment.AUTH0_CLIENT_ID,
             authorizationParams: {
                 audience: environment.AUTH0_AUDIENCE,
