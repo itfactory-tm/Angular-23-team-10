@@ -26,6 +26,11 @@
 
             <div>
                 <h2 class="text-white font-bold text-xl mb-2">{{trip.name}}</h2>
+                <!-- Location -->
+                <div *ngIf="trip.country">
+                    <span class="text-gray-400 text-sm">Location: </span> 
+                    <span class="text-white text-sm">{{trip.city}} ({{trip.country}})</span>
+                </div>
                 <!-- Start and End Date -->
                 <div>
                     <div>
