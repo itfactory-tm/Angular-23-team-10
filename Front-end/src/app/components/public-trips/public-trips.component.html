@@ -36,7 +36,7 @@
   <app-page-loader></app-page-loader>
   }
 
-  <section class="flex flex-wrap justify-center md:justify-start gap-3">
+  <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
     @for (trip of trips | paginate: config; let i = $index; track trip.tripId) {
     <app-public-trip-card
       [trip]="trip"
