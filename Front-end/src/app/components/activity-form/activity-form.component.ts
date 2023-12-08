@@ -34,7 +34,6 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
   constructor(private activityTypeService: ActivityTypeService) {}
 
   ngOnInit(): void {
-    console.log(this.mode);
     if (this.mode === 'add') {
       this.isAdd = true;
     } else if (this.mode === 'edit') {

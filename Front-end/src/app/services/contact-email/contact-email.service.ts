@@ -4,15 +4,12 @@ import { Observable, catchError, map, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ContactEmailService {
   constructor(private httpClient: HttpClient) {}
 
-  sendContactEmail(
-    email: string,
-    message: string,
-  ): Observable<boolean> {
+  sendContactEmail(email: string, message: string): Observable<boolean> {
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8');
 
@@ -27,7 +24,6 @@ export class ContactEmailService {
       })
       .pipe(
         map(() => {
-          console.log('Email sent successfully');
           return true;
         }),
         catchError((error) => {
