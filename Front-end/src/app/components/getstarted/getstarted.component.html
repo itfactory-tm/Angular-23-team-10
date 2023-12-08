@@ -80,7 +80,7 @@
 
           <!-- Step 2: Location -->
           <div class="mt-6">
-            <app-autocomplete [cityInput]="selectedLocation" (citySelected)="handleCitySelection($event)"></app-autocomplete>
+            <app-autocomplete (citySelected)="handleCitySelection($event)"></app-autocomplete>
           </div>
 
           <!-- Step Optional: Weather -->
