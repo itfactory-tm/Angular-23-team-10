@@ -32,7 +32,9 @@
 
       <ng-template #logoutButton>
         <div class="relative action text-white" (click)="toggleDropdown()">
-          <img src="{{loggedInUser.picture}}" class="w-10 h-10 rounded-full cursor-pointer" alt="avatar">
+          @if (loggedInUser !== undefined && loggedInUser !== null && loggedInUser.picture !== undefined) {
+          <img src="{{ loggedInUser.picture }}" class="w-10 h-10 rounded-full cursor-pointer" alt="avatar">
+          }
 
           <!-- Dropdown menu -->
           <div *ngIf="showDropdown"
