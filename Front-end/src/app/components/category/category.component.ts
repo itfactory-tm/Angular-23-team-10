@@ -10,6 +10,7 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 import { CategoryFormComponent } from '../category-form/category-form.component';
 import { ToastComponent } from '../../shared/toast/toast.component';
+import { ConfirmationPopupComponent } from 'src/app/shared/confirmation-popup/confirmation-popup.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { FilterComponent } from '../filter/filter.component';
 import { PaginatedResult } from 'src/app/models/Pagination';
@@ -31,6 +32,7 @@ import { FormsModule } from '@angular/forms';
     FilterComponent,
     NgxPaginationModule,
     FormsModule,
+    ConfirmationPopupComponent
   ],
 })
 export class CategoryListComponent implements OnInit, OnDestroy {
@@ -47,6 +49,8 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   mode: string = 'add';
   categoryId: number = 0;
   isSubmitted: boolean = false;
+  isConfirmationOpen: boolean = false;
+  selected: any;
 
   searchName: string = '';
   config: any;
@@ -73,11 +77,21 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     this.deleteCategory$.unsubscribe();
   }
 
-  delete(id: number) {
-    this.deleteCategory$ = this.categoryService.deleteCategory(id).subscribe({
+  openConfirmationModal(id:number): void {
+    this.isConfirmationOpen = true;
+    this.selected = id
+  }
+
+  closeConfirmationModal(): void {
+    this.isConfirmationOpen = false;
+  }
+
+  deleteCategory() {
+    this.deleteCategory$ = this.categoryService.deleteCategory(this.selected).subscribe({
       next: (v) => this.getCategories(),
       error: (e) => (this.errorMessage = e.message),
     });
+    this.isConfirmationOpen = false;
     this.mode = 'delete';
   }
 

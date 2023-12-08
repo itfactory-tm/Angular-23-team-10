@@ -93,6 +93,7 @@ namespace TripPlannerAPI.Controllers
         // PUT: api/Activities/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = "DeleteAccess")]
         public async Task<ActionResult<ActivityRequest>> PutActivity(int id, ActivityResponse putActivity)
         {
             if (id != putActivity.ActivityId)
@@ -127,6 +128,7 @@ namespace TripPlannerAPI.Controllers
         // POST: api/Activities
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = "DeleteAccess")]
         public async Task<ActionResult<ActivityRequest>> PostActivity(ActivityResponse activity)
         {
             Activity newActivity = _mapper.Map<Activity>(activity);

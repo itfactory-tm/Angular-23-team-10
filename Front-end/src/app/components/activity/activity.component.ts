@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ActivityType } from 'src/app/models/ActivityType';
@@ -10,6 +10,7 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 import { ActivityFormComponent } from '../activity-form/activity-form.component';
 import { ToastComponent } from '../../shared/toast/toast.component';
+import { ConfirmationPopupComponent } from 'src/app/shared/confirmation-popup/confirmation-popup.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { PaginatedResult } from 'src/app/models/Pagination';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -31,9 +32,11 @@ import { FilterComponent } from '../filter/filter.component';
     NgxPaginationModule,
     FormsModule,
     FilterComponent,
+    ConfirmationPopupComponent
   ],
 })
 export class ActivityListComponent implements OnInit, OnDestroy {
+  @Output() delete = new EventEmitter<void>();
   activities: ActivityType[] = [];
   activities$: Subscription = new Subscription();
   deleteActivity$: Subscription = new Subscription();
@@ -47,6 +50,8 @@ export class ActivityListComponent implements OnInit, OnDestroy {
   mode: string = 'add';
   activityId: number = 0;
   isSubmitted: boolean = false;
+  isConfirmationOpen: boolean = false;
+  selected: any;
 
   searchName: string = '';
   config: any;
@@ -73,20 +78,28 @@ export class ActivityListComponent implements OnInit, OnDestroy {
     this.deleteActivity$.unsubscribe();
   }
 
-  delete(id: number) {
-    this.deleteActivity$ = this.activitTypeService
-      .deleteActivityType(id)
-      .subscribe({
-        next: (v) => {
-          // Delete was successful, update activities and set mode to 'delete'
-          this.getActivities();
-          this.mode = 'delete';
-        },
-        error: (e) => {
-          // Handle error if deletion fails
-          this.errorMessage = e.message;
-        },
-      });
+  openConfirmationModal(id:number): void {
+    this.isConfirmationOpen = true;
+    this.selected = id
+  }
+
+  closeConfirmationModal(): void {
+    this.isConfirmationOpen = false;
+  }
+
+  deleteActivity() {
+    this.deleteActivity$ = this.activitTypeService.deleteActivityType(this.selected).subscribe({
+      next: (v) => {
+        // Delete was successful, update activities and set mode to 'delete'
+        this.getActivities();
+        this.isConfirmationOpen = false;
+        this.mode = 'delete';
+      },
+      error: (e) => {
+        // Handle error if deletion fails
+        this.errorMessage = e.message;
+      },
+    });
   }
 
   getActivities(pageNumber: number = 1) {

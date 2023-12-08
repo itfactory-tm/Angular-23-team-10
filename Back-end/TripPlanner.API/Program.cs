@@ -100,12 +100,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(corsConfig);
 
-/*
-app.UseCors(x => x
-            .WithOrigins("http://localhost:4200")
-            .WithMethods()
-            .AllowAnyHeader());
-*/
 using (var scope = app.Services.CreateScope())
 {
     var myContext = scope.ServiceProvider.GetRequiredService<TripContext>();
