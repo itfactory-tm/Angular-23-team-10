@@ -31,7 +31,6 @@ export class EmailService {
       })
       .pipe(
         map(() => {
-          console.log('Email sent successfully');
           return true;
         }),
         catchError((error) => {

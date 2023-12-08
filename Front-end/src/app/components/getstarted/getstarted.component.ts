@@ -83,8 +83,6 @@ export class GetstartedComponent implements OnInit {
     } else {
       this.selectedItems.push(categoryId);
     }
-
-    console.log('Selected Items:', this.selectedItems);
   }
 
   faImage = faImage;
@@ -212,7 +210,6 @@ export class GetstartedComponent implements OnInit {
   async postNewTripCategory(tripId: number, categoryIds: number[]) {
     for (let categoryId of categoryIds) {
       try {
-        console.log(categoryId);
         this.categoryService
           .getCategoryById(categoryId)
           .subscribe((category) => {

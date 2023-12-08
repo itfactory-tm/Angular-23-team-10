@@ -34,7 +34,6 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
   constructor(private categoryService: CategoryService) {}
 
   ngOnInit(): void {
-    console.log(this.mode);
     if (this.mode === 'add') {
       this.isAdd = true;
     } else if (this.mode === 'edit') {

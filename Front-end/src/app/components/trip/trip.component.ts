@@ -138,7 +138,6 @@ export class TripComponent implements OnInit {
       this.userService.getUsers().subscribe(
         (data) => {
           this.users = data;
-          console.log(this.users);
           resolve();
         },
         (error) => {
@@ -170,14 +169,13 @@ export class TripComponent implements OnInit {
 
   sendEmail(user: User): void {
     if (user.email == undefined || user['user_id'] == undefined) {
-      console.log('invalid email address', user);
+      this.isError = true;
     } else {
       this.emailService
         .sendEmail(user.email, user['user_id'], this.tripId)
         .subscribe((success) => {
           if (success) {
             // Handle success
-            console.log('success');
             this.isSend = true;
             this.searchTerm = '';
             this.filteredUsers = [];
@@ -189,7 +187,6 @@ export class TripComponent implements OnInit {
               });
           } else {
             // Handle failure
-            console.log('Not sucess');
             this.isError = true;
           }
         });
@@ -223,7 +220,6 @@ export class TripComponent implements OnInit {
   fetchTripsFromUser(userId: string): void {
     this.userTripService.getTripsByUserId(userId).subscribe((trips) => {
       this.allTripsFromUser = trips;
-      console.log(this.allTripsFromUser);
 
       // Fetch contributors for each trip
       for (const trip of this.allTripsFromUser) {
@@ -251,8 +247,6 @@ export class TripComponent implements OnInit {
 
       // Store the result in the map
       this.contributorsMap[tripId] = filteredUsers;
-
-      console.log(this.contributorsMap);
     });
   }
 
