@@ -10,6 +10,7 @@ using Microsoft.Data.SqlClient.Server;
 using System.Net.Http;
 using System.Text;
 using Microsoft.Extensions.Options;
+using System.Net.Http.Headers;
 
 namespace TripPlanner.API.Controllers
 {
@@ -38,26 +39,38 @@ namespace TripPlanner.API.Controllers
                 string baseUrl = GetBaseUrl();
                 string token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjUxcDY1aVhLMEUwa0FnN2JBUU4tMyJ9.eyJpc3MiOiJodHRwczovL2Rldi0ya2k4bmltMGEzdnJid3cxLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJWc1dtdm1hZVpycVg0bE1ISkNqallhSWdqUWI4Q0JKdUBjbGllbnRzIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzExMyIsImlhdCI6MTcwMTk3NTUzMCwiZXhwIjoxNzAyMDYxOTMwLCJhenAiOiJWc1dtdm1hZVpycVg0bE1ISkNqallhSWdqUWI4Q0JKdSIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyIsInBlcm1pc3Npb25zIjpbXX0.ro595BCWCl1b6TTxNMmf8IADE2zyFMAaIiRXO5pFXCnYUu_czp7yCBC5qoYKiJBOL8mrrpyCCLgHZik5GUjWFNLdOyCdd3epuVoAgaVrk4V5TLZKOo0J5Kw5R7WJpOci67YatTfJCAW9XsE-bMtkFL4TrmGbwADFx-plavPO92hhWFJLVVAbRsVM_2e6_m85HhUTJW2DPvRJhOGNH8N5aYTJU9Xax-VWFuQ42gYMgRt1N0yzq2lSpIAhONLyFvclGhGF2jQ8PZNjdhdgIOkOUioAxc90iqwbzU08hi9Qij-ZHWX-HWhVFmP2Uo7nTLgQYRvgXQV_Fetu2kDKdJPG2A";
 
-                // Create and configure the HttpClient
-                using (var httpClient = _httpClientFactory.CreateClient())
+                string url = $"{baseUrl}/UserTrips/{userId}/{tripId}";
+
+
+                var client = new HttpClient();
+                var httpRequestMessage = new HttpRequestMessage
                 {
-                    // Set the Authorization header with the Bearer token
-                    httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+                    Method = HttpMethod.Post,
+                    RequestUri = new Uri(url),
+                    Headers = {
+                        { HttpRequestHeader.Authorization.ToString(), $"Bearer {token}" },
+                        { HttpRequestHeader.Accept.ToString(), "application/json" },
+                        { HttpRequestHeader.ContentType.ToString(), "application/json; charset=utf-8" }, // Set Content-Type header
+                        { "X-Version", "1" }
+                    },
+                };
 
-                    string url = $"{baseUrl}/UserTrips/{userId}/{tripId}";
+                _logger.LogInformation($"Making POST request to: {url}");
 
-                    // Make the POST request
-                    var response = await httpClient.PostAsync(url, null);
 
-                    // Check the response status
-                    if (_hostingEnvironment.IsDevelopment())
-                    {
-                        return Redirect("http://localhost:4200/");
-                    }
-                    else
-                    {
-                        return Redirect("https://trip-planner-46730.web.app/");
-                    }
+                var response = client.SendAsync(httpRequestMessage).Result;
+
+                _logger.LogInformation($"Response status code: {response.StatusCode}");
+
+
+                // Check the response status
+                if (_hostingEnvironment.IsDevelopment())
+                {
+                    return Redirect("http://localhost:4200/");
+                }
+                else
+                {
+                    return Redirect("https://trip-planner-46730.web.app/");
                 }
             }
             catch (Exception ex)
