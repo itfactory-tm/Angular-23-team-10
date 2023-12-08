@@ -24,7 +24,7 @@ import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { UserTripService } from '../../services/user-trip/user-trip.service';
 import { AuthService } from '@auth0/auth0-angular';
-import { delay, of, take } from 'rxjs';
+import { delay, of, take, timer } from 'rxjs';
 import { Trip } from '../../models/Trip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -292,8 +292,8 @@ export class GetstartedComponent implements OnInit {
         this.wrongFormat = true;
         input.value = '';
 
-        of(null)
-          .pipe(delay(2000))
+        timer(5000)
+          .pipe(take(1))
           .subscribe(() => {
             this.wrongFormat = false;
           });
