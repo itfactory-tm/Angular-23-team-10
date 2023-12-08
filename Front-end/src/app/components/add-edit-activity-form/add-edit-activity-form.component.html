@@ -21,7 +21,7 @@
 <h2 class="text-custom-orange text-3xl mb-8 border-b border-custom-orange">
   General information
 </h2>
-<form (ngSubmit)="onSubmitValidate()" #activityForm="ngForm">
+<form #activityForm="ngForm">
   <div class="mb-6">
     <label for="name" class="block mb-2 text-xl font-medium text-white"
       >Activity name</label
@@ -133,17 +133,19 @@
   </div>
   @if(mode === "add") {
   <button
-    type="submit"
+    type="button"
     [disabled]="!activityForm.form.valid || isSubmitted"
     class="text-white ring-2 mr-2 mb-3 md:mb-0 ring-custom-orange enabled:hover:bg-custom-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center disabled:opacity-75"
+    (click)="onSubmitValidate()"
   >
     Add activity
   </button>
   } @else {
   <button
-    type="submit"
+    type="button"
     [disabled]="!activityForm.form.valid || isSubmitted"
     class="text-white ring-2 sm:mr-2 mb-3 md:mb-0 ring-custom-orange enabled:hover:bg-custom-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center disabled:opacity-75"
+    (click)="onSubmitValidate()"
   >
     Save changes
   </button>
