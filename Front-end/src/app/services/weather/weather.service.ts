@@ -52,7 +52,9 @@ export class WeatherService {
         name: response.name,
         country: response.sys.country,
         sunrise: response.sys.sunrise,
-        sunset: response.sys.sunset
+        sunset: response.sys.sunset,
+        date: response.dt,
+        timezone: response.timezone
       };
     }
     return null;

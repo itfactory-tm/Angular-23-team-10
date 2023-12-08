@@ -21,6 +21,7 @@ export class AutocompleteComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  
   onCityInput() {
     if (this.cityInput.trim() !== '') {
       this.locationService.getCities(this.cityInput).subscribe(data => {

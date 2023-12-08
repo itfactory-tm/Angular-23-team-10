@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WeatherService } from 'src/app/services/weather/weather.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -35,6 +35,11 @@ export class WeathercardComponent {
   weather: any;
 
   constructor(private weatherService: WeatherService) {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['city']) {
+      this.getWeatherData(this.city);
+    }
+  }
 
   ngOnInit() {
     if (this.city) {
@@ -45,10 +50,30 @@ export class WeathercardComponent {
   getWeatherData(city: string) {
     this.weatherService.getWeather(city).subscribe(data => {
       this.weather = this.mapIcons(data);
-      this.weather.dayOfWeek = this.getDayOfWeek();
+  
+      // Convert the timestamp to a Date object
+      const currentDate = new Date(this.weather.date * 1000);
+  
+      // Adjust the date based on the city's timezone offset
+      const timezoneOffsetInMinutes = this.weather.timezone / 60;
+      currentDate.setMinutes(currentDate.getMinutes() + timezoneOffsetInMinutes);
+  
+      // Format the date to "dayofweek dd/mm" format
+      const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const dayOfWeek = daysOfWeek[currentDate.getUTCDay()]; // Use getUTCDay for consistent day names
+  
+      // Use String.padStart to ensure two digits for day of the month and month
+      const dayOfMonth = currentDate.getUTCDate().toString().padStart(2, '0');
+      const month = (currentDate.getUTCMonth() + 1).toString().padStart(2, '0'); // Month is zero-based
+  
+      const formattedDate = `${dayOfWeek} ${dayOfMonth}/${month}`;
+  
+      // Add the formatted date to the weather object
+      this.weather.currentDate = formattedDate;
     });
   }
-
+  
+  
   // https://openweathermap.org/weather-conditions
   private mapIcons(weatherData: any): any {
     //console.log(weatherData);
