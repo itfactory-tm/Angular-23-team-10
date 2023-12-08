@@ -16,65 +16,67 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { ActivityFormComponent } from './components/calender-activity-form/calender-activity-form.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { AddEditActivityFormComponent } from "./components/add-edit-activity-form/add-edit-activity-form.component";
+import { ReviewActivityFormComponent } from "./components/review-activity-form/review-activity-form.component";
 
 @NgModule({
-  declarations: [AppComponent, ActivityFormComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    NavbarComponent,
-    FooterComponent,
-    ToastComponent,
-    FormsModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    FontAwesomeModule,
-    ReactiveFormsModule,
-    NgxPaginationModule,
-    AuthModule.forRoot({
-      //domain: 'dev-2ki8nim0a3vrbww1.us.auth0.com',
-      domain: environment.AUTH0_DOMAIN,
-      //clientId: 'jGOPQttdT71dyPnd7zJUepi46zGNoihE',
-      clientId: environment.AUTH0_CLIENT_ID,
-      authorizationParams: {
-        audience: environment.AUTH0_AUDIENCE,
-        redirect_uri: window.location.origin
-      },      
-      // The AuthHttpInterceptor configuration
-      httpInterceptor: {
-        allowedList: [
-          `${environment.api_url}/Trips`,
-          `${environment.api_url}/Trips/*`,
-          `${environment.api_url}/Categories/*`,
-          `${environment.api_url}/UserTrips`,
-          `${environment.api_url}/UserTrips/*`,
-          `${environment.api_url}/TripCategories`,
-          `${environment.api_url}/TripCategories/*`,
-          `${environment.api_url}/TripActivities`,
-          `${environment.api_url}/TripActivities/*`,
-          `${environment.api_url}/Activities`,
-          `${environment.api_url}/Activities/*`,
-          `${environment.api_url}/Email`,
-          `${environment.api_url}/Keywords`,
-          `${environment.api_url}/Keywords/*`,
-          `${environment.api_url}/TripKeywords`,
-          `${environment.api_url}/TripKeywords/*`,
-          `${environment.api_url}/activities/*`,
-          `${environment.api_url}/tripactivities/*`,
-          `${environment.api_url}/tripactivities`,
-        ],
-      },
-    }),
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: !isDevMode(),
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
-    }),
-  ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
-  ],
-  bootstrap: [AppComponent],
+    declarations: [AppComponent, ActivityFormComponent],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
+    ],
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        NavbarComponent,
+        FooterComponent,
+        ToastComponent,
+        FormsModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        FontAwesomeModule,
+        ReactiveFormsModule,
+        NgxPaginationModule,
+        AuthModule.forRoot({
+            domain: environment.AUTH0_DOMAIN,
+            clientId: environment.AUTH0_CLIENT_ID,
+            authorizationParams: {
+                audience: environment.AUTH0_AUDIENCE,
+                redirect_uri: window.location.origin
+            },
+            // The AuthHttpInterceptor configuration
+            httpInterceptor: {
+                allowedList: [
+                    `${environment.api_url}/Trips`,
+                    `${environment.api_url}/Trips/*`,
+                    `${environment.api_url}/Categories/*`,
+                    `${environment.api_url}/UserTrips`,
+                    `${environment.api_url}/UserTrips/*`,
+                    `${environment.api_url}/TripCategories`,
+                    `${environment.api_url}/TripCategories/*`,
+                    `${environment.api_url}/TripActivities`,
+                    `${environment.api_url}/TripActivities/*`,
+                    `${environment.api_url}/Activities`,
+                    `${environment.api_url}/Activities/*`,
+                    `${environment.api_url}/Email`,
+                    `${environment.api_url}/Keywords`,
+                    `${environment.api_url}/Keywords/*`,
+                    `${environment.api_url}/TripKeywords`,
+                    `${environment.api_url}/TripKeywords/*`,
+                    `${environment.api_url}/activities/*`,
+                    `${environment.api_url}/tripactivities/*`,
+                    `${environment.api_url}/tripactivities`,
+                ],
+            },
+        }),
+        ServiceWorkerModule.register('ngsw-worker.js', {
+            enabled: !isDevMode(),
+            // Register the ServiceWorker as soon as the application is stable
+            // or after 30 seconds (whichever comes first).
+            registrationStrategy: 'registerWhenStable:30000'
+        }),
+        AddEditActivityFormComponent,
+        ReviewActivityFormComponent
+    ]
 })
 export class AppModule {}
