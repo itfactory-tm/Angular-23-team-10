@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
+using TripPlanner.API.Dto.Pagination;
 using TripPlanner.DAL.Models;
 using TripPlannerAPI.Data;
 using TripPlannerAPI.Dto.Category;
-using Microsoft.AspNetCore.Authorization;
 
 namespace TripPlannerAPI.Controllers
 {
@@ -23,6 +25,43 @@ namespace TripPlannerAPI.Controllers
         }
 
         // GET: api/Categories
+        [HttpGet]
+        [Route("paginated-categories")]
+        [ProducesResponseType(200, Type = typeof(List<CategoryRequest>))]
+        public async Task<ActionResult<List<CategoryRequest>>> GetPaginatedCategories([FromQuery] PaginationParameters categoryParameters)
+        {
+            var categories = _context.Categories as IQueryable<Category>;
+
+            if (categories == null)
+            {
+                return NotFound();
+            }
+
+            if (categoryParameters == null)
+            {
+                throw new ArgumentNullException(nameof(categoryParameters));
+            }
+
+            if (categoryParameters.PageNumber == 0 & categoryParameters.PageSize == 0)
+            {
+                throw new ArgumentNullException(nameof(categoryParameters));
+            }
+
+            if (!string.IsNullOrWhiteSpace(categoryParameters.SearchQuery))
+            {
+                var searchQuery = categoryParameters.SearchQuery.Trim();
+                categories = categories.Where(a => a.Name.ToLower().Contains(searchQuery.ToLower()));
+            }
+
+            var paginationMetaData = new PaginationMetaData(categories.Count(), categoryParameters.PageNumber, categoryParameters.PageSize);
+            Response.Headers.Add("Pagination", JsonSerializer.Serialize(paginationMetaData));
+            Response.Headers.Add("Access-Control-Expose-Headers", "Pagination");
+
+            var items = await categories.Skip((categoryParameters.PageNumber - 1) * categoryParameters.PageSize).Take(categoryParameters.PageSize).ToListAsync();
+
+            return Ok(_mapper.Map<List<CategoryRequest>>(items));
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<CategoryRequest>>> GetCategories()
         {

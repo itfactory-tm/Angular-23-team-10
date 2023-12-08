@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 export class ActivityTypeService {
   constructor(private httpClient: HttpClient) {}
 
-  getActivityTypes(
+  getPaginatedActivityTypes(
     searchQuery?: string,
     pageNumber?: number,
     pageSize?: number
@@ -31,7 +31,7 @@ export class ActivityTypeService {
     }
 
     return this.httpClient
-      .get<ActivityType[]>(environment.api_url + '/activities', {
+      .get<ActivityType[]>(environment.api_url + '/activities/paginated-activities', {
         responseType: 'json',
         observe: 'response',
         params,
@@ -52,6 +52,11 @@ export class ActivityTypeService {
           return throwError(error); // Re-throwing the error to propagate it further
         })
       );
+  }
+
+  getActivityTypes() {
+    return this.httpClient
+      .get<ActivityType[]>(environment.api_url + '/activities')
   }
 
   deleteActivityType(id: number): Observable<ActivityType> {
