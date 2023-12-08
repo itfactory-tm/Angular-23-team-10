@@ -57,7 +57,7 @@ builder.Services.AddAuthentication(options =>
                 options.Authority = $"https://{auth0Config.Domain}/";
                 if (builder.Environment.IsDevelopment())
                 {
-                    options.Audience = "https://localhost:7113";
+                    options.Audience = "https://tripplanner-api-eliasgrinwis.cloud.okteto.net";
                 } else
                 {
                     options.Audience = "https://tripplanner-api-eliasgrinwis.cloud.okteto.net";
