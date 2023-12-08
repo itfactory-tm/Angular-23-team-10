@@ -41,11 +41,6 @@
             <h3 class="mb-4">{{loggedInUser.name}}<br /><span>{{loggedInUser.email}}</span></h3>
             <hr class="my-3 w-full border-custom-orange border">
             <ul>
-              <li routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-                class="cursor-pointer mb-2 hover:bg-gray-600 px-2 py-1 rounded-md">
-                <fa-icon [icon]="faUser" class="mr-2 text-lg"></fa-icon>
-                <a>My profile</a>
-              </li>
               <li routerLink="/trips" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
                 class="cursor-pointer mb-2 hover:bg-gray-600 px-2 py-1 rounded-md">
                 <fa-icon [icon]="faPlane" class="mr-2 text-lg"></fa-icon>
@@ -58,10 +53,6 @@
                 <a>Dashboard</a>
               </li>
               }
-              <li class="cursor-pointer mb-2 hover:bg-gray-600 px-2 py-1 rounded-md">
-                <fa-icon [icon]="faCog" class="mr-2 text-lg"></fa-icon>
-                <a href="#">Settings</a>
-              </li>
               <li class="cursor-pointer hover:bg-gray-600 px-2 py-1 rounded-md" (click)="authService.logout()">
                 <fa-icon [icon]="faSignOutAlt" class="mr-2 text-lg"></fa-icon>
                 <a href="#">Log out</a>
@@ -122,12 +113,6 @@
           </li>
         </ul>
       </nav>
-      <!-- <<<<<<< JB-dynamically-buttons
-      <section>
-        <app-login-button *ngIf="!isAuthenticated()" class="text-center block py-2 px-4 mt-3 bg-custom-orange text-white rounded-lg hover:bg-custom-orange-hover"></app-login-button>
-        <app-logout-button *ngIf="isAuthenticated()" class="text-center block py-2 px-4 mt-3 bg-custom-orange text-white rounded-lg hover:bg-custom-orange-hover"></app-logout-button>
-        <app-signup-button *ngIf="!isAuthenticated()" class="text-center block py-2 px-4 mt-3 bg-custom-orange text-white rounded-lg hover:bg-custom-orange-hover"></app-signup-button>
-======= -->
       <div>
 
       </div>

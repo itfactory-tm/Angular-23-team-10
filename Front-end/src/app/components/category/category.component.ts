@@ -11,6 +11,7 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { CategoryFormComponent } from '../category-form/category-form.component';
 import { ToastComponent } from '../../shared/toast/toast.component';
 import { SidebarComponent } from "../sidebar/sidebar.component";
+import { ConfirmationPopupComponent } from 'src/app/shared/confirmation-popup/confirmation-popup.component';
 
 @Component({
     selector: 'app-category-list',
@@ -23,7 +24,8 @@ import { SidebarComponent } from "../sidebar/sidebar.component";
         FontAwesomeModule,
         CategoryFormComponent,
         ToastComponent,
-        SidebarComponent
+        SidebarComponent,
+        ConfirmationPopupComponent
     ]
 })
 export class CategoryListComponent implements OnInit, OnDestroy {
@@ -40,6 +42,8 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   mode: string = 'add';
   categoryId: number = 0;
   isSubmitted: boolean = false;
+  isConfirmationOpen: boolean = false;
+  selected: any;
 
   constructor(
     private categoryService: CategoryService,
@@ -56,11 +60,21 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     this.deleteCategory$.unsubscribe();
   }
 
-  delete(id: number) {
-    this.deleteCategory$ = this.categoryService.deleteCategory(id).subscribe({
+  openConfirmationModal(id:number): void {
+    this.isConfirmationOpen = true;
+    this.selected = id
+  }
+
+  closeConfirmationModal(): void {
+    this.isConfirmationOpen = false;
+  }
+
+  deleteCategory() {
+    this.deleteCategory$ = this.categoryService.deleteCategory(this.selected).subscribe({
       next: (v) => this.getCategories(),
       error: (e) => (this.errorMessage = e.message),
     });
+    this.isConfirmationOpen = false;
     this.mode = 'delete';
   }
 

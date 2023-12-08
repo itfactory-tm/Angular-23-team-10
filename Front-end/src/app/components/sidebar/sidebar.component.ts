@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule } from '@angular/router';
 import { faHome, faPersonHiking, faTag, faUser, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { LogoutButtonComponent } from 'src/app/shared/logout-button/logout-button.component';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule, RouterModule],
+  imports: [CommonModule, FontAwesomeModule, RouterModule, LogoutButtonComponent],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
@@ -20,7 +22,7 @@ export class SidebarComponent {
     faTimes = faTimes;
     isSidebarExpanded = false;
 
-    constructor() { }
+    constructor(public authService: AuthService,) { }
 
     ngOnInit(): void {
     };

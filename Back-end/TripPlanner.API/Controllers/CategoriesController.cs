@@ -54,7 +54,7 @@ namespace TripPlannerAPI.Controllers
         // PUT: api/Categories/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize]
+        [Authorize(Policy = "DeleteAccess")]
         public async Task<ActionResult<CategoryRequest>> PutCategory(int id, CategoryResponse putCategory)
         {
             if (id != putCategory.CategoryId)
@@ -99,7 +99,7 @@ namespace TripPlannerAPI.Controllers
         // POST: api/Categories
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize]
+        [Authorize(Policy = "DeleteAccess")]
         public async Task<ActionResult<CategoryRequest>> PostCategory(CategoryResponse category)
         {
             Category newCategory = _mapper.Map<Category>(category);
