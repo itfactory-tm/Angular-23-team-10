@@ -18,6 +18,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AddEditActivityFormComponent } from "./components/add-edit-activity-form/add-edit-activity-form.component";
 import { ReviewActivityFormComponent } from "./components/review-activity-form/review-activity-form.component";
+import { RecaptchaModule } from 'ng-recaptcha';
 
 @NgModule({
     declarations: [AppComponent, ActivityFormComponent],
@@ -37,6 +38,7 @@ import { ReviewActivityFormComponent } from "./components/review-activity-form/r
         FontAwesomeModule,
         ReactiveFormsModule,
         NgxPaginationModule,
+        RecaptchaModule,
         AuthModule.forRoot({
             domain: environment.AUTH0_DOMAIN,
             clientId: environment.AUTH0_CLIENT_ID,
@@ -64,6 +66,7 @@ import { ReviewActivityFormComponent } from "./components/review-activity-form/r
                     `${environment.api_url}/TripKeywords`,
                     `${environment.api_url}/TripKeywords/*`,
                     `${environment.api_url}/activities/*`,
+                    `${environment.api_url}/activities`,
                     `${environment.api_url}/tripactivities/*`,
                     `${environment.api_url}/tripactivities`,
                 ],
@@ -76,7 +79,7 @@ import { ReviewActivityFormComponent } from "./components/review-activity-form/r
             registrationStrategy: 'registerWhenStable:30000'
         }),
         AddEditActivityFormComponent,
-        ReviewActivityFormComponent
+        ReviewActivityFormComponent,
     ]
 })
 export class AppModule {}

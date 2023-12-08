@@ -44,7 +44,7 @@ export class PublicTripsComponent implements OnInit, OnDestroy {
   datesWithActivities: string[] = [];
   config: any;
   pageSizes: number[] = [2, 4, 6, 8, 10];
-  selectedPageSize: number = 4;
+  selectedPageSize: number = 8;
 
   constructor(private tripService: TripService, private router: Router) {}
 
@@ -90,61 +90,6 @@ export class PublicTripsComponent implements OnInit, OnDestroy {
     this.tripService.setTripId(tripId);
     this.router.navigate(['/calendar'], { state: { isPublic: 'true' } });
   }
-
-  /* handleSearchNameChange(value: string) {
-    this.searchName = value;
-    this.tripService.getPublicTrips(this.searchName.trim(), 1, 3)
-      .subscribe((response: PaginatedResult<Trip[]>) => {
-        this.trips = response.result;
-        this.config = {
-          itemsPerPage: 3,
-          currentPage: response.pagination.CurrentPage,
-          totalItems: response.pagination.TotalItems
-        };
-      },
-        (error) => {
-          return of(null);
-        }
-      );
-  } */
-
-  /* filterTrips() {
-    this.filteredTrips = this.trips.filter((trip) => {
-      this.isLoading = true;
-      const nameMatch = trip.name
-        .toLowerCase()
-        .includes(this.searchName.toLowerCase());
-      if (this.searchCategories.length === 0) {
-        return nameMatch;
-      } else {
-        return (
-          nameMatch &&
-          trip.categories.some((category) =>
-            this.searchCategories.includes(category.categoryId)
-          )
-        );
-      }
-    });
-    this.isLoading = false;
-  } */
-
-  /* filterTrips() {
-    this.trips = this.trips.filter((trip) => {
-      if (this.searchCategories.length !== 0) {
-        this.isLoading = true;
-        return trip.categories.some((category) =>
-        this.searchCategories.includes(category.categoryId)
-      )} else {
-        return null;
-      }
-    });
-    this.isLoading = false;
-  } */
-
-  /* setCategory(ids: number[]) {
-    this.searchCategories = ids;
-    //this.filterTrips();
-  } */
 
   handleTripChange(trip: Trip) {
     if (!this.trip || this.trip.tripId !== trip.tripId) {

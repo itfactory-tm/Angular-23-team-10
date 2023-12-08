@@ -1,9 +1,11 @@
-<main class="mx-auto container">
+<main class="mt-10 mx-auto container">
   <h1
-    class="text-3xl lg:text-4xl font-bold text-white mb-6 text-center md:text-left"
+    class="text-3xl lg:text-4xl font-bold text-white text-center"
   >
     See Other People's Experiences
   </h1>
+
+  <hr class="my-3 mb-6 w-14 border-custom-orange border mx-auto">
 
   <app-trip-filter
     (searchNameChange)="submit($event)"
@@ -15,9 +17,17 @@
       (pageChange)="pageChanged($event)"
       class="my-pagination"
     ></pagination-controls>
-    <select name="pageSize" id="pageSize" [(ngModel)]="selectedPageSize" (ngModelChange)="changePageSize($event)" class="h-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-0 bg-custom-orange text-white">
+    <select
+      name="pageSize"
+      id="pageSize"
+      [(ngModel)]="selectedPageSize"
+      (ngModelChange)="changePageSize($event)"
+      class="h-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-0 bg-custom-orange text-white"
+    >
       @for (size of pageSizes; track size) {
-        <option [value]="size" class="hover:bg-custom-orange-hover">{{size}}</option>
+      <option [value]="size" class="hover:bg-custom-orange-hover">
+        {{ size }}
+      </option>
       }
     </select>
   </div>
@@ -32,15 +42,13 @@
       [trip]="trip"
       (selectedTrip)="handleTripChange($event)"
     ></app-public-trip-card>
-    } @empty {
-      @if (!isLoading) {
-        <h2
-        class="text-2xl lg:text-3xl font-bold text-white text-center md:text-left md:mx-5"
-      >
-        No Trips Found
-      </h2>
-      }
-    }
+    } @empty { @if (!isLoading) {
+    <h2
+      class="text-2xl lg:text-3xl font-bold text-white text-center md:text-left"
+    >
+      No Trips Found
+    </h2>
+    } }
   </section>
 
   <div class="mt-5 flex items-center justify-center md:justify-start">
@@ -48,9 +56,17 @@
       (pageChange)="pageChanged($event)"
       class="my-pagination"
     ></pagination-controls>
-    <select name="pageSize" id="pageSize" [(ngModel)]="selectedPageSize" (ngModelChange)="changePageSize($event)" class="h-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-0 bg-custom-orange text-white">
+    <select
+      name="pageSize"
+      id="pageSize"
+      [(ngModel)]="selectedPageSize"
+      (ngModelChange)="changePageSize($event)"
+      class="h-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-0 bg-custom-orange text-white"
+    >
       @for (size of pageSizes; track size) {
-        <option [value]="size" class="hover:bg-custom-orange-hover">{{size}}</option>
+      <option [value]="size" class="hover:bg-custom-orange-hover">
+        {{ size }}
+      </option>
       }
     </select>
   </div>

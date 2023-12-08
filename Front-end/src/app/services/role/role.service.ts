@@ -4,17 +4,19 @@ import { Observable, map } from 'rxjs';
 import * as jose from 'jose';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RoleService {
   private authService: AuthService = inject(AuthService);
 
-  hasPermission(permission: string) : Observable<boolean> {
+  hasPermission(permission: string): Observable<boolean> {
     return this.authService.getAccessTokenSilently().pipe(
       map((token) => {
         // Decode the token
-        const decodedToken = jose.decodeJwt(token) as {permissions: string[]} | null;
-  
+        const decodedToken = jose.decodeJwt(token) as {
+          permissions: string[];
+        } | null;
+
         // Check for permissions from the decoded token
         if (
           decodedToken &&
@@ -23,11 +25,6 @@ export class RoleService {
         ) {
           // User has the required permission
           return true;
-        } else {
-          // User does not have the required permission
-          console.log(
-            'Unauthorized: User does not have the required permission.'
-          );
         }
 
         return false;

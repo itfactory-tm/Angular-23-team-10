@@ -24,7 +24,7 @@ import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { UserTripService } from '../../services/user-trip/user-trip.service';
 import { AuthService } from '@auth0/auth0-angular';
-import { delay, of, take } from 'rxjs';
+import { delay, of, take, timer } from 'rxjs';
 import { Trip } from '../../models/Trip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -83,8 +83,6 @@ export class GetstartedComponent implements OnInit {
     } else {
       this.selectedItems.push(categoryId);
     }
-
-    console.log('Selected Items:', this.selectedItems);
   }
 
   faImage = faImage;
@@ -212,7 +210,6 @@ export class GetstartedComponent implements OnInit {
   async postNewTripCategory(tripId: number, categoryIds: number[]) {
     for (let categoryId of categoryIds) {
       try {
-        console.log(categoryId);
         this.categoryService
           .getCategoryById(categoryId)
           .subscribe((category) => {
@@ -292,8 +289,8 @@ export class GetstartedComponent implements OnInit {
         this.wrongFormat = true;
         input.value = '';
 
-        of(null)
-          .pipe(delay(2000))
+        timer(5000)
+          .pipe(take(1))
           .subscribe(() => {
             this.wrongFormat = false;
           });

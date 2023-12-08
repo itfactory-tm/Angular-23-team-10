@@ -3,30 +3,37 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ActivityType } from 'src/app/models/ActivityType';
 import { ActivityTypeService } from 'src/app/services/activity-type/activity-type.service';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { PageLoaderComponent } from '../../shared/page-loader/page-loader.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 import { ActivityFormComponent } from '../activity-form/activity-form.component';
 import { ToastComponent } from '../../shared/toast/toast.component';
-import { SidebarComponent } from "../sidebar/sidebar.component";
 import { ConfirmationPopupComponent } from 'src/app/shared/confirmation-popup/confirmation-popup.component';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import { PaginatedResult } from 'src/app/models/Pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { FormsModule } from '@angular/forms';
+import { FilterComponent } from '../filter/filter.component';
 
 @Component({
-    selector: 'app-activity-list',
-    standalone: true,
-    templateUrl: './activity.component.html',
-    styleUrls: ['./activity.component.css'],
-    imports: [
-        CommonModule,
-        PageLoaderComponent,
-        FontAwesomeModule,
-        ActivityFormComponent,
-        ToastComponent,
-        SidebarComponent,
-        ConfirmationPopupComponent
-    ]
+  selector: 'app-activity-list',
+  standalone: true,
+  templateUrl: './activity.component.html',
+  styleUrls: ['./activity.component.css'],
+  imports: [
+    CommonModule,
+    PageLoaderComponent,
+    FontAwesomeModule,
+    ActivityFormComponent,
+    ToastComponent,
+    SidebarComponent,
+    NgxPaginationModule,
+    FormsModule,
+    FilterComponent,
+    ConfirmationPopupComponent
+  ],
 })
 export class ActivityListComponent implements OnInit, OnDestroy {
   @Output() delete = new EventEmitter<void>();
@@ -46,6 +53,11 @@ export class ActivityListComponent implements OnInit, OnDestroy {
   isConfirmationOpen: boolean = false;
   selected: any;
 
+  searchName: string = '';
+  config: any;
+  pageSizes: number[] = [2, 4, 6, 8, 10];
+  selectedPageSize: number = 4;
+
   constructor(
     private activitTypeService: ActivityTypeService,
     private router: Router,
@@ -54,6 +66,11 @@ export class ActivityListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getActivities();
+    this.config = {
+      itemsPerPage: this.selectedPageSize,
+      currentPage: 1,
+      totalItems: 5,
+    };
   }
 
   ngOnDestroy(): void {
@@ -84,34 +101,45 @@ export class ActivityListComponent implements OnInit, OnDestroy {
       },
     });
   }
-  
 
-  getActivities() {
+  getActivities(pageNumber: number = 1) {
     this.isLoading = true;
     this.activities$ = this.activitTypeService
-      .getActivityTypes()
-      .subscribe((result) => {
-        (this.activities = result), (this.isLoading = false);
-      });
+      .getPaginatedActivityTypes(
+        this.searchName.trim(),
+        pageNumber,
+        this.selectedPageSize
+      )
+      .subscribe(
+        (response: PaginatedResult<ActivityType[]>) => {
+          this.activities = response.result;
+          this.config = {
+            itemsPerPage: this.selectedPageSize,
+            currentPage: response.pagination.CurrentPage,
+            totalItems: response.pagination.TotalItems,
+          };
+          this.isLoading = false;
+        },
+        (error) => {
+          return of(null);
+        }
+      );
   }
 
-  
   sort(filter: string) {
     if (filter !== this.currentSort) {
       this.currentSort = filter;
     }
-    this.activities$ = this.activitTypeService
-      .getActivityTypes()
-      .subscribe((result) => {
-        if (filter == 'name') {
-          this.activities = result.sort((a, b) => a.name.localeCompare(b.name));
-        } else {
-          this.activities = result.sort();
-        }
-        this.isLoading = false;
-      });
+    if (filter == 'name') {
+      this.activities = this.activities.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
+    } else {
+      this.activities = this.activities.sort();
+    }
+    this.isLoading = false;
   }
-  
+
   openModal(mode: string, id: number) {
     this.isSubmitted = false;
     this.mode = mode;
@@ -123,6 +151,23 @@ export class ActivityListComponent implements OnInit, OnDestroy {
 
   onUpdateOrCreate() {
     this.isSubmitted = true;
+    this.getActivities();
+  }
+
+  pageChanged(event: number) {
+    this.getActivities(event);
+  }
+
+  submit(search?: string) {
+    if (search !== undefined) {
+      this.searchName = search;
+    }
+
+    this.getActivities();
+  }
+
+  changePageSize(event: number) {
+    this.selectedPageSize = event;
     this.getActivities();
   }
 }

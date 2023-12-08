@@ -71,7 +71,6 @@ export class NavbarComponent implements OnInit {
       this.isAuthenticated.set(auth);
 
       if (auth) {
-        console.log('User is logged in');
         // Your additional logic for logged-in users here
         this.roleService.hasPermission('getall:trips').subscribe((r) => {
           this.isAdmin.set(r);
@@ -96,7 +95,6 @@ export class NavbarComponent implements OnInit {
     if (this.authService.user$) {
       this.authService.user$.subscribe((data) => {
         this.loggedInUser = data;
-        console.log('Logged in user: ', this.loggedInUser);
       });
     }
   }

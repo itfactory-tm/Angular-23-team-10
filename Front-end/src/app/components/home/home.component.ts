@@ -9,15 +9,21 @@ import { FooterComponent } from 'src/app/shared/footer/footer.component';
 import { NavbarComponent } from 'src/app/shared/navbar/navbar.component';
 import { ToastComponent } from 'src/app/shared/toast/toast.component';
 
-
 @Component({
-    selector: 'app-home',
-    standalone: true,
-    templateUrl: './home.component.html',
-    styleUrls: ['./home.component.css'],
-    imports: [CommonModule, RouterModule, FontAwesomeModule, ToastComponent, NavbarComponent, FooterComponent, ContactFormComponent]
+  selector: 'app-home',
+  standalone: true,
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css'],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FontAwesomeModule,
+    ToastComponent,
+    NavbarComponent,
+    FooterComponent,
+    ContactFormComponent,
+  ],
 })
-
 export class HomeComponent {
   faLocation = faLocationDot;
 
@@ -29,11 +35,9 @@ export class HomeComponent {
 
     if (email.match(emailRegex)) {
       // Email is valid, you can proceed with further actions
-      console.log('Email is valid:', email);
       this.isSuccess = true;
     } else {
       // Email is not valid
-      console.log('Invalid email:', email);
       this.isError = true;
     }
 

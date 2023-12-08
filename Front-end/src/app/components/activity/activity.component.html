@@ -23,55 +23,94 @@
     </div>
   </section>
 
+  <app-filter placeholderText="Filter By Activity Name" (searchNameChange)="submit($event)"></app-filter>
+
+  <div class="mb-3 flex justify-center md:justify-start">
+    <pagination-controls
+      (pageChange)="pageChanged($event)"
+      class="my-pagination"
+    ></pagination-controls>
+    <select
+      name="pageSize"
+      id="pageSize"
+      [(ngModel)]="selectedPageSize"
+      (ngModelChange)="changePageSize($event)"
+      class="h-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-0 bg-custom-orange text-white"
+    >
+      @for (size of pageSizes; track size) {
+      <option [value]="size" class="hover:bg-custom-orange-hover">
+        {{ size }}
+      </option>
+      }
+    </select>
+  </div>
+
   <div *ngIf="isLoading">
     <app-page-loader></app-page-loader>
   </div>
   <div *ngIf="!isLoading">
     <!-- Table for larger screens -->
-  <section class="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 hidden md:block">
-    <div class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200">
-      <table class="min-w-full">
-        <thead class="bg-custom-lighter-background">
-          <tr>
-            <th 
+    <section
+      class="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 hidden md:block"
+    >
+      <div
+        class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200"
+      >
+        <table class="min-w-full">
+          <thead class="bg-custom-lighter-background">
+            <tr>
+              <th
                 (click)="sort('id')"
-                class="px-6 py-3 text-lg font-medium text-left text-white border-b border-gray-200">
+                class="px-6 py-3 text-lg font-medium text-left text-white border-b border-gray-200"
+              >
                 #
-                <fa-icon class="fa-solid" [icon]="faChevron" [hidden]="currentSort !== 'id'"></fa-icon>
-            </th>
-            <th
+                <fa-icon
+                  class="fa-solid"
+                  [icon]="faChevron"
+                  [hidden]="currentSort !== 'id'"
+                ></fa-icon>
+              </th>
+              <th
                 (click)="sort('name')"
-                class="px-6 py-3 text-lg font-medium text-left text-white border-b border-gray-200">
+                class="px-6 py-3 text-lg font-medium text-left text-white border-b border-gray-200"
+              >
                 Name
-                <fa-icon class="fa-solid" [icon]="faChevron" [hidden]="currentSort !== 'name'"></fa-icon>
-            </th>
-            <th class="px-6 py-3 text-lg text-center text-white text-bold border-b border-gray-200">
-              &nbsp;
-            </th>
-          </tr>
-        </thead>
+                <fa-icon
+                  class="fa-solid"
+                  [icon]="faChevron"
+                  [hidden]="currentSort !== 'name'"
+                ></fa-icon>
+              </th>
+              <th
+                class="px-6 py-3 text-lg text-center text-white text-bold border-b border-gray-200"
+              >
+                &nbsp;
+              </th>
+            </tr>
+          </thead>
 
-        <tbody class="bg-custom-table-data">
-          <tr *ngFor="let act of activities">
-            <td class="px-6 py-4 border-b border-gray-200">
-              <div class="flex items-center text-white">
-                {{ act.activityId }}
-              </div>
-            </td>
+          <tbody class="bg-custom-table-data">
+            @for (act of activities | paginate: config; track act) {
+            <tr>
+              <td class="px-6 py-4 border-b border-gray-200">
+                <div class="flex items-center text-white">
+                  {{ act.activityId }}
+                </div>
+              </td>
 
-            <td class="px-6 py-4 border-b border-gray-200">
-              <div class="text-sm text-white">{{ act.name }}</div>
-            </td>
+              <td class="px-6 py-4 border-b border-gray-200">
+                <div class="text-sm text-white">{{ act.name }}</div>
+              </td>
 
-            <td class="text-sm font-medium border-b border-gray-200">
-              <div class="flex justify-end gap-4">
-                <a
-                  data-modal-target="default-modal"
-                  data-modal-toggle="default-modal"
-                  (click)="openModal('edit', act.activityId)"
-                  class="text-white hover:text-blue-400 cursor-pointer"
-                >
-                <svg
+              <td class="text-sm font-medium border-b border-gray-200">
+                <div class="flex justify-end gap-4">
+                  <a
+                    data-modal-target="default-modal"
+                    data-modal-toggle="default-modal"
+                    (click)="openModal('edit', act.activityId)"
+                    class="text-white hover:text-blue-400 cursor-pointer"
+                  >
+                    <svg
                       xmlns="http://www.w3.org/2000/svg"
                       class="w-6 h-6"
                       fill="none"
@@ -104,6 +143,17 @@
               </div>
             </td>
           </tr>
+                        } @empty { @if (!isLoading) {
+            <tr>
+              <td colspan="3">
+                <h2
+                  class="text-2xl lg:text-3xl font-bold text-white text-center md:text-left md:mx-5"
+                >
+                  No Activities Found
+                </h2>
+              </td>
+            </tr>
+            } }
         </tbody>
       </table>
     </div>
@@ -111,7 +161,8 @@
 
     <!-- Cards for smaller screens -->
     <section class="md:hidden flex flex-wrap">
-      <div *ngFor="let act of activities" class="w-full">
+      @for (act of activities | paginate: config; track $index) {
+      <div class="w-full">
         <div class="m-2 p-4 border rounded shadow">
           <h2 class="text-3xl font-bold mb-2 text-white">{{ act.name }}</h2>
           <div class="mt-4 flex justify-between">
@@ -132,6 +183,7 @@
           </div>
         </div>
       </div>
+      }
     </section>
   </div>
 </div>
@@ -155,10 +207,16 @@
 </div>
 
 <div *ngIf="mode === 'add'">
-  <app-toast [showSuccessToast]="isSubmitted" [message]="'Activity created successfully!'" />
+  <app-toast
+    [showSuccessToast]="isSubmitted"
+    [message]="'Activity created successfully!'"
+  />
 </div>
 <div *ngIf="mode === 'edit'">
-  <app-toast [showSuccessToast]="isSubmitted" [message]="'Activity updated successfully!'" />
+  <app-toast
+    [showSuccessToast]="isSubmitted"
+    [message]="'Activity updated successfully!'"
+  />
 </div>
 <div *ngIf="mode === 'delete'">
   <app-toast [showSuccessToast]="isSubmitted" [message]="'Activity deleted successfully!'" />

@@ -23,6 +23,28 @@
     </div>
   </section>
 
+  <app-filter placeholderText="Filter By Category Name" (searchNameChange)="submit($event)"></app-filter>
+
+  <div class="mb-3 flex justify-center md:justify-start">
+    <pagination-controls
+      (pageChange)="pageChanged($event)"
+      class="my-pagination"
+    ></pagination-controls>
+    <select
+      name="pageSize"
+      id="pageSize"
+      [(ngModel)]="selectedPageSize"
+      (ngModelChange)="changePageSize($event)"
+      class="h-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-0 bg-custom-orange text-white"
+    >
+      @for (size of pageSizes; track size) {
+      <option [value]="size" class="hover:bg-custom-orange-hover">
+        {{ size }}
+      </option>
+      }
+    </select>
+  </div>
+
   <div *ngIf="isLoading">
     <app-page-loader></app-page-loader>
   </div>
@@ -79,7 +101,8 @@
           </thead>
 
           <tbody class="bg-custom-table-data">
-            <tr *ngFor="let cat of categories">
+            @for (cat of categories | paginate: config; track cat) {
+            <tr>
               <td class="px-6 py-4 border-b border-gray-200">
                 <div class="flex items-center text-white">
                   {{ cat.categoryId }}
@@ -135,6 +158,17 @@
                 </div>
               </td>
             </tr>
+            } @empty { @if (!isLoading) {
+            <tr>
+              <td colspan="4">
+                <h2
+                  class="text-2xl lg:text-3xl font-bold text-white text-center md:text-left md:mx-5"
+                >
+                  No Categories Found
+                </h2>
+              </td>
+            </tr>
+            } }
           </tbody>
         </table>
       </div>
@@ -142,6 +176,7 @@
 
     <!-- Cards for smaller screens -->
     <section class="md:hidden flex flex-wrap">
+      @for (cat of categories | paginate: config; track cat) {
       <div *ngFor="let cat of categories" class="w-full">
         <div class="m-2 p-4 border rounded shadow">
           <h2 class="text-xl font-bold mb-2 text-white">{{ cat.name }}</h2>
@@ -164,6 +199,17 @@
           </div>
         </div>
       </div>
+      } @empty { @if (!isLoading) {
+      <tr>
+        <td colspan="4">
+          <h2
+            class="text-2xl lg:text-3xl font-bold text-white text-center md:text-left md:mx-5"
+          >
+            No Categories Found
+          </h2>
+        </td>
+      </tr>
+      } }
     </section>
   </div>
 </div>
@@ -187,10 +233,16 @@
 </div>
 
 <div *ngIf="mode === 'add'">
-  <app-toast [showSuccessToast]="isSubmitted" [message]="'Category created successfully!'" />
+  <app-toast
+    [showSuccessToast]="isSubmitted"
+    [message]="'Category created successfully!'"
+  />
 </div>
 <div *ngIf="mode === 'edit'">
-  <app-toast [showSuccessToast]="isSubmitted" [message]="'Category updated successfully!'" />
+  <app-toast
+    [showSuccessToast]="isSubmitted"
+    [message]="'Category updated successfully!'"
+  />
 </div>
 <div *ngIf="mode === 'delete'">
   <app-toast [showSuccessToast]="isSubmitted" [message]="'Category deleted successfully!'" />

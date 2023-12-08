@@ -5,51 +5,46 @@ import { take, timer } from 'rxjs';
 import { ContactEmailService } from 'src/app/services/contact-email/contact-email.service';
 import { ToastComponent } from 'src/app/shared/toast/toast.component';
 
-
 @Component({
   selector: 'app-contact-form',
   standalone: true,
-  imports: [CommonModule, FormsModule,ToastComponent],
+  imports: [CommonModule, FormsModule, ToastComponent],
   templateUrl: './contact-form.component.html',
-  styleUrls: ['./contact-form.component.css']
+  styleUrls: ['./contact-form.component.css'],
 })
 export class ContactFormComponent implements OnInit {
   isSend: boolean = false;
   isError: boolean = false;
-  email: string='';
-  message: string='';
+  email: string = '';
+  message: string = '';
   showSuccessToast = false;
   showErrorToast = false;
   successMessage = 'Form submitted successfully';
   errorMessage = 'Form submission failed';
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 
-  constructor(private contactEmailService: ContactEmailService){}
+  constructor(private contactEmailService: ContactEmailService) {}
 
-  submitForm(){
+  submitForm() {
     this.contactEmailService
-        .sendContactEmail(this.email,this.message)
-        .subscribe((success) => {
-          if (success) {
-            // Handle success
-            console.log('success');
-            this.isSend = true;
-            this.showSuccessToast = true;
+      .sendContactEmail(this.email, this.message)
+      .subscribe((success) => {
+        if (success) {
+          // Handle success
+          this.isSend = true;
+          this.showSuccessToast = true;
 
-            timer(5000)
-              .pipe(take(1))
-              .subscribe(() => {
-                this.isSend = false;
-                this.showSuccessToast = false;
-              });
-          } else {
-            // Handle failure
-            console.log('Not sucess');
-            this.isError = true;
-            this.showErrorToast = true;
-          }
-        });
+          timer(5000)
+            .pipe(take(1))
+            .subscribe(() => {
+              this.isSend = false;
+              this.showSuccessToast = false;
+            });
+        } else {
+          // Handle failure
+          this.isError = true;
+          this.showErrorToast = true;
+        }
+      });
   }
 }
