@@ -14,22 +14,24 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { PaginatedResult } from 'src/app/models/Pagination';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
+import { FilterComponent } from "../filter/filter.component";
 
 @Component({
-  selector: 'app-activity-list',
-  standalone: true,
-  templateUrl: './activity.component.html',
-  styleUrls: ['./activity.component.css'],
-  imports: [
-    CommonModule,
-    PageLoaderComponent,
-    FontAwesomeModule,
-    ActivityFormComponent,
-    ToastComponent,
-    SidebarComponent,
-    NgxPaginationModule,
-    FormsModule
-  ],
+    selector: 'app-activity-list',
+    standalone: true,
+    templateUrl: './activity.component.html',
+    styleUrls: ['./activity.component.css'],
+    imports: [
+        CommonModule,
+        PageLoaderComponent,
+        FontAwesomeModule,
+        ActivityFormComponent,
+        ToastComponent,
+        SidebarComponent,
+        NgxPaginationModule,
+        FormsModule,
+        FilterComponent
+    ]
 })
 export class ActivityListComponent implements OnInit, OnDestroy {
   activities: ActivityType[] = [];
@@ -145,7 +147,7 @@ export class ActivityListComponent implements OnInit, OnDestroy {
     this.getActivities(event);
   }
 
-  submit(search?: string, ids?: number[]) {
+  submit(search?: string) {
     if (search !== undefined) {
       this.searchName = search;
     }

@@ -30,7 +30,7 @@ namespace TripPlannerAPI.Controllers
         public async Task<ActionResult<List<ActivityRequest>>> GetActivities([FromQuery] PaginationParameters activityParameters)
         {
 
-            var activities = _context.Activities.OrderBy(a => a.Name) as IQueryable<Trip>;
+            var activities = _context.Activities as IQueryable<Activity>;
 
             if (activities == null)
             {

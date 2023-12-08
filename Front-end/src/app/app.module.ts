@@ -66,6 +66,7 @@ import { RecaptchaModule } from 'ng-recaptcha';
                     `${environment.api_url}/TripKeywords`,
                     `${environment.api_url}/TripKeywords/*`,
                     `${environment.api_url}/activities/*`,
+                    `${environment.api_url}/activities`,
                     `${environment.api_url}/tripactivities/*`,
                     `${environment.api_url}/tripactivities`,
                 ],
