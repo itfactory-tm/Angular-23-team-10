@@ -176,7 +176,7 @@ namespace TripPlanner.API.Controllers
                     var mailMessage = new MailMessage
                     {
                         From = new MailAddress("tripplanner@kmaa.be"),
-                        Subject = "Invite Trip Planner",
+                        Subject = "Feedback contact form",
                         Body = $@"<html>
                         <body>
                             <p>Message from {emailAddress}:</p>
