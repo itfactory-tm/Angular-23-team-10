@@ -13,16 +13,16 @@ namespace TripPlannerAPI.Data
 
             //Add trips
             context.Trips.AddRange(
-                new Trip { Name = "Berlin City Trip", StartDate = new DateTime(2023, 10, 16), EndDate = new DateTime(2023, 10, 31), Picture = "basilika.jpg", Description = "This is a test trip", Country = "Germany", City = "Berlin", IsShared = true },
-                new Trip { Name = "Madrid City Trip", StartDate = new DateTime(2023, 10, 15), EndDate = new DateTime(2023, 10, 17), Picture = "disneylanbd.jpg", Description = "This is my first trip!", Country = "Spain", City = "Madrid", IsShared = false },
-                new Trip { Name = "London City Trip", StartDate = new DateTime(2023, 10, 16), EndDate = new DateTime(2023, 10, 31), Picture = "heroImage.jpg", Description = "This is my second trip!", Country = "England", City = "London", IsShared = true },
-                new Trip { Name = "India Trip", StartDate = new DateTime(2023, 11, 15), EndDate = new DateTime(2023, 11, 30), Picture = "mindanou.jpg", Description = "This is my India trip!", Country = "India", City = "Madras", IsShared = true },
+                new Trip { Name = "Berlin City Trip", StartDate = new DateTime(2023, 10, 16), EndDate = new DateTime(2023, 10, 31), Picture = "https://firebasestorage.googleapis.com/v0/b/trip-planner-46730.appspot.com/o/assets%2FberlinCityTrip.jpg?alt=media&token=7eb036dd-5de2-4b0f-8cee-fa50ab140e61", Description = "This is a test trip", Country = "Germany", City = "Berlin", IsShared = true },
+                new Trip { Name = "Madrid City Trip", StartDate = new DateTime(2023, 10, 15), EndDate = new DateTime(2023, 10, 17), Picture = "madrid.jpg", Description = "This is my first trip!", Country = "Spain", City = "Madrid", IsShared = false },
+                new Trip { Name = "London City Trip", StartDate = new DateTime(2023, 10, 16), EndDate = new DateTime(2023, 10, 31), Picture = "https://firebasestorage.googleapis.com/v0/b/trip-planner-46730.appspot.com/o/assets%2FlondonCityTrip.jpg?alt=media&token=d14a4397-11be-47b4-82dc-daf2651a41cf", Description = "This is my second trip!", Country = "England", City = "London", IsShared = true },
+                new Trip { Name = "India Trip", StartDate = new DateTime(2023, 11, 15), EndDate = new DateTime(2023, 11, 30), Picture = "https://firebasestorage.googleapis.com/v0/b/trip-planner-46730.appspot.com/o/assets%2FindiaTrip.jpg?alt=media&token=aa26bfe9-bf39-41be-9e29-7a0751ffe8e3", Description = "This is my India trip!", Country = "India", City = "Madras", IsShared = true },
                 new Trip
                 {
                     Name = "Tokyo Expedition",
                     StartDate = new DateTime(2023, 7, 10),
                     EndDate = new DateTime(2023, 7, 20),
-                    Picture = "tokyo_picture.jpg",
+                    Picture = "https://firebasestorage.googleapis.com/v0/b/trip-planner-46730.appspot.com/o/assets%2Ftokyo_picture.jpg?alt=media&token=0b3a8c80-0e1d-4a7d-bbdc-42368ebbf7d9",
                     Description = "Discover the wonders of Tokyo!",
                     Country = "Japan",
                     City = "Tokyo",
@@ -30,10 +30,10 @@ namespace TripPlannerAPI.Data
                 },
                 new Trip
                 {
-                    Name = "Roman Holiday",
+                    Name = "Rome Holiday",
                     StartDate = new DateTime(2023, 8, 25),
                     EndDate = new DateTime(2023, 9, 5),
-                    Picture = "rome_picture.jpg",
+                    Picture = "https://firebasestorage.googleapis.com/v0/b/trip-planner-46730.appspot.com/o/assets%2Frome_picture.jpg?alt=media&token=01cae918-61bd-47d6-95d3-4ae8d01a676c",
                     Description = "Experience the history of Rome!",
                     Country = "Italy",
                     City = "Rome",
@@ -55,7 +55,7 @@ namespace TripPlannerAPI.Data
                     Name = "Sydney Escape",
                     StartDate = new DateTime(2023, 10, 15),
                     EndDate = new DateTime(2023, 10, 25),
-                    Picture = "sydney_picture.jpg",
+                    Picture = "https://firebasestorage.googleapis.com/v0/b/trip-planner-46730.appspot.com/o/assets%2Fsydney_picture.jpg?alt=media&token=f416c2bb-3ad4-4873-a6ed-63bfedc9c246",
                     Description = "Enjoy the beauty of Sydney!",
                     Country = "Australia",
                     City = "Sydney",
