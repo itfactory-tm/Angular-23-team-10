@@ -23,6 +23,18 @@
     </div>
   </section>
 
+  <div class="mb-3 flex items-center justify-center md:justify-start">
+    <pagination-controls
+      (pageChange)="pageChanged($event)"
+      class="my-pagination"
+    ></pagination-controls>
+    <select name="pageSize" id="pageSize" [(ngModel)]="selectedPageSize" (ngModelChange)="changePageSize($event)" class="h-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-0 bg-custom-orange text-white">
+      @for (size of pageSizes; track size) {
+        <option [value]="size" class="hover:bg-custom-orange-hover">{{size}}</option>
+      }
+    </select>
+  </div>
+
   <div *ngIf="isLoading">
     <app-page-loader></app-page-loader>
   </div>
@@ -52,7 +64,7 @@
         </thead>
 
         <tbody class="bg-custom-table-data">
-          <tr *ngFor="let act of activities">
+          <tr *ngFor="let act of activities | paginate: config">
             <td class="px-6 py-4 border-b border-gray-200">
               <div class="flex items-center text-white">
                 {{ act.activityId }}
